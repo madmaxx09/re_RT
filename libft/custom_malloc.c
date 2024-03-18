@@ -12,6 +12,7 @@
 
 #include <stdio.h>
 #include "libft.h"
+#include "../includes/miniRT.h"
 
 // typedef struct s_malloc		t_malloc;
 
@@ -21,15 +22,15 @@
 // 	t_malloc	*next;
 // }	t_malloc;
 
-//to use replace to_replace with your data structure this data struct needs to have a s_malloc pointer *head to point at the beggining of the free list
+//to use replace t_data with your data structure this data struct needs to have a s_malloc pointer *head to point at the beggining of the free list
 
 // typedef struct s_replace
 // {
 // 	t_malloc *head;
 // 	int		 error_trigger;
-// }	to_replace;
+// }	t_data;
 
-int	update_free_list(t_malloc **head, void *adress, to_replace *data)
+int	update_free_list(t_malloc **head, void *adress, t_data *data)
 {
 	t_malloc	*newnode;
 	t_malloc	*temp;
@@ -74,14 +75,14 @@ void	free_strings(t_malloc *node)
 	}
 }
 
-void	free_custom_alloc(to_replace *data)
+void	free_custom_alloc(t_data *data)
 {
 	if (data->head)
 		free_strings(data->head);
 	data->head = NULL;
 }
 
-void	*gc_malloc(size_t required_memory, to_replace *data)
+void	*gc_malloc(size_t required_memory, t_data *data)
 {
 	void	*memory;
 

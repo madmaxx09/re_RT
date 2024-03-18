@@ -26,12 +26,6 @@ typedef struct s_malloc
 	t_malloc	*next;
 }	t_malloc;
 
-typedef struct s_replace
-{
-	t_malloc *head;
-	int		 error_trigger;
-}	to_replace;
-
 void		ft_bzero(void *s, size_t n);
 size_t		ft_strlen(const char *str);
 int			ft_atoi(const char *str);

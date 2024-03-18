@@ -11,75 +11,20 @@
 # include <fcntl.h>
 # include <string.h>
 # include <errno.h>
+# include "structs.h"
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 666
 # endif
 
-typedef struct s_rgb
-{
-	double	r;
-	double	g;
-	double	b;
-}	t_rgb;
 
-typedef struct s_vec
-{
-	double x;
-	double y;
-	double z;
-}	t_vec;
+void	ft_error_exit(char *str, t_data *data);
+//Parsing functions
 
-typedef struct s_cyl
-{
-	t_vec	pos;
-	t_vec	dir;
-	double	rad;
-	double	height;
-	s_cyl	*next;
-}	t_cyl;
-
-typedef struct s_plan
-{
-	t_vec	pos;
-	t_vec	dir;
-	s_plan	*next;
-}	t_plan;
-
-typedef struct s_sphere
-{
-	t_vec	pos;
-	t_vec	dir;
-	double	rad;
-	s_sphere *next;
-}	t_sphere; 
-
-typedef	struct s_cam
-{
-	t_vec	pos;
-	t_vec	dir;
-	int		fov;
-	int		init;
-}	t_cam;
-
-typedef struct s_amli
-{
-	int		init;
-	t_rgb	color;
-	double	ratio;
-}	t_amli;
-
-typedef struct s_data
-{
-	t_amli		amli;
-	t_cam		cam;
-	t_sphere	*sphere;
-	t_plan		*plan;
-	t_cyl		*cyl;
-	void		*mlx;
-	void		*wind;
-	t_malloc	*head;
-	int			error_trigger;
-}	t_data;
+int	ft_atob(const char *str, int b_p, int a_p, double *res);
+void	parse_rt(char *rt_file, t_data *data);
+void print_args(t_data *data);
+void    manage_rgb(char **tab, t_rgb *store, t_data *data, int pos);
+void manage_vectors(char **tab, t_vec *store ,t_data *data, int pos);
 
 
 # endif
