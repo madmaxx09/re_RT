@@ -11,8 +11,7 @@
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include "libft.h"
-#include "../includes/miniRT.h"
+#include "./includes/miniRT.h"
 
 // typedef struct s_malloc		t_malloc;
 

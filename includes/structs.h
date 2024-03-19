@@ -1,4 +1,12 @@
-#include "miniRT.h"
+#include "./miniRT.h"
+
+typedef struct s_malloc		t_malloc;
+
+typedef struct s_malloc
+{
+	void		*adress;
+	t_malloc	*next;
+}	t_malloc;
 
 typedef struct s_rgb
 {
@@ -18,9 +26,10 @@ typedef struct s_cyl
 {
 	t_vec	pos;
 	t_vec	dir;
-	double	rad;
+	double	diam;
 	double	height;
-	s_cyl	*next;
+	t_rgb	rgb;
+	struct s_cyl	*next;
 }	t_cyl;
 
 typedef struct s_plan
@@ -28,7 +37,7 @@ typedef struct s_plan
 	t_vec	pos;
 	t_vec	dir;
 	t_rgb	rgb;
-	s_plan	*next;
+	struct s_plan	*next;
 }	t_plan;
 
 typedef struct s_sphere
@@ -37,7 +46,7 @@ typedef struct s_sphere
 	//t_vec	dir;
 	double	diam;
 	t_rgb	rgb;
-	s_sphere *next;
+	struct s_sphere *next;
 }	t_sphere; 
 
 typedef	struct s_cam

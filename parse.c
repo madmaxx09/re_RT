@@ -1,4 +1,4 @@
-#include "miniRT.h"
+#include "./includes/miniRT.h"
 
 void	check_format(char *rt_file, t_data *data)
 {
@@ -7,8 +7,8 @@ void	check_format(char *rt_file, t_data *data)
 	i = ft_strlen(rt_file);
 	if (i <= 3)
 		ft_error_exit("Wrong file format", data);
-	if (rt_file[i] != "t" 
-		|| rt_file[i - 1] != "r" || rt_file[i - 2] != ".")
+	if (rt_file[i - 1] != 't' 
+		|| rt_file[i - 2] != 'r' || rt_file[i - 3] != '.')
 		ft_error_exit("Wrong file format", data);
 }
 
@@ -27,10 +27,10 @@ void	process_line(char *line, t_data *data)
 		manage_sphere(tab, data);
 	else if (ft_strcmp(tab[0], "pl") == 0)
 		manage_plan(tab, data);
-	// else if (ft_strcmp(tab[0], "cy") == 0)
-	// 	manage_cyl(tab, data);
+	else if (ft_strcmp(tab[0], "cy") == 0)
+		manage_cyl(tab, data);
 	else
-		ft_error_exit("Wrong file format");
+		ft_error_exit("Wrong file format", data);
 	free_tabl(tab);
 }
 
@@ -76,35 +76,31 @@ void print_args(t_data *data)
     // Print ambient light details
     printf("Ambient Light:\n");
     printf("\tRatio: %f\n", data->amli.ratio);
-    printf("\tColor: R: %d, G: %d, B: %d\n", data->amli.r, data->amli.g, data->amli.b);
+    printf("\tColor: R: %f, G: %f, B: %f\n", data->amli.color.r, data->amli.color.g, data->amli.color.b);
 
     // Print camera details
     printf("Camera:\n");
-    printf("\tPosition: X: %f, Y: %f, Z: %f\n", data->cam.x_ax, data->cam.y_ax, data->cam.z_ax);
-    printf("\tVector: X: %f, Y: %f, Z: %f\n", data->cam.vec_x, data->cam.vec_y, data->cam.vec_z);
+    printf("\tPosition: X: %f, Y: %f, Z: %f\n", data->cam.pos.x, data->cam.pos.y, data->cam.pos.z);
+    printf("\tVector: X: %f, Y: %f, Z: %f\n", data->cam.dir.x, data->cam.dir.y, data->cam.dir.z);
     printf("\tFOV: %d\n", data->cam.fov);
 
     // Print light details
     printf("Light:\n");
-    printf("\tPosition: X: %f, Y: %f, Z: %f\n", data->light.x_ax, data->light.y_ax, data->light.z_ax);
-    printf("\tLighting: %f\n", data->light.lighting);
+    printf("\tPosition: X: %f, Y: %f, Z: %f\n", data->light.pos.x, data->light.pos.y, data->light.pos.z);
+    printf("\tLighting: %f\n", data->light.ratio);
 
-    // Print spheres
+    // // Print spheres
     printf("Spheres:\n");
     while (data->sphere != NULL) {
-        printf("\tPosition: X: %f, Y: %f, Z: %f\n", data->sphere->x_ax, data->sphere->y_ax, data->sphere->z_ax);
-        printf("\tDiameter: %f\n", data->sphere->diameter);
-        printf("\tColor: R: %d, G: %d, B: %d\n", data->sphere->r, data->sphere->g, data->sphere->b);
+        printf("\tPosition: X: %f, Y: %f, Z: %f\n", data->sphere->pos.x, data->sphere->pos.y, data->sphere->pos.z);
+        printf("\tDiameter: %f\n", data->sphere->diam);
+        printf("\tColor: R: %f, G: %f, B: %f\n", data->sphere->rgb.r, data->sphere->rgb.g, data->sphere->rgb.b);
         data->sphere = data->sphere->next;
     }
 
     // Print plans
     printf("Plans:\n");
-    t_plan *current_plan = data->plan;
-    while (current_plan != NULL) {
-        printf("\tPosition: X: %f, Y: %f, Z: %f\n", current_plan->x_ax, current_plan->y_ax, current_plan->z_ax);
-        printf("\tVector: X: %f, Y: %f, Z: %f\n", current_plan->vec_x, current_plan->vec_y, current_plan->vec_z);
-        printf("\tColor: R: %d, G: %d, B: %d\n", current_plan->r, current_plan->g, current_plan->b);
-        current_plan = current_plan->next;
-    }
+    printf("\tPosition: X: %f, Y: %f, Z: %f\n", data->plan->pos.x, data->plan->pos.y, data->plan->pos.z);
+    printf("\tVector: X: %f, Y: %f, Z: %f\n", data->plan->dir.x, data->plan->dir.y, data->plan->dir.z);
+    printf("\tColor: R: %f, G: %f, B: %f\n", data->plan->rgb.r, data->plan->rgb.g, data->plan->rgb.b);
 }

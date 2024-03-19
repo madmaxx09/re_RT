@@ -17,14 +17,7 @@
 # include <stddef.h>
 # include "./PrintF/ft_printf.h"
 # include "./GNL/get_next_line.h"
-
-typedef struct s_malloc		t_malloc;
-
-typedef struct s_malloc
-{
-	void		*adress;
-	t_malloc	*next;
-}	t_malloc;
+# include "../includes/miniRT.h"
 
 void		ft_bzero(void *s, size_t n);
 size_t		ft_strlen(const char *str);
@@ -61,6 +54,6 @@ char		*ft_substr(char const *s, unsigned int start, unsigned int len);
 int			ft_tolower(int c);
 int			ft_toupper(int c);
 int			ft_strcmp(char *s1, char *s2);
-void		*gc_malloc(size_t required_memory, to_replace *data);
+
 
 #endif

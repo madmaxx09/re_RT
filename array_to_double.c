@@ -2,25 +2,6 @@
 
 static double	get_double(const char *str);
 
-int	int_from_str(const char *str, int min, int max, int *res)
-{
-	int	i;
-
-	i = 0;
-	if ((str[0] == '+' || str[0] == '-') && str[1] != '\0')
-		i++;
-	while (str[i])
-	{
-		if (!ft_isdigit(str[i]))
-			return (-1);
-		i++;
-	}
-	*res = ft_atoi(str);
-	if (*res < min || *res > max)
-		return (-1);
-	return (0);
-}
-
 int	ft_atob(const char *str, int b_p, int a_p, double *res)
 {
 	int	i;
@@ -30,7 +11,7 @@ int	ft_atob(const char *str, int b_p, int a_p, double *res)
 		i++;
 	while (str[i])
 	{
-		if (!ft_isdigit(str[i]) && str[i] != '.')
+		if (!ft_isdigit(str[i]) && str[i] != '.' )
 			return (-1);
 		i++;
 	}
@@ -39,7 +20,7 @@ int	ft_atob(const char *str, int b_p, int a_p, double *res)
 		str = str + 1;
 	if (ft_strchr(str, '.') != ft_strrchr(str, '.'))
 		return (-1);
-	if (ft_strchr(str, '.') && (int)(ft_strchr(str, '.') - str) > b_p)
+	if (ft_strchr(str, '.') && (int)(ft_strchr(str, '.') - str) > b_p)//
 		return (-1);
 	if (ft_strchr(str, '.') && (int)(ft_strlen(ft_strchr(str, '.') + 1)) > a_p)
 		return (-1);

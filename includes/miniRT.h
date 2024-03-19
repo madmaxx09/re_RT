@@ -5,7 +5,7 @@
 # include <unistd.h>
 # include <math.h>
 # include "../libft/libft.h"
-//# include "mlx.h"
+# include "mlx.h"
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
@@ -16,8 +16,8 @@
 #  define BUFFER_SIZE 666
 # endif
 
-
 void	ft_error_exit(char *str, t_data *data);
+void		*gc_malloc(size_t required_memory, t_data *data);
 //Parsing functions
 
 int	ft_atob(const char *str, int b_p, int a_p, double *res);
@@ -25,6 +25,21 @@ void	parse_rt(char *rt_file, t_data *data);
 void print_args(t_data *data);
 void    manage_rgb(char **tab, t_rgb *store, t_data *data, int pos);
 void manage_vectors(char **tab, t_vec *store ,t_data *data, int pos);
+void free_tabl(char **tab);
+void manage_ambiant(char **tab, t_data *data);
+void manage_cam(char **tab, t_data *data);
+void manage_light(char **tab, t_data *data);
+void manage_sphere(char **tab, t_data *data);
+void manage_plan(char **tab, t_data *data);
+void    manage_cyl(char **tab, t_data *data);
+
+//mlx hooks
+int presskey(int key, t_data *data);
+void    raytrace(t_data *data);
+
+//vector math 
+
+double   dist(t_vec *src, t_vec *dest);
 
 
 # endif
