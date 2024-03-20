@@ -12,12 +12,17 @@
 # include <string.h>
 # include <errno.h>
 # include "structs.h"
+# include "mymath.h"
+# define ASPECT_RATIO (16.0 / 9.0)
+# define WIDTH 1200
+# define HEIGHT (WIDTH / ASPECT_RATIO)
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 666
 # endif
 
 void	ft_error_exit(char *str, t_data *data);
 void		*gc_malloc(size_t required_memory, t_data *data);
+int    recursion(t_vec origine, t_vec direction, int profondeur, t_data *data);
 //Parsing functions
 
 int	ft_atob(const char *str, int b_p, int a_p, double *res);
@@ -36,10 +41,6 @@ void    manage_cyl(char **tab, t_data *data);
 //mlx hooks
 int presskey(int key, t_data *data);
 void    raytrace(t_data *data);
-
-//vector math 
-
-double   dist(t_vec *src, t_vec *dest);
 
 
 # endif

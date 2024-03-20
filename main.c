@@ -28,7 +28,7 @@ void	mlx_launch(t_data *data)
 	data->mlx = mlx_init();
 	if (data->mlx == NULL)
 		ft_error_exit("Mlx init fail", data);
-	data->wind = mlx_new_window(data->mlx, 1200, 900, "MiniRT");
+	data->wind = mlx_new_window(data->mlx, WIDTH, HEIGHT, "MiniRT");
 	if (data->wind == NULL)
 		ft_error_exit("Mlx init fail", data);
 	raytrace(data);
@@ -45,6 +45,6 @@ int main (int argc, char **argv)
 		ft_error_exit("This program needs 1 file as argument", &data);
 	init_data(&data);
 	parse_rt(argv[1], &data);
-	print_args(&data);
+	//print_args(&data);
 	mlx_launch(&data);
 }
