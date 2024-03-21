@@ -60,7 +60,7 @@ double hit_sp(t_vec ori, t_vec direction, t_data *data)
         return (-1.0);
     else
     {
-        return (-half_b - sqrt(discri)) / a;
+        return (-half_b + sqrt(discri)) / a; //jai inverse potentiellement une valeur ici
     }
 }
 
@@ -81,11 +81,22 @@ int    recursion(t_vec origine, t_vec direction, int profondeur, t_data *data)//
 
     double discri;
 
-    discri = hit_sp((origine, direction, data));
-    if (discri > 0) // ici on va chercher a shade la couleur de l'bjet en fct de l'angle du rayon par rapport a la surface
-    {
-        
+    discri = hit_sp(origine, direction, data);
+    if (discri > 0) // ici on va chercher a shade la couleur de l'bjet en fct de l'angle du rayon par rapport a la surface 
+    {//besoin de faire une ombre en proportion de langle entre vec origine et rayon normal 
+        //donc je cherche le dot product du vecteur normal et de mon rayon 
+        t_vec point = {origine.x + direction.x * discri, origine.y + direction.y * discri, origine.z + direction.z * discri};
+        t_vec normal_sp = normal_su(data->sphere, point);
+        double dot = dot_prod(norm_vec(direction), normal_sp);
+        //t_rgb shade =  {normal_sp.x * red.r, normal_sp.y * red.g, normal_sp.z * red.b};
+        t_rgb shade = mult_rgb_dub(red, dot);
+        shade = mult_rgb_dub(shade, data->amli.ratio);
+        //valeur positive = point ext de la sphere jai l'impression
+        //chercher le vec normal
+        //t_vec normal = normal_su(data->sphere, )
+        return (rgb_to_color(shade));
     }
+    rgb = mult_rgb_dub(rgb, data->amli.ratio);
     return (rgb_to_color(rgb));
 
 
@@ -95,6 +106,7 @@ int    recursion(t_vec origine, t_vec direction, int profondeur, t_data *data)//
 
 
     //je dois aussi avoir un cas ou je recurse pas et je put rien pour un pixel x si je n'ai rien hit au premier shoot
+    //avoir un cas ou le hit ne compte pas si il est trop proche ou trop loin
 
     // if (profondeur == 3) //definir la pronfondeur
     //     custom_pixel_put(new_ori, ) //trouver comment compute le x et y de mon pixel
