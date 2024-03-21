@@ -11,7 +11,9 @@ t_vec   norm_vec(t_vec vec);
 t_vec    div_vec(t_vec a, double b);
 t_vec    mult_vec(t_vec a, double b);
 t_vec    add_vec(t_vec a, t_vec b);
+t_vec    vec_cross(t_vec a, t_vec b);
 double  dot_prod(t_vec a, t_vec b);
+double deg_to_rad(int to_convert);
 
 //color math
 int rgb_to_color(t_rgb rgb);

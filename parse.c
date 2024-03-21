@@ -12,10 +12,12 @@ void	check_format(char *rt_file, t_data *data)
 		ft_error_exit("Wrong file format", data);
 }
 
+//peut etre un monde ou si bcp de sphere/objets j'alloue la taille totale necessaire un un shot puis je la fragmente
+//afin que quand on cherche dans cette liste d'objets toute la memoire vienne en cache (rien n'est sur)
+
 void	process_line(char *line, t_data *data)
 {
 	char	**tab;
-
 	tab = ft_split(line, ' ');
 	if (ft_strcmp(tab[0], "A") == 0)
 		manage_ambiant(tab, data);

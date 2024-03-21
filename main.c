@@ -9,6 +9,9 @@ void	ft_error_exit(char *str, t_data *data)
 
 void	init_data(t_data *data)
 {
+	data->cam.init = 0;
+	data->amli.init = 0;
+	data->light.init = 0;
 	data->mlx = NULL;
 	data->wind = NULL;
 	data->sphere = NULL;

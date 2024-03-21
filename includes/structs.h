@@ -72,6 +72,16 @@ typedef struct s_light
 	t_rgb	rgb;
 }	t_light;
 
+typedef struct s_viewport
+{
+	t_vec	pos;
+	t_vec	hori;
+	t_vec	verti;
+	t_vec	x_pix;
+	t_vec	y_pix;
+
+}	t_viewport;
+
 typedef struct s_data
 {
 	t_amli		amli;
@@ -80,6 +90,7 @@ typedef struct s_data
 	t_plan		*plan;
 	t_cyl		*cyl;
 	t_light		light;
+	t_viewport	view;
 	void		*mlx;
 	void		*wind;
 	t_malloc	*head;

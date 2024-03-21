@@ -21,7 +21,7 @@ void manage_cam(char **tab, t_data *data)
 	manage_vectors(tab, &data->cam.pos, data, 1);
 	manage_vectors(tab, &data->cam.dir, data, 2);
 	if (data->cam.dir.x > 1 || data->cam.dir.y > 1 || data->cam.dir.z > 1 
-		|| data->cam.dir.x < 0 || data->cam.dir.y < 0 || data->cam.dir.z < 0)
+		|| data->cam.dir.x < -1 || data->cam.dir.y < -1 || data->cam.dir.z < -1)
 		ft_error_exit("Wrong file format", data);
 	data->cam.fov = ft_atoi(tab[3]);
 	if (data->cam.fov > 180 || data->cam.fov < 0)
