@@ -12,6 +12,11 @@ inline double  len_vec(t_vec vec)
     return (sqrt(vec.x * vec.x + vec.y * vec.y + vec.z *vec.z));
 }
 
+inline t_vec	vec_by_vec(t_vec a, t_vec b)
+{
+	return ((t_vec){a.x * b.x, a.y * b.y, a.z * b.z});
+}
+
 inline t_vec   dif_vec(t_vec a, t_vec b)
 {
     return ((t_vec){a.x - b.x, a.y - b.y, a.z - b.z}); 
