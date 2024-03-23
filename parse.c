@@ -75,23 +75,19 @@ void	parse_rt(char *rt_file, t_data *data)
 
 void print_args(t_data *data)
 {
-    // Print ambient light details
     printf("Ambient Light:\n");
     printf("\tRatio: %f\n", data->amli.ratio);
     printf("\tColor: R: %f, G: %f, B: %f\n", data->amli.color.r, data->amli.color.g, data->amli.color.b);
 
-    // Print camera details
     printf("Camera:\n");
     printf("\tPosition: X: %f, Y: %f, Z: %f\n", data->cam.pos.x, data->cam.pos.y, data->cam.pos.z);
     printf("\tVector: X: %f, Y: %f, Z: %f\n", data->cam.dir.x, data->cam.dir.y, data->cam.dir.z);
     printf("\tFOV: %d\n", data->cam.fov);
 
-    // Print light details
     printf("Light:\n");
     printf("\tPosition: X: %f, Y: %f, Z: %f\n", data->light.pos.x, data->light.pos.y, data->light.pos.z);
     printf("\tLighting: %f\n", data->light.ratio);
 
-    // // Print spheres
     printf("Spheres:\n");
     while (data->sphere != NULL) {
         printf("\tPosition: X: %f, Y: %f, Z: %f\n", data->sphere->pos.x, data->sphere->pos.y, data->sphere->pos.z);
@@ -100,9 +96,15 @@ void print_args(t_data *data)
         data->sphere = data->sphere->next;
     }
 
-    // Print plans
-    printf("Plans:\n");
-    printf("\tPosition: X: %f, Y: %f, Z: %f\n", data->plan->pos.x, data->plan->pos.y, data->plan->pos.z);
-    printf("\tVector: X: %f, Y: %f, Z: %f\n", data->plan->dir.x, data->plan->dir.y, data->plan->dir.z);
-    printf("\tColor: R: %f, G: %f, B: %f\n", data->plan->rgb.r, data->plan->rgb.g, data->plan->rgb.b);
+    printf("Viewport:\n");
+    printf("\tHorizontal Vector: X: %f, Y: %f, Z: %f\n", data->view.hori.x, data->view.hori.y, data->view.hori.z);
+    printf("\tVertical Vector: X: %f, Y: %f, Z: %f\n", data->view.verti.x, data->view.verti.y, data->view.verti.z);
+    printf("\tX Pixel Vector: X: %f, Y: %f, Z: %f\n", data->view.x_pix.x, data->view.x_pix.y, data->view.x_pix.z);
+    printf("\tY Pixel Vector: X: %f, Y: %f, Z: %f\n", data->view.y_pix.x, data->view.y_pix.y, data->view.y_pix.z);
+    printf("\tPixel 00: X: %f, Y: %f, Z: %f\n", data->view.pix00.x, data->view.pix00.y, data->view.pix00.z);
+
+    // printf("Plans:\n");
+    // printf("\tPosition: X: %f, Y: %f, Z: %f\n", data->plan->pos.x, data->plan->pos.y, data->plan->pos.z);
+    // printf("\tVector: X: %f, Y: %f, Z: %f\n", data->plan->dir.x, data->plan->dir.y, data->plan->dir.z);
+    // printf("\tColor: R: %f, G: %f, B: %f\n", data->plan->rgb.r, data->plan->rgb.g, data->plan->rgb.b);
 }

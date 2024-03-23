@@ -20,26 +20,25 @@ void    raytrace(t_data *data)
 {
     //ok me fait chier mes ces calculs ils marchent
     //adding FOV by 
-   // get_viewport(data);
-    double fov = deg_to_rad(data->cam.fov);
-    fov = tan(fov / 2);
+    get_viewport(data);
+    // double fov = deg_to_rad(data->cam.fov);
+    // fov = tan(fov / 2);
     int color;
-    t_vec   origin = {0,0,0};
-    t_vec   focal = {0,0,3};
-    t_vec   verti = {0, 2.0, 0};
-    t_vec   hori = {(2.0 * ASPECT_RATIO * fov), 0, 0};
-    t_vec   tmp;
-    tmp = dif_vec(origin, div_vec(hori, 2));
-    tmp = dif_vec(tmp, div_vec(verti, 2));
-    t_vec   low_left = dif_vec(tmp, focal);
+    // t_vec   origin = {0,0,0};
+    // t_vec   focal = {0,0,3};
+    // t_vec   verti = {0, 2.0, 0};
+    // t_vec   hori = {(2.0 * ASPECT_RATIO * fov), 0, 0};
+    // t_vec   tmp;
+    // tmp = dif_vec(origin, div_vec(hori, 2));
+    // tmp = dif_vec(tmp, div_vec(verti, 2));
+    // t_vec   low_left = dif_vec(tmp, focal);
 
     for (int j = HEIGHT - 1; j >= 0; j--)
     {
         for (int i = 0; i <= WIDTH; i++)
         {
-            double u = (double)i / (WIDTH - 1);//terme qui scinde mon view en autant de pixels
-            double v = (double)j / (HEIGHT - 1);
-            color = ray_shot(origin, dif_vec(add_vec(low_left, add_vec(mult_vec(hori, u), mult_vec(verti, v))), origin), 0, data);
+            t_vec px_cent = add_vec(data->view.pix00, add_vec(mult_vec(data->view.x_pix, (double)i), mult_vec(data->view.y_pix, (double)j)));
+            color = ray_shot(data->cam.pos, dif_vec(px_cent, data->cam.pos), 0, data);
             mlx_pixel_put(data->mlx, data->wind, i, j, color);
         }
     }
