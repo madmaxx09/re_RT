@@ -75,30 +75,30 @@ void	parse_rt(char *rt_file, t_data *data)
 
 void print_args(t_data *data)
 {
-    printf("Ambient Light:\n");
-    printf("\tRatio: %f\n", data->amli.ratio);
-    printf("\tColor: R: %f, G: %f, B: %f\n", data->amli.color.r, data->amli.color.g, data->amli.color.b);
+    // printf("Ambient Light:\n");
+    // printf("\tRatio: %f\n", data->amli.ratio);
+    // printf("\tColor: R: %f, G: %f, B: %f\n", data->amli.color.r, data->amli.color.g, data->amli.color.b);
 
-    printf("Camera:\n");
-    printf("\tPosition: X: %f, Y: %f, Z: %f\n", data->cam.pos.x, data->cam.pos.y, data->cam.pos.z);
-    printf("\tVector: X: %f, Y: %f, Z: %f\n", data->cam.dir.x, data->cam.dir.y, data->cam.dir.z);
-    printf("\tFOV: %d\n", data->cam.fov);
+    // printf("Camera:\n");
+    // printf("\tPosition: X: %f, Y: %f, Z: %f\n", data->cam.pos.x, data->cam.pos.y, data->cam.pos.z);
+    // printf("\tVector: X: %f, Y: %f, Z: %f\n", data->cam.dir.x, data->cam.dir.y, data->cam.dir.z);
+    // printf("\tFOV: %d\n", data->cam.fov);
 
-    printf("Light:\n");
-    printf("\tPosition: X: %f, Y: %f, Z: %f\n", data->light.pos.x, data->light.pos.y, data->light.pos.z);
-    printf("\tLighting: %f\n", data->light.ratio);
+    // printf("Light:\n");
+    // printf("\tPosition: X: %f, Y: %f, Z: %f\n", data->light.pos.x, data->light.pos.y, data->light.pos.z);
+    // printf("\tLighting: %f\n", data->light.ratio);
 
-    printf("Spheres:\n");
-    while (data->sphere != NULL) {
-        printf("\tPosition: X: %f, Y: %f, Z: %f\n", data->sphere->pos.x, data->sphere->pos.y, data->sphere->pos.z);
-        printf("\tDiameter: %f\n", data->sphere->diam);
-        printf("\tColor: R: %f, G: %f, B: %f\n", data->sphere->rgb.r, data->sphere->rgb.g, data->sphere->rgb.b);
-        data->sphere = data->sphere->next;
-    }
+    // printf("Spheres:\n");
+    // while (data->sphere != NULL) {
+    //     printf("\tPosition: X: %f, Y: %f, Z: %f\n", data->sphere->pos.x, data->sphere->pos.y, data->sphere->pos.z);
+    //     printf("\tDiameter: %f\n", data->sphere->diam);
+    //     printf("\tColor: R: %f, G: %f, B: %f\n", data->sphere->rgb.r, data->sphere->rgb.g, data->sphere->rgb.b);
+    //     data->sphere = data->sphere->next;
+    // }
 
     printf("Viewport:\n");
-    printf("\tHorizontal Vector: X: %f, Y: %f, Z: %f\n", data->view.hori.x, data->view.hori.y, data->view.hori.z);
-    printf("\tVertical Vector: X: %f, Y: %f, Z: %f\n", data->view.verti.x, data->view.verti.y, data->view.verti.z);
+    // printf("\tHorizontal Vector: X: %f, Y: %f, Z: %f\n", data->view.hori.x, data->view.hori.y, data->view.hori.z);
+    // printf("\tVertical Vector: X: %f, Y: %f, Z: %f\n", data->view.verti.x, data->view.verti.y, data->view.verti.z);
     printf("\tX Pixel Vector: X: %f, Y: %f, Z: %f\n", data->view.x_pix.x, data->view.x_pix.y, data->view.x_pix.z);
     printf("\tY Pixel Vector: X: %f, Y: %f, Z: %f\n", data->view.y_pix.x, data->view.y_pix.y, data->view.y_pix.z);
     printf("\tPixel 00: X: %f, Y: %f, Z: %f\n", data->view.pix00.x, data->view.pix00.y, data->view.pix00.z);

@@ -1,46 +1,45 @@
 #include "./includes/miniRT.h"
 
+
+	//double focal = 1.0 / (2 * tan(deg_to_rad(data->cam.fov) / 2)); //focal taking fov into acc
+
+
+
 void    get_viewport(t_data *data)
 {
-	double focal = 1.0 / (2 * tan(deg_to_rad(data->cam.fov) / 2)); //focal taking fov into acc
+    double focus_dist = 10;
+    double theta = deg_to_rad(data->cam.fov);
+    double h = tan(theta / 2);
+    double view_high = 2 * h * focus_dist; //final formula should be 2 * h * focus_dist (focus_dist = 10)
+    double view_wide = view_high * (WIDTH / HEIGHT);
 
-    printf("%f\n", focal);
-	double v_high = 2.0 * focal; 
-	double v_wide = v_high * ASPECT_RATIO;
-	t_vec	w = data->cam.dir; //dir to scene
-	t_vec	u = norm_vec(vec_cross((t_vec){0, 1, 0}, w)); //relative x axis
-	t_vec	v = vec_cross(w, u); //relative y axis;
+    // u v w unit vectors 
+    t_vec w = norm_vec(data->cam.dir);  //is the unit vector of lookfrom - lookat so it should just be our cam.dir
+    t_vec u = norm_vec(vec_cross((t_vec){0, 1, 0}, w));
+    t_vec v = vec_cross(w, u);
 
-    printf("u: \n%f\n", u.x);
-    printf("%f\n", u.y);
-    printf("%f\n", u.z);
-    printf("v: \n %f\n", v.x);
-    printf("%f\n", v.y);
-    printf("%f\n", v.z);
-	t_vec	hori = mult_vec(u, v_wide);
-	t_vec	verti = mult_vec(v, -v_high);
-	t_vec	px = div_vec(hori, (double)WIDTH);
-	t_vec	py = div_vec(verti, (double)HEIGHT);
-    t_vec   up_left = dif_vec(dif_vec(data->cam.pos, (t_vec){0, 0, 1}), dif_vec(div_vec(hori, 2.0), div_vec(verti, 2.0)));
+    //vectors following the viewport edges
 
+    t_vec   viewport_u = mult_vec(u, view_wide); 
+    t_vec   viewport_v = mult_vec(mult_vec(v, -1.0), view_high);
 
-    data->view.hori = mult_vec(u, v_wide);
-    data->view.verti = mult_vec(v, -v_high);
-    data->view.x_pix = div_vec(hori, (double)WIDTH);
-    data->view.y_pix = div_vec(verti, (double)HEIGHT);
-    data->view.pix00 = add_vec(up_left, div_vec(add_vec(px, py), 2));
+    //size between each horizontal and vertical pixel in the frame
 
+    data->view.x_pix = div_vec(viewport_u, (double)WIDTH);
+    data->view.y_pix = div_vec(viewport_v, (double)HEIGHT);
 
-    ////meeeeeeh a refaire un ayant une meilleure idee
-    // if (fabs(data->cam.dir.y) > 1.0 - 1e-4)
-    // {
-    //     data->view.hori = mult_vec(norm_vec(vec_cross(
-    //         data->cam.dir, (t_vec){0, 0, -1.0})), tan((double)deg_to_rad(data->cam.fov) / 2.0));
-    // }
-    // else
-    //     data->view.hori = mult_vec(norm_vec(vec_cross(
-    //         data->cam.dir, (t_vec){0, 1.0, 0})), tan((double)deg_to_rad(data->cam.fov) / 2.0));
-    // data->view.verti = mult_vec(norm_vec(vec_cross(
-    //     data->view.hori, data->cam.dir)) , len_vec(data->view.hori) * HEIGHT / WIDTH);
-    // data->view.pos = add_vec(add_vec(data->cam.pos, data->cam.dir), add_vec(data->view.hori, data->view.verti));
+    //getting the upper left pixel of the frame
+    t_vec   tmp = div_vec(viewport_v, 2);
+    t_vec   tmp2 = div_vec(viewport_u, 2);
+    t_vec   tmp3 = dif_vec(data->cam.pos, w);
+    tmp3 = dif_vec(tmp3, tmp2);
+    tmp3 = dif_vec(tmp3, tmp);
+    t_vec   up_left = tmp3;
+
+    tmp = add_vec(data->view.x_pix, data->view.y_pix);
+    tmp = mult_vec(tmp, 0.5);
+    data->view.pix00 = add_vec(up_left, tmp);
+    data->view.pos = data->cam.pos;
+    //data->view.pix00 = (t_vec){-10.1, 10.1, -1};
+
 }

@@ -49,7 +49,7 @@ t_vec   norm_vec(t_vec vec)
     double  i;
     if (len_vec(vec) == 0)
     {
-        return ((t_vec){0,0,0});
+        return ((t_vec){0,0,0});    
     }
     i = (1.0 / len_vec(vec));
     return ((t_vec){vec.x * i, vec.y * i, vec.z * i});
@@ -58,4 +58,11 @@ t_vec   norm_vec(t_vec vec)
 inline double dot_prod(t_vec a, t_vec b)
 {
     return ((double)a.x * b.x + a.y * b.y + a.z * b.z);
+}
+
+void    print_vec(t_vec a)
+{
+    printf("x : %f\n", a.x);
+    printf("y : %f\n", a.y);
+    printf("z : %f\n", a.z);
 }

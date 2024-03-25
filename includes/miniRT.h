@@ -13,7 +13,7 @@
 # include <errno.h>
 # include "structs.h"
 # include "mymath.h"
-# define ASPECT_RATIO (16.0 / 9.0)
+# define ASPECT_RATIO (1.0)
 # define WIDTH 1200
 # define HEIGHT (WIDTH / ASPECT_RATIO)
 # ifndef BUFFER_SIZE

@@ -15,6 +15,7 @@ t_vec    vec_cross(t_vec a, t_vec b);
 double  dot_prod(t_vec a, t_vec b);
 double deg_to_rad(int to_convert);
 inline t_vec	vec_by_vec(t_vec a, t_vec b);
+void    print_vec(t_vec a);
 
 //color math
 int rgb_to_color(t_rgb rgb);
