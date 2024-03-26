@@ -7,10 +7,10 @@
 
 void    get_viewport(t_data *data)
 {
-    double focus_dist = 10;
+    //double focus_dist = 10;
     double theta = deg_to_rad(data->cam.fov);
     double h = tan(theta / 2);
-    double view_high = 2 * h * focus_dist; //final formula should be 2 * h * focus_dist (focus_dist = 10)
+    double view_high = 2 * h; //final formula should be 2 * h * focus_dist (focus_dist = 10)
     double view_wide = view_high * (WIDTH / HEIGHT);
 
     // u v w unit vectors 
@@ -34,7 +34,7 @@ void    get_viewport(t_data *data)
     t_vec   tmp3 = dif_vec(data->cam.pos, w);
     tmp3 = dif_vec(tmp3, tmp2);
     tmp3 = dif_vec(tmp3, tmp);
-    t_vec   up_left = tmp3;
+    t_vec   up_left = tmp3; //origin - w - viewport_u/2 - viewport_v/2;
 
     tmp = add_vec(data->view.x_pix, data->view.y_pix);
     tmp = mult_vec(tmp, 0.5);

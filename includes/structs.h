@@ -83,6 +83,21 @@ typedef struct s_viewport
 
 }	t_viewport;
 
+typedef struct s_obj
+{
+	void			*content;
+	struct s_obj	*next;
+}	t_obj;
+
+typedef struct	s_hit
+{
+	t_vec	normal;
+	t_vec	point;
+	bool	hitted;
+	t_rgb	obj_color;
+	double	root;
+}	t_hit;
+
 typedef struct s_data
 {
 	t_amli		amli;
@@ -92,6 +107,7 @@ typedef struct s_data
 	t_cyl		*cyl;
 	t_light		light;
 	t_viewport	view;
+	t_obj		*obj;
 	void		*mlx;
 	void		*wind;
 	t_malloc	*head;

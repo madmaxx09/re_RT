@@ -54,11 +54,12 @@ void manage_sphere(char **tab, t_data *data)
 
 	new = gc_malloc(sizeof(t_sphere), data);
 	manage_vectors(tab, &new->pos, data, 1);
-	if (ft_atob(tab[2], 2, 3, &new->diam) == -1)
+	if (ft_atob(tab[2], 10, 3, &new->diam) == -1)
 		ft_error_exit("Wrong file format", data);
 	if (new->diam <= 0)
 		ft_error_exit("Wrong file format", data);
 	manage_rgb(tab, &new->rgb, data, 3);
+	new->next = NULL;
 	if (data->sphere == NULL)
 		data->sphere = new;
 	else
@@ -82,6 +83,7 @@ void manage_plan(char **tab, t_data *data)
 		|| new->dir.x < -1 || new->dir.y < -1 || new->dir.z < -1)
 		ft_error_exit("Wrong file format", data);
 	manage_rgb(tab, &new->rgb, data, 3);
+	new->next = NULL;
 	if (data->plan == NULL)
 		data->plan = new;
 	else

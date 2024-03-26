@@ -18,6 +18,7 @@ void	init_data(t_data *data)
 	data->plan = NULL;
 	data->cyl = NULL;
 	data->error_trigger = 0;
+	data->obj = NULL;
 }
 
 int	closing(t_data *data)
@@ -40,6 +41,23 @@ void	mlx_launch(t_data *data)
 	mlx_loop(data->mlx);
 }
 
+// void	create_obj_lst(t_data *data)
+// {
+// 	while(1)
+// 	{
+// 		if (data->sphere != NULL)
+// 		{
+// 			data->obj->type = 1;
+// 			data->obj->content = data->sphere;
+// 		}
+// 		if (data->plan != NULL)
+// 		{
+// 			data->obj->type = 2;
+// 			data->obj->content = 
+// 		}
+// 	}
+// }
+
 int main (int argc, char **argv)
 {
 	t_data	data;
@@ -48,6 +66,7 @@ int main (int argc, char **argv)
 		ft_error_exit("This program needs 1 file as argument", &data);
 	init_data(&data);
 	parse_rt(argv[1], &data);
+	//create_obj_lst(&data);
 	//print_args(&data);
 	mlx_launch(&data);
 }
