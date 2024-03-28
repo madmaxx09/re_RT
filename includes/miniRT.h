@@ -17,13 +17,14 @@
 # define ASPECT_RATIO (16.0/9.0)
 # define WIDTH 1200
 # define HEIGHT (WIDTH / ASPECT_RATIO)
+# define MAX_DEPTH 3
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 666
 # endif
 
 void	ft_error_exit(char *str, t_data *data);
 void		*gc_malloc(size_t required_memory, t_data *data);
-int    ray_shot(t_vec origine, t_vec direction, int profondeur, t_data *data);
+int    ray_shot(t_vec origine, t_vec direction, int depth, t_data *data);
 void    get_viewport(t_data *data);
 //Parsing functions
 

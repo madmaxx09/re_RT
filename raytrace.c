@@ -1,7 +1,7 @@
 #include "./includes/miniRT.h"
 
 //la fonction qui envera les rayons sera recursive 
-//je dois choisir la profondeur de cette recursion 
+//je dois choisir la depth de cette recursion 
 //et choisir le nombres de rayons que j'envoie par zone de mon champ de vision
 
 
@@ -60,12 +60,12 @@ double hit_sp(t_vec ori, t_vec direction, t_sphere *sphere)
         return(-half_b - sqrt(discri)) / a; //jai inverse potentiellement une valeur ici
 }
 
-// int    ray_shot(t_vec origine, t_vec direction, int profondeur, t_data *data)//int for test but void
+// int    ray_shot(t_vec origine, t_vec direction, int depth, t_data *data)//int for test but void
 // {
 //     //var qui renveront le prochain ray ou qui seront necessaire a l'affichage
 //     // t_vec   new_ori;
 //     // t_vec   new_dir;
-//     (void)profondeur;
+//     (void)depth;
 //     (void)data;
 //     t_rgb white = {255, 255, 255};
 //     t_rgb blue  = {127, 178, 255};
@@ -111,19 +111,19 @@ double hit_sp(t_vec ori, t_vec direction, t_sphere *sphere)
 //     //je dois aussi avoir un cas ou je recurse pas et je put rien pour un pixel x si je n'ai rien hit au premier shoot
 //     //avoir un cas ou le hit ne compte pas si il est trop proche ou trop loin
 
-//     // if (profondeur == 3) //definir la pronfondeur
+//     // if (depth == 3) //definir la pronfondeur
 //     //     custom_pixel_put(new_ori, ) //trouver comment compute le x et y de mon pixel
 //     // else
-//     //     ray_shot(new_ori, new_dir, profondeur + 1, data);
+//     //     ray_shot(new_ori, new_dir, depth + 1, data);
 // }
 
-t_hit  hit_box(t_vec ori, t_vec dir, t_data *data, int profondeur)
+t_hit  hit_box(t_vec ori, t_vec dir, t_data *data, int depth)
 {
     t_hit   hit;
     t_data  tmp;
     double  t;
     double  ret_val;
-    (void)profondeur;
+    (void)depth;                 //ici probablement faire varier la distance de hit minimum pour que le hit compte en fonction du rebond/surface de celui ci
 
     hit.hitted = false;
     ret_val = INFINITY;
@@ -148,24 +148,31 @@ t_hit  hit_box(t_vec ori, t_vec dir, t_data *data, int profondeur)
             tmp.sphere = tmp.sphere->next;
         }
     }
-    hit.root = ret_val;  //calculer le point et le vec normal seulement ici pour eco des opérations memem plus tard e fait
+    hit.root = ret_val;
     return (hit);
 }
 
-
-int ray_shot(t_vec origine, t_vec direction, int profondeur, t_data *data) 
+//pour l'instant on dirait que je n'ai pas besoin de data ici je pourrais potentiellement le remplacer par t_hit prev hit et si besoin je calle les deux vecs dans hit 
+int ray_shot(t_vec origine, t_vec direction, int depth, t_data *data) 
 {
     // t_vec   new_ori;
     // t_vec   new_dir;
     t_hit   hit;
-    (void)profondeur;
+    (void)depth;
 
     
-    hit = hit_box(origine, direction, data, profondeur); //je veux l'endroit ou mon ray a touché
+    hit = hit_box(origine, direction, data, depth); //je veux l'endroit ou mon ray a touché
     if (hit.hitted == false)
         return (rgb_to_color((t_rgb){0, 255, 0}));
-    else
+    else if (depth == MAX_DEPTH)
     {
-        return (rgb_to_color(hit.obj_color));
+        return (rgb_to_color(hit.obj_color)); //ici je devrai / j'aurai déjà du proceder au différents shading de l'objet
     }
-}   
+	else
+		ray_shot(hit.point, get_new_dir(hit), depth + 1, data);  //a priori ici que je reCURSE ma fonction si trop lent considerer un autre moyen 
+}
+
+t_vec	get_new_dir(t_hit) //prototype ici on cherche à renvoyer en fonction de la surface 
+{
+	/*trouver un moyen de dire via la struct hit que je dois renvoyer un ou plusieurs rayons en fonction*/
+}
