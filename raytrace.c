@@ -25,16 +25,13 @@ void    raytrace(t_data *data)
     {
         for (int i = 0; i <= WIDTH; ++i)
         {
-            t_vec   px_cent = add_vec(add_vec(mult_vec(view.x_pix, (double)i), mult_vec(view.y_pix, (double)j)), view.pix00);
-            color = ray_shot(view.pos, dif_vec(px_cent, view.pos), 0, data);
-            mlx_pixel_put(data->mlx, data->wind, i, j, color);
-            if (i == 0 && j == 0)
-            {
-                printf("ori \n");
-                print_vec(view.pos);
-                printf("dir  \n");
-                print_vec(px_cent);
-            }
+			for (int sample = 0; sample < SAMPLES; sample++)
+			{
+				t_vec   px_cent = add_vec(add_vec(mult_vec(view.x_pix, (double)i), mult_vec(view.y_pix, (double)j)), view.pix00);
+				//px_cent = add_vec(px_cent, px_sample_square(view.x_pix, view.y_pix))
+				color = ray_shot(view.pos, dif_vec(px_cent, view.pos), 0, data);
+			}
+			mlx_pixel_put(data->mlx, data->wind, i, j, color);
         }
     }
     
@@ -125,6 +122,8 @@ t_hit  hit_box(t_vec ori, t_vec dir, t_data *data, int depth)
     double  ret_val;
     (void)depth;                 //ici probablement faire varier la distance de hit minimum pour que le hit compte en fonction du rebond/surface de celui ci
 
+	if (depth == MAX_DEPTH)
+		return (hit);
     hit.hitted = false;
     ret_val = INFINITY;
     tmp = *data;
@@ -132,18 +131,14 @@ t_hit  hit_box(t_vec ori, t_vec dir, t_data *data, int depth)
     {
         if (tmp.sphere != NULL)
         {
-            // printf("\tPosition: X: %f, Y: %f, Z: %f\n", data->sphere->pos.x, data->sphere->pos.y, data->sphere->pos.z);
-            // printf("\tDiameter: %f\n", data->sphere->diam);
-            // printf("\tColor: R: %f, G: %f, B: %f\n", data->sphere->rgb.r, data->sphere->rgb.g, data->sphere->rgb.b);
             t = hit_sp(ori, dir, tmp.sphere);
             if (t > 0.0 && t < ret_val)
             {
-                // printf("helo\n");
                 hit.hitted = true;
                 ret_val = t;
-                hit.obj_color = tmp.sphere->rgb;
-                hit.point = (t_vec){{ori.x + dir.x * t, ori.y + dir.y * t, ori.z + dir.z * t}}
-                hit.normal = normal_su(tmp.sphere, );
+                hit.obj_color = tmp.sphere->rgb; //en fonction de la profondeur, du matériel, et de l'orientation on recalculera la lumière du point à chaque fois
+                hit.point = (t_vec){{ori.x + dir.x * t, ori.y + dir.y * t, ori.z + dir.z * t}};;
+                hit.normal = normal_su(tmp.sphere, hit.point);
             }
             tmp.sphere = tmp.sphere->next;
         }
@@ -153,7 +148,7 @@ t_hit  hit_box(t_vec ori, t_vec dir, t_data *data, int depth)
 }
 
 //pour l'instant on dirait que je n'ai pas besoin de data ici je pourrais potentiellement le remplacer par t_hit prev hit et si besoin je calle les deux vecs dans hit 
-int ray_shot(t_vec origine, t_vec direction, int depth, t_data *data) 
+t_rgb ray_shot(t_vec origine, t_vec direction, int depth, t_data *data) 
 {
     // t_vec   new_ori;
     // t_vec   new_dir;
@@ -162,11 +157,11 @@ int ray_shot(t_vec origine, t_vec direction, int depth, t_data *data)
 
     
     hit = hit_box(origine, direction, data, depth); //je veux l'endroit ou mon ray a touché
-    if (hit.hitted == false)
-        return (rgb_to_color((t_rgb){0, 255, 0}));
+    if (hit.hitted == false) //ici il faudrait aussi prendre en compte la profondeur, car un troisième rebond qui ne touche pas doit qd même me renvoyer une couleur 
+        return ((t_rgb){0, 255, 0}); //ici on return 
     else if (depth == MAX_DEPTH)
     {
-        return (rgb_to_color(hit.obj_color)); //ici je devrai / j'aurai déjà du proceder au différents shading de l'objet
+        return (hit.obj_color); //ici je devrai / j'aurai déjà du proceder au différents shading de l'objet
     }
 	else
 		ray_shot(hit.point, get_new_dir(hit), depth + 1, data);  //a priori ici que je reCURSE ma fonction si trop lent considerer un autre moyen 
