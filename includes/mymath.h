@@ -14,13 +14,18 @@ t_vec    add_vec(t_vec a, t_vec b);
 t_vec    vec_cross(t_vec a, t_vec b);
 double  dot_prod(t_vec a, t_vec b);
 double deg_to_rad(int to_convert);
-inline t_vec	vec_by_vec(t_vec a, t_vec b);
+t_vec	vec_by_vec(t_vec a, t_vec b);
 void    print_vec(t_vec a);
+t_vec    random_unit_vec(void);
+t_vec    reflect(t_vec v, t_vec n);
 
 //color math
 int rgb_to_color(t_rgb rgb);
 t_rgb    mult_rgb_dub(t_rgb rgb, double a);
 t_rgb    add_rgbs(t_rgb a, t_rgb b);
+t_rgb mult_rgb(t_rgb a, t_rgb b);
+t_rgb    div_rgb(t_rgb rgb, double a);
+void    print_rgb(t_rgb rgb);
 
 
 #endif
