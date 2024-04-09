@@ -2,6 +2,8 @@
 # define MYMATH_H
 
 double  random_double(void);
+double length_squared(t_vec vec);
+t_vec    random_vec(double min, double max);
 
 //vector math 
 
@@ -20,6 +22,7 @@ t_vec	vec_by_vec(t_vec a, t_vec b);
 void    print_vec(t_vec a);
 t_vec    random_unit_vec(void);
 t_vec    reflect(t_vec v, t_vec n);
+t_vec    random_vec_in_unit_sphere(void);
 
 //color math
 int rgb_to_color(t_rgb rgb);

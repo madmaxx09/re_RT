@@ -46,13 +46,14 @@ double   dist(t_vec  src, t_vec dest)
 
 t_vec   norm_vec(t_vec vec)
 {
-    double  i;
-    if (len_vec(vec) == 0)
+    double len;
+
+    len = len_vec(vec);
+    if (len == 0)
     {
         return ((t_vec){0,0,0});    
     }
-    i = (1.0 / len_vec(vec));
-    return ((t_vec){vec.x * i, vec.y * i, vec.z * i});
+    return ((t_vec){vec.x / len, vec.y / len, vec.z / len});
 }
 
 inline double dot_prod(t_vec a, t_vec b)

@@ -133,7 +133,7 @@ t_rgb ray_shot(t_vec origine, t_vec direction, int depth, t_data *data)
     hit = hit_box(origine, direction, data, depth); //je veux l'endroit ou mon ray a touché
 	if (hit.hitted == true)
     {
-        return mult_rgb_dub(ray_shot(hit.point, get_new_dir(hit), depth -1, data), 0.5);
+        return mult_rgb_dub(ray_shot(hit.point, get_new_dir(hit), depth - 1, data), 0.5);
         //return mult_rgb(hit.obj_color, ray_shot(hit.point, get_new_dir(hit), depth - 1, data));
 		//return (mult_rgb(mult_rgb_dub(ray_shot(hit.point, get_new_dir(hit), depth - 1, data), MAX_DEPTH - depth/ MAX_DEPTH), hit.obj_color));  
     }
@@ -146,6 +146,7 @@ t_vec	get_new_dir(t_hit hit)
 	t_vec dir;
 
     dir = add_vec(hit.normal, random_unit_vec());
-    print_vec(dir);
+    // if (dir.x > 0 && dir.y > 0 && dir.z > 0)
+    //     print_vec(dir);
 	return (dir);
 }

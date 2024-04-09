@@ -1,17 +1,5 @@
 #include "./includes/miniRT.h"
 
-double  random_double(void)
-{
-	//random double between [0, 1]
-    return (rand() / (RAND_MAX + 1.0));
-}
-
-double rand_range(double min, double max)
-{
-	//random double between [min, max]
-	return (min + (min - max) * random_double());
-}
-
 inline t_vec    vec_cross(t_vec a, t_vec b)
 {
     t_vec c;
@@ -41,8 +29,3 @@ inline t_vec    reflect(t_vec v, t_vec n)
     return (dif_vec(v, temp));
 }
 
-inline t_vec    random_unit_vec(void)
-{
-    return (norm_vec((t_vec){rand_range(-1,1), rand_range(-1,1), rand_range(-1,1)}));
-	//changer ça pour que mon vec puisse renvoyer du négatif aussi 
-}
