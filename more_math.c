@@ -2,7 +2,14 @@
 
 double  random_double(void)
 {
+	//random double between [0, 1]
     return (rand() / (RAND_MAX + 1.0));
+}
+
+double rand_range(double min, double max)
+{
+	//random double between [min, max]
+	return (min + (min - max) * random_double());
 }
 
 inline t_vec    vec_cross(t_vec a, t_vec b)

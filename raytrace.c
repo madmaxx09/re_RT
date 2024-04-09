@@ -14,13 +14,22 @@
 //sur un seul thread zzz
 
 
+t_vec	px_sample_square(t_vec x_pix, t_vec y_pix)
+{
+	double x;
+	double y;
+
+	x = -0.5 + random_double();
+	y = -0.5 + random_double();
+	return (add_vec(mult_vec(x_pix, x), mult_vec(y_pix, y)));
+}
+
 void    raytrace(t_data *data)
 {
     get_viewport(data);
     t_viewport view = data->view;
     t_rgb color;
     t_rgb blend;
-    //blend = (t_rgb){0,0,0};
     for (int j = 0; j <= HEIGHT; ++j)
     {
         for (int i = 0; i <= WIDTH; ++i)
@@ -29,7 +38,7 @@ void    raytrace(t_data *data)
 			for (int sample = 0; sample < SAMPLES; sample++)
 			{
 				t_vec   px_cent = add_vec(add_vec(mult_vec(view.x_pix, (double)i), mult_vec(view.y_pix, (double)j)), view.pix00);
-				//px_cent = add_vec(px_cent, px_sample_square(view.x_pix, view.y_pix))
+				px_cent = add_vec(px_cent, px_sample_square(view.x_pix, view.y_pix));
 				color = ray_shot(view.pos, dif_vec(px_cent, view.pos), MAX_DEPTH, data);
                 blend = add_rgbs(blend, div_rgb(color, SAMPLES));
                 // printf("sample : %d\n", sample);
@@ -137,8 +146,5 @@ t_vec	get_new_dir(t_hit hit)
 	t_vec dir;
 
     dir = add_vec(hit.normal, random_unit_vec());
-    if (dot_prod(dir, hit.normal) > 0.0)
-        return (dir);
-    else
-        return (mult_vec(dir, -1.0));
+	return (dir);
 }
