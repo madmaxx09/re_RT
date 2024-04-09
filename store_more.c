@@ -1,5 +1,24 @@
 #include "./includes/miniRT.h"
 
+int	int_from_str(const char *str, int min, int max, int *res)
+{
+	int	i;
+
+	i = 0;
+	if ((str[0] == '+' || str[0] == '-') && str[1] != '\0')
+		i++;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (-1);
+		i++;
+	}
+	*res = ft_atoi(str);
+	if (*res < min || *res > max)
+		return (-1);
+	return (0);
+}
+
 void    manage_cyl(char **tab, t_data *data)
 {
     t_cyl   *new;

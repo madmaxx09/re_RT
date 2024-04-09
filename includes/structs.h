@@ -46,6 +46,7 @@ typedef struct s_sphere
 	//t_vec	dir;
 	double	diam;
 	t_rgb	rgb;
+	int		mat;
 	struct s_sphere *next;
 }	t_sphere; 
 
@@ -91,6 +92,8 @@ typedef struct s_obj
 
 typedef struct	s_hit
 {
+	t_vec	ray_in;
+	int		mat;
 	t_vec	normal;
 	t_vec	point;
 	bool	hitted;

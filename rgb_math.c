@@ -29,36 +29,40 @@ inline t_rgb    add_rgbs(t_rgb a, t_rgb b)
 }
 
 
-int clamp(int value)
+double gamma_cor(double color)
 {
-    // Clamp the value to the range [0, 255]
-    return value < 0 ? 0 : (value > 255 ? 255 : value);
+    if (color > 0)
+        return (sqrt(color));
+    return (0);
 }
 
-int apply_gamma_correction(unsigned char value)
+double clamp(double color)
 {
-    // Apply gamma correction using square root
-    return clamp((int)(sqrt((float)value / 255.0f) * 255.0f + 0.5f));
+    if (color <= 0)
+        return (0);
+    if (color >= 1)
+        return (1);
+    return (color);
 }
-
-// int rgb_to_color(t_rgb rgb)
-// {
-//     int color = 0;
-
-//     color |= (corrected_r & 0xFF) << 16;
-//     color |= (corrected_g & 0xFF) << 8;
-//     color |= (corrected_b & 0xFF);
-
-//     return color;
-// }
-
 
 int rgb_to_color(t_rgb rgb)
 {
-    int color = 0;
+    int     color;
+    double  r;
+    double  g;
+    double  b;
 
-    color |= ((int)rgb.r & 0xFF) << 16;
-    color |= ((int)rgb.g & 0xFF) << 8;
-    color |= ((int)rgb.b & 0xFF);
+    color = 0;
+
+    // if (rgb.r > 1 || rgb.g > 1 || rgb.b > 1)
+    //     print_rgb(rgb);
+    r = (gamma_cor(clamp(rgb.r)) * 255);
+    g = (gamma_cor(clamp(rgb.g)) * 255);
+    b = (gamma_cor(clamp(rgb.b)) * 255);
+
+
+    color |= ((int)r & 0xFF) << 16;
+    color |= ((int)g & 0xFF) << 8;
+    color |= ((int)b & 0xFF);
     return color;
 }

@@ -4,7 +4,7 @@
 //on fait un vec normal dirigé vers l'ext donc pt - pos
 t_vec   normal_su(t_sphere *sph, t_vec point)
 {
-    return (norm_vec(dif_vec(point, sph->pos)));
+    return (div_vec(dif_vec(point, sph->pos), sph->diam / 2));
 }
 
 inline double  len_vec(t_vec vec)

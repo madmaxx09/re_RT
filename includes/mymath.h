@@ -4,6 +4,7 @@
 double  random_double(void);
 double length_squared(t_vec vec);
 t_vec    random_vec(double min, double max);
+bool near_zero(t_vec test);
 
 //vector math 
 

@@ -88,10 +88,14 @@ void print_args(t_data *data)
     // printf("\tPosition: X: %f, Y: %f, Z: %f\n", data->light.pos.x, data->light.pos.y, data->light.pos.z);
     // printf("\tLighting: %f\n", data->light.ratio);
 
-    // printf("Spheres:\n");
-    //     printf("\tPosition: X: %f, Y: %f, Z: %f\n", data->sphere->pos.x, data->sphere->pos.y, data->sphere->pos.z);
-    //     printf("\tDiameter: %f\n", data->sphere->diam);
-    //     printf("\tColor: R: %f, G: %f, B: %f\n", data->sphere->rgb.r, data->sphere->rgb.g, data->sphere->rgb.b);
+    printf("Spheres:\n");
+	while(data->sphere)
+	{
+        printf("\tPosition: X: %f, Y: %f, Z: %f\n", data->sphere->pos.x, data->sphere->pos.y, data->sphere->pos.z);
+        printf("\tDiameter: %f\n", data->sphere->diam);
+        printf("\tColor: R: %f, G: %f, B: %f\n", data->sphere->rgb.r, data->sphere->rgb.g, data->sphere->rgb.b);
+		data->sphere = data->sphere->next;
+	}
 
     printf("Viewport:\n");
     // printf("\tHorizontal Vector: X: %f, Y: %f, Z: %f\n", data->view.hori.x, data->view.hori.y, data->view.hori.z);

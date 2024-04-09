@@ -59,6 +59,7 @@ void manage_sphere(char **tab, t_data *data)
 	if (new->diam <= 0)
 		ft_error_exit("Wrong file format", data);
 	manage_rgb(tab, &new->rgb, data, 3);
+	new->mat = ft_atoi(tab[4]);
 	new->next = NULL;
 	if (data->sphere == NULL)
 		data->sphere = new;

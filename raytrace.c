@@ -88,10 +88,8 @@ t_hit  hit_box(t_vec ori, t_vec dir, t_data *data, int depth)
     t_data  tmp;
     double  t;
     double  ret_val;
-    (void)depth;                 //ici probablement faire varier la distance de hit minimum pour que le hit compte en fonction du rebond/surface de celui ci
+    (void)depth;
 
-	// if (depth == MAX_DEPTH)
-	// 	return (hit);
     hit.hitted = false;
     ret_val = INFINITY;
     tmp = *data;
@@ -100,14 +98,15 @@ t_hit  hit_box(t_vec ori, t_vec dir, t_data *data, int depth)
         if (tmp.sphere != NULL)
         {
             t = hit_sp(ori, dir, tmp.sphere);
-            if (t > 0.0 && t < ret_val)
+            if (t > 0.001 && t < ret_val)//moyen de rendre le code plus efficace ici en calculant uniquement pour le dernier hit
             {
                 hit.hitted = true;
                 ret_val = t;
                 hit.point = (t_vec){ori.x + dir.x * t, ori.y + dir.y * t, ori.z + dir.z * t};;
                 hit.normal = normal_su(tmp.sphere, hit.point);
-                //hit.obj_color = new_color(hit, *tmp.sphere, dir);
-                hit.obj_color = tmp.sphere->rgb; //en fonction de la profondeur, du matériel, et de l'orientation on recalculera la lumière du point à chaque fois
+                hit.mat = tmp.sphere->mat;
+                hit.ray_in = dir;
+                hit.obj_color = tmp.sphere->rgb;
             }
             tmp.sphere = tmp.sphere->next;
         }
@@ -123,30 +122,45 @@ t_rgb ray_shot(t_vec origine, t_vec direction, int depth, t_data *data)
 {
     t_hit   hit;
     t_rgb   blend;
+    double  blender;
     
-    blend = (t_rgb){0,255,0};
-    if (depth == 0)
-    {
-        //printf("test\n");
-        return ((t_rgb){0,0,0}); //ici il faudrait aussi prendre en compte la profondeur, car un troisième rebond qui ne touche pas doit qd même me renvoyer une couleur 
-    }
-    hit = hit_box(origine, direction, data, depth); //je veux l'endroit ou mon ray a touché
-	if (hit.hitted == true)
-    {
-        return mult_rgb_dub(ray_shot(hit.point, get_new_dir(hit), depth - 1, data), 0.5);
-        //return mult_rgb(hit.obj_color, ray_shot(hit.point, get_new_dir(hit), depth - 1, data));
-		//return (mult_rgb(mult_rgb_dub(ray_shot(hit.point, get_new_dir(hit), depth - 1, data), MAX_DEPTH - depth/ MAX_DEPTH), hit.obj_color));  
-    }
-    //printf("test\n");
-    return (blend); //ici on return 
+    //derniere recursion aucune lumiere ajoutée
+    if (depth <= 0)
+        return ((t_rgb){0,0,0});
+    //check si hit
+    hit = hit_box(origine, direction, data, depth);
+    //si hit alors je renvoie la couleur de l'objet
+	if (hit.hitted == true) //return mult_rgb(ray_shot(hit.point, get_new_dir(hit), depth - 1, data), hit.obj_color);
+        return (hit.obj_color);
+        
+    blend = ray_shot(hit.point, get_new_dir(hit, &blender), depth - 1, data);
+    blend = mult_rgb_dub(blend, blender);
+    blend = mult_rgb(blend, hit.obj_color);
+    if (depth == MAX_DEPTH)
+        return (add_rgbs(blend, data->amli.color));
+    return (blend);
 }
 
-t_vec	get_new_dir(t_hit hit)
+double color_scaling(t_hit hit, t_vec dir)
+{
+    double cos;
+
+    cos = dot_prod(hit.normal, dir);
+    return (cos);
+}
+
+t_vec	get_new_dir(t_hit hit, double *blender)
 {
 	t_vec dir;
-
+    
+    if (hit.mat == 1)
+    {
+        *blender = 1;
+        return (reflect(hit.ray_in, hit.normal));
+    }
     dir = add_vec(hit.normal, random_unit_vec());
-    // if (dir.x > 0 && dir.y > 0 && dir.z > 0)
-    //     print_vec(dir);
+    if (near_zero(dir))
+        dir = hit.normal;
+    *blender = color_scaling(hit, dir);
 	return (dir);
 }

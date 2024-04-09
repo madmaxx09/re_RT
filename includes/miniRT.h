@@ -18,8 +18,8 @@
 # define ASPECT_RATIO (16.0/9.0)
 # define WIDTH 1400
 # define HEIGHT (WIDTH / ASPECT_RATIO)
-# define MAX_DEPTH 10
-# define SAMPLES 3
+# define MAX_DEPTH 4
+# define SAMPLES 4
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 666
 # endif
@@ -29,7 +29,7 @@ void		*gc_malloc(size_t required_memory, t_data *data);
 t_rgb    ray_shot(t_vec origine, t_vec direction, int depth, t_data *data);
 void    get_viewport(t_data *data);
 
-t_vec	get_new_dir(t_hit hit);
+t_vec	get_new_dir(t_hit hit, double *blender);
 //Parsing functions
 
 int	ft_atob(const char *str, int b_p, int a_p, double *res);
@@ -44,6 +44,7 @@ void manage_light(char **tab, t_data *data);
 void manage_sphere(char **tab, t_data *data);
 void manage_plan(char **tab, t_data *data);
 void    manage_cyl(char **tab, t_data *data);
+int	int_from_str(const char *str, int min, int max, int *res);
 
 //mlx hooks
 int presskey(int key, t_data *data);

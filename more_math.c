@@ -29,3 +29,10 @@ inline t_vec    reflect(t_vec v, t_vec n)
     return (dif_vec(v, temp));
 }
 
+bool near_zero(t_vec test)
+{
+    double s;
+
+    s = 1e-8;
+    return ((fabs(test.x) < s) && (fabs(test.y) < s) && (fabs(test.z) < s));
+}

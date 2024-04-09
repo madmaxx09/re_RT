@@ -33,6 +33,9 @@ void    manage_rgb(char **tab, t_rgb *store ,t_data *data, int pos)
     if (store->r > 255 || store->g > 255 || store->b > 255 
         || store->r < 0 || store->g < 0 || store->b < 0)
         ft_error_exit("Wrong file format", data);
+    store->r = (store->r / 255);
+    store->g = (store->g / 255);
+    store->b = (store->b / 255);
     free_tabl(tmp);  
 }
 
