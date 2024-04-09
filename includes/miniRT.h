@@ -5,9 +5,9 @@
 # include <unistd.h>
 # include <math.h>
 # include "../libft/libft.h"
-//# include "mlx.h"
+# include "mlx.h"
 # include <sys/types.h>
-# include "../minilibx_linux/mlx.h"
+//# include "../minilibx_linux/mlx.h"
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <string.h>

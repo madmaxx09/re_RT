@@ -1,6 +1,8 @@
 #ifndef MYMATH_H
 # define MYMATH_H
 
+double  random_double(void);
+
 //vector math 
 
 double   dist(t_vec src, t_vec dest);

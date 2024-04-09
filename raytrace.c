@@ -146,5 +146,6 @@ t_vec	get_new_dir(t_hit hit)
 	t_vec dir;
 
     dir = add_vec(hit.normal, random_unit_vec());
+    print_vec(dir);
 	return (dir);
 }
