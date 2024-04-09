@@ -14,17 +14,17 @@ all: 		${PROG}
 
 ${PROG}:	${OBJS}
 					@echo "Compiling...\n"
-					@make re -C ./LIBFT
+					@make re -C ./libft
 					@$(CC) ${OBJS}  -Llibft -lft -o ${PROG} -lmlx -framework OpenGL -framework AppKit
 					@echo "mini_rt compiled"
 
 clean:
-					@make clean -C ./LIBFT
+					@make clean -C ./libft
 					@rm -f ${OBJS} ${OBJS_B}
 					@echo "Cleaned\n"
 
 fclean: 	clean
-					@make fclean -C ./LIBFT
+					@make fclean -C ./libft
 					@rm -f $(NAME)
 					@rm -f ${PROG}
 					@echo "F_Cleaned\n"

@@ -132,7 +132,7 @@ t_rgb ray_shot(t_vec origine, t_vec direction, int depth, t_data *data)
     return (blend); //ici on return 
 }
 
-t_vec	get_new_dir(t_hit hit) //prototype ici on cherche à renvoyer en fonction de la surface 
+t_vec	get_new_dir(t_hit hit)
 {
 	t_vec dir;
 

@@ -36,5 +36,6 @@ inline t_vec    reflect(t_vec v, t_vec n)
 
 inline t_vec    random_unit_vec(void)
 {
-    return (norm_vec((t_vec){(double)rand(), (double)rand(), (double)rand()}));
+    return (norm_vec((t_vec){random_double(), random_double(), random_double()}));
+	//changer ça pour que mon vec puisse renvoyer du négatif aussi 
 }
