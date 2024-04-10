@@ -65,9 +65,9 @@ int rgb_to_color(t_rgb rgb)
     if (rgb.b != rgb.b)
         rgb.b = 0;
 
-    rgb.r = clamp(rgb.r, 0.0, 0.999) * 255;
-    rgb.g = clamp(rgb.g, 0.0, 0.999) * 255;
-    rgb.b = clamp(rgb.b, 0.0, 0.999) * 255;
+    rgb.r = clamp(rgb.r, 0.0, 0.999) * 256;
+    rgb.g = clamp(rgb.g, 0.0, 0.999) * 256;
+    rgb.b = clamp(rgb.b, 0.0, 0.999) * 256;
 
 
     color |= ((int)rgb.r & 0xFF) << 16;
