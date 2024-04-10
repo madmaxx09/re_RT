@@ -30,6 +30,11 @@ void		*gc_malloc(size_t required_memory, t_data *data);
 t_rgb    ray_shot(t_vec origine, t_vec direction, int depth, t_data *data);
 void    get_viewport(t_data *data);
 
+//hit functions
+double hit_sp(t_vec ori, t_vec direction, t_sphere *sphere);
+double hit_pl(t_vec ori, t_vec dir, t_plan *plan);
+double  hit_cyl(t_vec ori, t_vec dir, t_cyl *cyl, double t_max);
+
 t_vec	get_new_dir(t_hit hit, double *blender);
 //Parsing functions
 

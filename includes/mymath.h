@@ -9,7 +9,7 @@ bool near_zero(t_vec test);
 //vector math 
 
 double   dist(t_vec src, t_vec dest);
-t_vec   normal_su(t_sphere *sph, t_vec point);
+t_vec   normal_sp(t_sphere *sph, t_vec point);
 double  len_vec(t_vec vec);
 t_vec   dif_vec(t_vec a, t_vec b);
 t_vec   norm_vec(t_vec vec);
@@ -24,6 +24,7 @@ void    print_vec(t_vec a);
 t_vec    random_unit_vec(void);
 t_vec    reflect(t_vec v, t_vec n);
 t_vec    random_vec_in_unit_sphere(void);
+t_vec lin_comb(double a, t_vec i, double b, t_vec j);
 
 //color math
 int rgb_to_color(t_rgb rgb);

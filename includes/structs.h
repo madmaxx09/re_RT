@@ -50,6 +50,7 @@ typedef struct s_plan
 	t_vec	pos;
 	t_vec	dir;
 	t_rgb	rgb;
+	int		mat;
 	struct s_plan	*next;
 }	t_plan;
 

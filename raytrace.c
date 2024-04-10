@@ -27,9 +27,11 @@ t_vec	px_sample_square(t_vec x_pix, t_vec y_pix)
 void    raytrace(t_data *data)
 {
     get_viewport(data);
-    t_viewport view = data->view;
+    t_viewport view;
     t_rgb color;
     t_rgb blend;
+
+    view = data->view;
     for (int j = 0; j <= HEIGHT; ++j)
     {
         for (int i = 0; i <= WIDTH; ++i)
@@ -41,33 +43,11 @@ void    raytrace(t_data *data)
 				px_cent = add_vec(px_cent, px_sample_square(view.x_pix, view.y_pix));
 				color = ray_shot(view.pos, dif_vec(px_cent, view.pos), MAX_DEPTH, data);
                 blend = add_rgbs(blend, div_rgb(color, SAMPLES));
-                // printf("sample : %d\n", sample);
-                // print_rgb(blend);
 			}
             mlx_pixel_put(data->mlx, data->wind, i, j, rgb_to_color(blend));
         }
     }
     
-}
-
-
-//-b +- racine de b2 - 4ac sur 2a
-//rayon touche surface si il est solution de lequation de la sphere
-double hit_sp(t_vec ori, t_vec direction, t_sphere *sphere)
-{
-    t_vec ro_c =  dif_vec(ori, sphere->pos); //origine rayon vs centre sphere
-    double a;
-    double half_b;
-    double c;
-    double discri;
-    a = dot_prod(direction, direction);
-    half_b = dot_prod(ro_c, direction);
-    c = dot_prod(ro_c, ro_c) - ((sphere->diam / 2) * (sphere->diam / 2));
-    discri = (half_b * half_b) - (a * c);
-    if (discri < 0)
-        return (-1.0);
-    else
-        return(-half_b - sqrt(discri)) / a; //jai inverse potentiellement une valeur ici
 }
 
 t_hit  hit_box(t_vec ori, t_vec dir, t_data *data)
@@ -85,17 +65,53 @@ t_hit  hit_box(t_vec ori, t_vec dir, t_data *data)
         if (tmp.sphere != NULL)
         {
             t = hit_sp(ori, dir, tmp.sphere);
-            if (t > 0.001 && t < ret_val)//moyen de rendre le code plus efficace ici en calculant uniquement pour le dernier hit
+            if (t > 0.001 && t < ret_val)//moyen de rendre le code plus efficace ici en calculant uniquement pour le dernier hit juste trouver un moyen de garder le bon objet 
             {
                 hit.hitted = true;
                 ret_val = t;
-                hit.point = (t_vec){ori.x + dir.x * t, ori.y + dir.y * t, ori.z + dir.z * t};;
-                hit.normal = normal_su(tmp.sphere, hit.point);
+                hit.point = (t_vec){ori.x + dir.x * t, ori.y + dir.y * t, ori.z + dir.z * t};
+                hit.normal = normal_sp(tmp.sphere, hit.point);
                 hit.mat = tmp.sphere->mat;
                 hit.ray_in = dir;
                 hit.obj_color = tmp.sphere->rgb;
             }
             tmp.sphere = tmp.sphere->next;
+        }
+    }
+    while (tmp.plan != NULL)
+    {
+        if (tmp.plan != NULL)
+        {
+            t = hit_pl(ori, dir, tmp.plan);
+            if (t > 0.001 && t < ret_val)
+            {
+                hit.hitted = true;
+                ret_val = t;
+                hit.point = (t_vec){ori.x + dir.x * t, ori.y + dir.y * t, ori.z + dir.z * t};
+                hit.normal = tmp.plan->dir;
+                hit.ray_in = dir;
+                hit.obj_color = tmp.plan->rgb;
+                hit.mat = tmp.plan->mat;
+            }
+            tmp.plan = tmp.plan->next;
+        }
+    }
+    while (tmp.cyl != NULL)
+    {
+        if (tmp.cyl != NULL)
+        {
+            t = hit_cyl(ori, dir, tmp.cyl, ret_val);
+            if (t > 0.001 && t < ret_val)
+            {
+                hit.hitted = true;
+                ret_val = t;
+                hit.point = (t_vec){ori.x + dir.x * t, ori.y + dir.y * t, ori.z + dir.z * t};
+                hit.normal = tmp.cyl->dir;
+                hit.ray_in = dir;
+                hit.obj_color = tmp.cyl->rgb;
+                hit.mat = 0;
+            }
+            tmp.cyl = tmp.cyl->next;
         }
     }
     hit.root = ret_val;
@@ -122,7 +138,7 @@ t_rgb ray_shot(t_vec origine, t_vec direction, int depth, t_data *data)
     //si hit alors je renvoie la couleur de l'objet
 	if (hit.hitted == true)
         return (hit.obj_color); //return mult_rgb(ray_shot(hit.point, get_new_dir(hit), depth - 1, data), hit.obj_color);
-        //return mult_rgb(ray_shot(hit.point, get_new_dir(hit, &blender), depth - 1, data), hit.obj_color);
+        //return mult_rgb_dub(ray_shot(hit.point, get_new_dir(hit, &blender), depth - 1, data), 0.3);
         
     // blend = ray_shot(hit.point, get_new_dir(hit, &blender), depth - 1, data);
     // blend = mult_rgb_dub(blend, blender);

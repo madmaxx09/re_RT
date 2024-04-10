@@ -28,11 +28,11 @@ void    manage_rgb(char **tab, t_rgb *store ,t_data *data, int pos)
     third = ft_substr(tmp[2], 0, ft_strlen(tmp[2]) - 1);
     ft_atob(tmp[0], 1, 2, &store->r);
     ft_atob(tmp[1], 1, 2, &store->g);
-    ft_atob(third, 1, 2, &store->b);
+    ft_atob(tmp[2], 1, 2, &store->b);
     free(third);
-    if (store->r > 255 || store->g > 255 || store->b > 255 
-        || store->r < 0 || store->g < 0 || store->b < 0)
-        ft_error_exit("Wrong file format", data);
+    // if (store->r > 255 || store->g > 255 || store->b > 255 
+    //     || store->r < 0 || store->g < 0 || store->b < 0)
+    //     ft_error_exit("Wrong file format", data);
     store->r = (store->r / 255);
     store->g = (store->g / 255);
     store->b = (store->b / 255);

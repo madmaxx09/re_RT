@@ -2,7 +2,7 @@
 
 //vecteur normal = perpendiculaire a ma surface a un point donné
 //on fait un vec normal dirigé vers l'ext donc pt - pos
-t_vec   normal_su(t_sphere *sph, t_vec point)
+t_vec   normal_sp(t_sphere *sph, t_vec point)
 {
     return (div_vec(dif_vec(point, sph->pos), sph->diam / 2));
 }
@@ -66,4 +66,9 @@ void    print_vec(t_vec a)
     printf("x : %f\n", a.x);
     printf("y : %f\n", a.y);
     printf("z : %f\n", a.z);
+}
+
+t_vec lin_comb(double a, t_vec i, double b, t_vec j)
+{
+    return (add_vec(mult_vec(i, a), mult_vec(j, b)));
 }

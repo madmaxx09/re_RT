@@ -84,7 +84,9 @@ void manage_plan(char **tab, t_data *data)
 	if (new->dir.x > 1 || new->dir.y > 1 || new->dir.z > 1 
 		|| new->dir.x < -1 || new->dir.y < -1 || new->dir.z < -1)
 		ft_error_exit("Wrong file format", data);
+	new->dir = norm_vec(new->dir);
 	manage_rgb(tab, &new->rgb, data, 3);
+	new->mat = ft_atoi(tab[4]);
 	new->next = NULL;
 	if (data->plan == NULL)
 		data->plan = new;
