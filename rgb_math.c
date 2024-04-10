@@ -28,6 +28,14 @@ inline t_rgb    add_rgbs(t_rgb a, t_rgb b)
     return ((t_rgb){a.r + b.r, a.g + b.g, a.b + b.b});
 }
 
+inline  t_rgb   color_blend(double t, t_rgb a, t_rgb b)
+{
+    return ((t_rgb){
+            (1.0 - t) * a.r + t * b.r,
+            (1.0 - t) * a.g + t * b.g,
+            (1.0 - t) * a.b + t * b.b
+    });
+}
 
 double gamma_cor(double color)
 {
@@ -36,33 +44,34 @@ double gamma_cor(double color)
     return (0);
 }
 
-double clamp(double color)
+double clamp(double color, double min, double max)
 {
-    if (color <= 0)
-        return (0);
-    if (color >= 1)
-        return (1);
+    if (color < min)
+        return (min);
+    if (color > max)
+        return (max);
     return (color);
 }
 
 int rgb_to_color(t_rgb rgb)
 {
     int     color;
-    double  r;
-    double  g;
-    double  b;
 
     color = 0;
+    if (rgb.r != rgb.r)
+        rgb.r = 0;
+    if (rgb.g != rgb.g)
+        rgb.g = 0;
+    if (rgb.b != rgb.b)
+        rgb.b = 0;
 
-    // if (rgb.r > 1 || rgb.g > 1 || rgb.b > 1)
-    //     print_rgb(rgb);
-    r = (gamma_cor(clamp(rgb.r)) * 255);
-    g = (gamma_cor(clamp(rgb.g)) * 255);
-    b = (gamma_cor(clamp(rgb.b)) * 255);
+    rgb.r = clamp(rgb.r, 0.0, 0.999) * 255;
+    rgb.g = clamp(rgb.g, 0.0, 0.999) * 255;
+    rgb.b = clamp(rgb.b, 0.0, 0.999) * 255;
 
 
-    color |= ((int)r & 0xFF) << 16;
-    color |= ((int)g & 0xFF) << 8;
-    color |= ((int)b & 0xFF);
+    color |= ((int)rgb.r & 0xFF) << 16;
+    color |= ((int)rgb.g & 0xFF) << 8;
+    color |= ((int)rgb.b & 0xFF);
     return color;
 }

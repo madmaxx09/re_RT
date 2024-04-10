@@ -123,21 +123,25 @@ t_rgb ray_shot(t_vec origine, t_vec direction, int depth, t_data *data)
     t_rgb   blend;
     double  blender;
     
+    blender = 0;
+    blend = (t_rgb){0,0,0};
+    
     //derniere recursion aucune lumiere ajoutée
     if (depth <= 0)
         return ((t_rgb){0,0,0});
     //check si hit
     hit = hit_box(origine, direction, data);
     //si hit alors je renvoie la couleur de l'objet
-	if (hit.hitted == true) //return mult_rgb(ray_shot(hit.point, get_new_dir(hit), depth - 1, data), hit.obj_color);
-        return (hit.obj_color);
+	if (hit.hitted == true)
+        return (hit.obj_color); //return mult_rgb(ray_shot(hit.point, get_new_dir(hit), depth - 1, data), hit.obj_color);
+        //return mult_rgb(ray_shot(hit.point, get_new_dir(hit, &blender), depth - 1, data), hit.obj_color);
         
-    blend = ray_shot(hit.point, get_new_dir(hit, &blender), depth - 1, data);
-    blend = mult_rgb_dub(blend, blender);
-    blend = mult_rgb(blend, hit.obj_color);
-    if (depth == MAX_DEPTH)
-        return (add_rgbs(blend, data->amli.color));
-    return (blend);
+    // blend = ray_shot(hit.point, get_new_dir(hit, &blender), depth - 1, data);
+    // blend = mult_rgb_dub(blend, blender);
+    // blend = mult_rgb(blend, hit.obj_color);
+    // if (depth == MAX_DEPTH)
+    //     return (add_rgbs(blend, data->amli.color));
+    return (data->amli.color);
 }
 
 double color_scaling(t_hit hit, t_vec dir)
@@ -160,6 +164,6 @@ t_vec	get_new_dir(t_hit hit, double *blender)
     dir = add_vec(hit.normal, random_unit_vec());
     if (near_zero(dir))
         dir = hit.normal;
-    *blender = color_scaling(hit, dir);
+    //*blender = color_scaling(hit, dir);
 	return (dir);
 }

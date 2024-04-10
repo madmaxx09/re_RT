@@ -11,6 +11,7 @@ void manage_ambiant(char **tab, t_data *data)
 		|| data->amli.ratio < 0 || data->amli.ratio > 1)
 		ft_error_exit("Wrong file format", data);
 	manage_rgb(tab, &data->amli.color, data, 2);
+	data->amli.color = mult_rgb_dub(data->amli.color, data->amli.ratio);
 }
 
 void manage_cam(char **tab, t_data *data)

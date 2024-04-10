@@ -29,9 +29,10 @@ t_vec    random_vec_in_unit_sphere(void);
 int rgb_to_color(t_rgb rgb);
 t_rgb    mult_rgb_dub(t_rgb rgb, double a);
 t_rgb    add_rgbs(t_rgb a, t_rgb b);
-t_rgb mult_rgb(t_rgb a, t_rgb b);
+t_rgb   mult_rgb(t_rgb a, t_rgb b);
 t_rgb    div_rgb(t_rgb rgb, double a);
 void    print_rgb(t_rgb rgb);
+t_rgb   color_blend(double t, t_rgb a, t_rgb b);
 
 
 #endif

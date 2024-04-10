@@ -15,6 +15,7 @@
 # include <stdbool.h>
 # include "structs.h"
 # include "mymath.h"
+# include "objects.h"
 # define ASPECT_RATIO (16.0/9.0)
 # define WIDTH 1400
 # define HEIGHT (WIDTH / ASPECT_RATIO)

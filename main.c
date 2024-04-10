@@ -43,20 +43,12 @@ void	mlx_launch(t_data *data)
 
 // void	create_obj_lst(t_data *data)
 // {
-// 	while(1)
-// 	{
-// 		if (data->sphere != NULL)
-// 		{
-// 			data->obj->type = 1;
-// 			data->obj->content = data->sphere;
-// 		}
-// 		if (data->plan != NULL)
-// 		{
-// 			data->obj->type = 2;
-// 			data->obj->content = 
-// 		}
-// 	}
+// 	t_obj	*new;
+// 	t_obj	*tmp;
+
+	
 // }
+
 
 int main (int argc, char **argv)
 {
