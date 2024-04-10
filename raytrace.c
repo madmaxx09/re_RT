@@ -82,13 +82,12 @@ t_rgb new_color(t_hit hit, t_sphere sphere, t_vec dir)
     return (color);
 }
 
-t_hit  hit_box(t_vec ori, t_vec dir, t_data *data, int depth)
+t_hit  hit_box(t_vec ori, t_vec dir, t_data *data)
 {
     t_hit   hit;
     t_data  tmp;
     double  t;
     double  ret_val;
-    (void)depth;
 
     hit.hitted = false;
     ret_val = INFINITY;
@@ -128,7 +127,7 @@ t_rgb ray_shot(t_vec origine, t_vec direction, int depth, t_data *data)
     if (depth <= 0)
         return ((t_rgb){0,0,0});
     //check si hit
-    hit = hit_box(origine, direction, data, depth);
+    hit = hit_box(origine, direction, data);
     //si hit alors je renvoie la couleur de l'objet
 	if (hit.hitted == true) //return mult_rgb(ray_shot(hit.point, get_new_dir(hit), depth - 1, data), hit.obj_color);
         return (hit.obj_color);

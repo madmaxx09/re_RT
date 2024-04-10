@@ -2,6 +2,13 @@
 
 typedef struct s_malloc		t_malloc;
 
+typedef enum
+{
+	CYL, 
+	PLN,
+	SPH
+}	obj_type;
+
 typedef struct s_malloc
 {
 	void		*adress;
@@ -84,9 +91,11 @@ typedef struct s_viewport
 
 }	t_viewport;
 
-typedef struct s_obj
+typedef struct s_obj //un pointeur vers l'elem un pointeur vers le node suivant peut etre limite faire un array de pointeurs pour vitesse ? 
 {
 	void			*content;
+	int				material;
+	obj_type		type;
 	struct s_obj	*next;
 }	t_obj;
 
