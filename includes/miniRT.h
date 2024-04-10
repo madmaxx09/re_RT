@@ -19,8 +19,8 @@
 # define ASPECT_RATIO (16.0/9.0)
 # define WIDTH 1400
 # define HEIGHT (WIDTH / ASPECT_RATIO)
-# define MAX_DEPTH 4
-# define SAMPLES 4
+# define MAX_DEPTH 20
+# define SAMPLES 20
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 666
 # endif

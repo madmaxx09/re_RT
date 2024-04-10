@@ -137,7 +137,8 @@ t_rgb ray_shot(t_vec origine, t_vec direction, int depth, t_data *data)
     hit = hit_box(origine, direction, data);
     //si hit alors je renvoie la couleur de l'objet
 	if (hit.hitted == true)
-        return (hit.obj_color); //return mult_rgb(ray_shot(hit.point, get_new_dir(hit), depth - 1, data), hit.obj_color);
+        return (hit.obj_color); 
+        //return mult_rgb(ray_shot(hit.point, get_new_dir(hit, &blender), depth - 1, data), hit.obj_color);
         //return mult_rgb_dub(ray_shot(hit.point, get_new_dir(hit, &blender), depth - 1, data), 0.3);
         
     // blend = ray_shot(hit.point, get_new_dir(hit, &blender), depth - 1, data);
