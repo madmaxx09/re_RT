@@ -18,7 +18,7 @@ void	init_data(t_data *data)
 	data->plan = NULL;
 	data->cyl = NULL;
 	data->error_trigger = 0;
-	data->obj = NULL;
+	//data->obj = NULL;
 }
 
 int	closing(t_data *data)
@@ -40,15 +40,6 @@ void	mlx_launch(t_data *data)
 	mlx_key_hook(data->wind, presskey, data);
 	mlx_loop(data->mlx);
 }
-
-// void	create_obj_lst(t_data *data)
-// {
-// 	t_obj	*new;
-// 	t_obj	*tmp;
-
-	
-// }
-
 
 int main (int argc, char **argv)
 {

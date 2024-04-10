@@ -9,12 +9,6 @@ typedef enum
 	SPH
 }	obj_type;
 
-typedef struct s_ray
-{
-    t_vec ori;
-    t_vec dir;
-}   t_ray;
-
 typedef struct s_malloc
 {
 	void		*adress;
@@ -34,6 +28,12 @@ typedef struct s_vec
 	double y;
 	double z;
 }	t_vec;
+
+typedef struct s_ray
+{
+    t_vec ori;
+    t_vec dir;
+}   t_ray;
 
 typedef struct s_cyl
 {
@@ -116,7 +116,7 @@ typedef struct s_data
 	t_cyl		*cyl;
 	t_light		light;
 	t_viewport	view;
-	t_obj		*obj;
+	//t_obj		*obj;
 	void		*mlx;
 	void		*wind;
 	t_malloc	*head;

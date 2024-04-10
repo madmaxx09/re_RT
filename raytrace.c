@@ -70,18 +70,6 @@ double hit_sp(t_vec ori, t_vec direction, t_sphere *sphere)
         return(-half_b - sqrt(discri)) / a; //jai inverse potentiellement une valeur ici
 }
 
-t_rgb new_color(t_hit hit, t_sphere sphere, t_vec dir)
-{
-    t_rgb color;
-    double angle;
-
-    angle = dot_prod(hit.normal, dir);
-
-    color = hit.obj_color;
-    color = add_rgbs(color, mult_rgb_dub(sphere.rgb, -angle));
-    return (color);
-}
-
 t_hit  hit_box(t_vec ori, t_vec dir, t_data *data)
 {
     t_hit   hit;
