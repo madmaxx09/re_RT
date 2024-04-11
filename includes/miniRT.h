@@ -20,7 +20,7 @@
 # define WIDTH 1000
 # define HEIGHT (WIDTH / ASPECT_RATIO)
 # define MAX_DEPTH 4
-# define SAMPLES 50
+# define SAMPLES 10
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 666
 # endif
