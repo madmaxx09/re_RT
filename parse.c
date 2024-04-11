@@ -36,6 +36,44 @@ void	process_line(char *line, t_data *data)
 	free_tabl(tab);
 }
 
+void	add_discs(t_cyl *cyl, t_data *data, int top_bot)
+{
+	t_disc *new;
+	t_disc *tmp;
+
+	new = gc_malloc(sizeof(t_disc), data);
+	new->diam = cyl->diam;
+	new->dir = cyl->dir;
+	if (top_bot == 0)
+		new->pos = lin_comb(1.0, cyl->pos, (cyl->height / 2.0), cyl->dir);
+	else
+		new->pos = new->pos = lin_comb(1.0, cyl->pos, (cyl->height / -2.0), cyl->dir);
+	new->next = NULL;
+	new->rgb = cyl->rgb;
+	if (data->disc == NULL)
+		data->disc = new;
+	else
+	{
+		tmp = data->disc;
+		while (tmp->next != NULL)
+			tmp = tmp->next;
+		tmp->next = new;
+	}
+}
+
+void	get_cyl_top_bot(t_data *data)
+{
+	t_data tmp;
+
+	tmp = *data;
+	while (tmp.cyl != NULL)
+	{
+		add_discs(tmp.cyl, data, 0);//adding top disc
+		add_discs(tmp.cyl, data, 1);//adding bot disc 
+		tmp.cyl = tmp.cyl->next;
+	}	
+}
+
 void	parse_rt(char *rt_file, t_data *data)
 {
 	int		fd;
@@ -56,6 +94,8 @@ void	parse_rt(char *rt_file, t_data *data)
 			ft_error_exit("Wrong file format", data);
 		line = get_next_line(fd);
 	}
+	if (data->cyl != NULL)
+		get_cyl_top_bot(data);
 }
 
 

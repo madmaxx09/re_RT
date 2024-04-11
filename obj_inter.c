@@ -2,6 +2,16 @@
 
 //-b +- racine de b2 - 4ac sur 2a
 //rayon touche surface si il est solution de lequation de la sphere
+t_vec  normal_cyl(t_cyl *cyl, t_vec point)
+{
+    t_vec normal;
+    double h;
+
+    h = dot_prod(dif_vec(point, cyl->pos), cyl->dir);
+    normal = norm_vec(dif_vec(point, add_vec(cyl->pos, mult_vec(cyl->dir, h))));
+    return (normal);
+}
+
 double hit_sp(t_vec ori, t_vec direction, t_sphere *sphere)
 {
     t_vec ro_c =  dif_vec(ori, sphere->pos); //origine rayon vs centre sphere
@@ -28,7 +38,7 @@ double hit_pl(t_vec ori, t_vec dir, t_plan *plan)
     deno = dot_prod(dir, plan->dir);
     if (fabs(deno) > 1e-6)
     {
-        t = dot_prod(dif_vec(plan->pos, ori), dir) / deno;
+        t = ((dot_prod(plan->dir, plan->pos) - dot_prod(ori, plan->dir)) / deno);
         if (t >= 0)
             return (t);
     }
@@ -55,7 +65,7 @@ double  hit_cyl(t_vec ori, t_vec dir, t_cyl *cyl, double t_max)
     double t;
 
     intersect_tube_quadratic(cyl, ori, dir, abc);
-    d = abc[1] * abc[1] - 4.0 * abc[0] * abc[2];
+    d = (abc[1] * abc[1]) - (4.0 * abc[0] * abc[2]);
     if (d < 0 || abc[0] < 1e-6)
         return (-1.0);
     d = sqrt(d);
@@ -69,4 +79,19 @@ double  hit_cyl(t_vec ori, t_vec dir, t_cyl *cyl, double t_max)
             return (-1.0);
     }
     return (t);
+}
+
+double hit_disc(t_vec ori, t_vec dir, t_disc *disc, double t_max)
+{
+    double deno;
+    double t;
+
+    deno = dot_prod(disc->dir, dir);
+    if (fabs(deno) > 1e-6)
+    {
+        t = dot_prod(dif_vec(disc->pos, ori), disc->dir) / deno;
+        if (t > 0.001 && t < t_max && dist(disc->pos, lin_comb(1.0, ori, t, dir)) <= (disc->diam / 2))
+            return (t);
+    }
+    return (-1.0);
 }

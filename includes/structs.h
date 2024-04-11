@@ -35,6 +35,15 @@ typedef struct s_ray
     t_vec dir;
 }   t_ray;
 
+typedef struct s_disc
+{
+	t_vec dir;
+	t_vec pos;
+	double diam;
+	struct s_disc *next;
+	t_rgb	rgb;
+}	t_disc;
+
 typedef struct s_cyl
 {
 	t_vec	pos;
@@ -115,6 +124,7 @@ typedef struct s_data
 	t_sphere	*sphere;
 	t_plan		*plan;
 	t_cyl		*cyl;
+	t_disc		*disc;
 	t_light		light;
 	t_viewport	view;
 	//t_obj		*obj;

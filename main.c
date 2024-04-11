@@ -17,8 +17,8 @@ void	init_data(t_data *data)
 	data->sphere = NULL;
 	data->plan = NULL;
 	data->cyl = NULL;
+	data->disc = NULL;
 	data->error_trigger = 0;
-	//data->obj = NULL;
 }
 
 int	closing(t_data *data)

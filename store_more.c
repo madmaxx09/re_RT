@@ -35,6 +35,7 @@ void    manage_cyl(char **tab, t_data *data)
     if (ft_atob(tab[4], 2, 3, &new->height) == -1 || new->height <= 0)   
         ft_error_exit("Wrong file format", data);
     manage_rgb(tab, &new->rgb, data, 5);
+    new->dir = norm_vec(new->dir);
     new->next = NULL;
     if (data->cyl == NULL)
         data->cyl = new;

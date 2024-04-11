@@ -58,7 +58,7 @@ t_hit  hit_box(t_vec ori, t_vec dir, t_data *data)
     double  ret_val;
 
     hit.hitted = false;
-    ret_val = INFINITY;
+    ret_val = MAXFLOAT;
     tmp = *data;
     while (tmp.sphere != NULL)
     {
@@ -88,7 +88,7 @@ t_hit  hit_box(t_vec ori, t_vec dir, t_data *data)
                 hit.hitted = true;
                 ret_val = t;
                 hit.point = (t_vec){ori.x + dir.x * t, ori.y + dir.y * t, ori.z + dir.z * t};
-                hit.normal = tmp.plan->dir;
+                hit.normal = norm_vec(tmp.plan->dir);
                 hit.ray_in = dir;
                 hit.obj_color = tmp.plan->rgb;
                 hit.mat = tmp.plan->mat;
@@ -106,12 +106,30 @@ t_hit  hit_box(t_vec ori, t_vec dir, t_data *data)
                 hit.hitted = true;
                 ret_val = t;
                 hit.point = (t_vec){ori.x + dir.x * t, ori.y + dir.y * t, ori.z + dir.z * t};
-                hit.normal = tmp.cyl->dir;
+                hit.normal = normal_cyl(tmp.cyl, hit.point);
                 hit.ray_in = dir;
                 hit.obj_color = tmp.cyl->rgb;
                 hit.mat = 0;
             }
             tmp.cyl = tmp.cyl->next;
+        }
+    }
+    while (tmp.disc != NULL)
+    {
+        if (tmp.disc != NULL)
+        {
+            t = hit_disc(ori, dir, tmp.disc, ret_val);
+            if (t > 0.001 && t < ret_val)
+            {
+                hit.hitted = true;
+                ret_val = t;
+                hit.point = (t_vec){ori.x + dir.x * t, ori.y + dir.y * t, ori.z + dir.z * t};
+                hit.normal = tmp.disc->dir;
+                hit.ray_in = dir;
+                hit.obj_color = tmp.disc->rgb;
+                hit.mat = 0;
+            }
+            tmp.disc = tmp.disc->next;
         }
     }
     hit.root = ret_val;
@@ -125,6 +143,7 @@ t_rgb ray_shot(t_vec origine, t_vec direction, int depth, t_data *data)
 {
     t_hit   hit;
     t_rgb   blend;
+   //t_rgb   attenuation;
     double  blender;
     
     blender = 0;
@@ -137,16 +156,24 @@ t_rgb ray_shot(t_vec origine, t_vec direction, int depth, t_data *data)
     hit = hit_box(origine, direction, data);
     //si hit alors je renvoie la couleur de l'objet
 	if (hit.hitted == true)
-        return (hit.obj_color); 
-        //return mult_rgb(ray_shot(hit.point, get_new_dir(hit, &blender), depth - 1, data), hit.obj_color);
-        //return mult_rgb_dub(ray_shot(hit.point, get_new_dir(hit, &blender), depth - 1, data), 0.3);
+    {
+        // if (hit.mat == 1)
+        //     return (ray_shot(hit.point, get_new_dir(hit, &blender), depth - 1, data));
+        // else
+            //attenuation = hit.obj_color; 
+            return mult_rgb(ray_shot(hit.point, get_new_dir(hit, &blender), depth - 1, data), hit.obj_color);
+            //return mult_rgb_dub(ray_shot(hit.point, get_new_dir(hit, &blender), depth - 1, data), 0.5);
+    }
         
     // blend = ray_shot(hit.point, get_new_dir(hit, &blender), depth - 1, data);
     // blend = mult_rgb_dub(blend, blender);
     // blend = mult_rgb(blend, hit.obj_color);
     // if (depth == MAX_DEPTH)
     //     return (add_rgbs(blend, data->amli.color));
-    return (data->amli.color);
+    double t = 0.5*(direction.y + 1.0);
+    return (add_rgbs(mult_rgb_dub((t_rgb){1,1,1}, (1.0 - t)), mult_rgb_dub((t_rgb){0.5,0.7,1}, (t))));
+    //return (blend);
+    //return (data->amli.color);
 }
 
 double color_scaling(t_hit hit, t_vec dir)

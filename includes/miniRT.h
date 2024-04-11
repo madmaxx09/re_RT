@@ -16,11 +16,11 @@
 # include "structs.h"
 # include "mymath.h"
 # include "objects.h"
-# define ASPECT_RATIO (16.0/9.0)
-# define WIDTH 1400
+# define ASPECT_RATIO (12.0/9.0)
+# define WIDTH 1000
 # define HEIGHT (WIDTH / ASPECT_RATIO)
-# define MAX_DEPTH 20
-# define SAMPLES 20
+# define MAX_DEPTH 4
+# define SAMPLES 50
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 666
 # endif
@@ -34,6 +34,8 @@ void    get_viewport(t_data *data);
 double hit_sp(t_vec ori, t_vec direction, t_sphere *sphere);
 double hit_pl(t_vec ori, t_vec dir, t_plan *plan);
 double  hit_cyl(t_vec ori, t_vec dir, t_cyl *cyl, double t_max);
+double hit_disc(t_vec ori, t_vec dir, t_disc *disc, double t_max);
+t_vec  normal_cyl(t_cyl *cyl, t_vec point);
 
 t_vec	get_new_dir(t_hit hit, double *blender);
 //Parsing functions
