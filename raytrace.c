@@ -188,10 +188,13 @@ t_vec	get_new_dir(t_hit hit, double *blender)
 {
 	t_vec dir;
     
-    if (hit.mat == 1)
+	//je peux rajouter des composants différents pour complexifier 
+	//lambertian is 2 
+	//anything between 0 and 1 is metal with the amount between 0 and 1 being the fuzziness of this metal (0 not fuzzy at all)
+    if (hit.mat != 2)//if material is not 2 then it is metal and the mat number is the fuzzines of the reflection on this metal
     {
         *blender = 1;
-        return (reflect(hit.ray_in, hit.normal));
+        return (add_vec(reflect(hit.ray_in, hit.normal), mult_vec(random_unit_vec(), (hit.mat))));
     }
     dir = add_vec(hit.normal, random_unit_vec());
     if (near_zero(dir))
