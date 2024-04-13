@@ -176,6 +176,23 @@ t_rgb ray_shot(t_vec origine, t_vec direction, int depth, t_data *data)
     //return (data->amli.color);
 }
 
+    // //derniere recursion aucune lumiere ajoutée
+    // if (depth <= 0)
+    //     return ((t_rgb){0,0,0});
+    // //check si hit
+    // hit = hit_box(origine, direction, data);
+    // //si hit alors je renvoie la couleur de l'objet
+	// if (hit.hitted == false)
+	// {
+    // 	double t = 0.5*(direction.y + 1.0);
+    // 	return (add_rgbs(mult_rgb_dub((t_rgb){1,1,1}, (1.0 - t)), mult_rgb_dub((t_rgb){0.5,0.7,1}, (t))));
+	// }
+	// if (hit.hitted == true)
+    // {
+    // 	return mult_rgb(ray_shot(hit.point, get_new_dir(hit, &blender), depth - 1, data), hit.obj_color);
+    // }
+	// return 
+
 double color_scaling(t_hit hit, t_vec dir)
 {
     double cos;
