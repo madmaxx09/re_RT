@@ -47,7 +47,11 @@ char	*ft_dup(const char *s, int start, int end)
 	if (!word)
 		return (NULL);
 	while (start < end)
+	{
+		if (s[start] == '\n')
+			break;
 		word[i++] = s[start++];
+	}
 	word[i] = '\0';
 	return (word);
 }

@@ -20,7 +20,7 @@ int	ft_atob(const char *str, int b_p, int a_p, double *res)
 		str = str + 1;
 	if (ft_strchr(str, '.') != ft_strrchr(str, '.'))
 		return (-1);
-	if (ft_strchr(str, '.') && (int)(ft_strchr(str, '.') - str) > b_p)//
+	if (ft_strchr(str, '.') && (int)(ft_strchr(str, '.') - str) > b_p)
 		return (-1);
 	if (ft_strchr(str, '.') && (int)(ft_strlen(ft_strchr(str, '.') + 1)) > a_p)
 		return (-1);

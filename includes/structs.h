@@ -59,7 +59,7 @@ typedef struct s_plan
 	t_vec	pos;
 	t_vec	dir;
 	t_rgb	rgb;
-	int		mat;
+	double		mat;
 	struct s_plan	*next;
 }	t_plan;
 
@@ -68,7 +68,7 @@ typedef struct s_sphere
 	t_vec	pos;
 	double	diam;
 	t_rgb	rgb;
-	int		mat;
+	double		mat;
 	struct s_sphere *next;
 }	t_sphere; 
 
@@ -109,7 +109,7 @@ typedef struct s_viewport
 typedef struct	s_hit
 {
 	t_vec	ray_in;
-	int		mat;
+	double		mat;
 	t_vec	normal;
 	t_vec	point;
 	bool	hitted;

@@ -134,6 +134,7 @@ void print_args(t_data *data)
         printf("\tPosition: X: %f, Y: %f, Z: %f\n", data->sphere->pos.x, data->sphere->pos.y, data->sphere->pos.z);
         printf("\tDiameter: %f\n", data->sphere->diam);
         printf("\tColor: R: %f, G: %f, B: %f\n", data->sphere->rgb.r, data->sphere->rgb.g, data->sphere->rgb.b);
+		printf ("\tMat : %f\n", data->sphere->mat);
 		data->sphere = data->sphere->next;
 	}
 
