@@ -47,8 +47,8 @@ void manage_vectors(char **tab, t_vec *store ,t_data *data, int pos)
         i++;
     if (i != 3)
         ft_error_exit("Wrong file format", data);
-    ft_atob(tmp[0], 1, 2, &store->x);
-    ft_atob(tmp[1], 1, 2, &store->y);
-    ft_atob(tmp[2], 1, 2, &store->z);
+    ft_atob(tmp[0], 10, 2, &store->x);
+    ft_atob(tmp[1], 10, 2, &store->y);
+    ft_atob(tmp[2], 10, 2, &store->z);
     free_tabl(tmp); 
 }

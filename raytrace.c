@@ -137,44 +137,74 @@ t_hit  hit_box(t_vec ori, t_vec dir, t_data *data)
 }
 
 
-//chaque rebond s'add au precedent mais de moins en moins fort
-//pour l'instant on dirait que je n'ai pas besoin de data ici je pourrais potentiellement le remplacer par t_hit prev hit et si besoin je calle les deux vecs dans hit 
+// //chaque rebond s'add au precedent mais de moins en moins fort
+// //pour l'instant on dirait que je n'ai pas besoin de data ici je pourrais potentiellement le remplacer par t_hit prev hit et si besoin je calle les deux vecs dans hit 
+// t_rgb ray_shot(t_vec origine, t_vec direction, int depth, t_data *data) 
+// {
+//     t_hit   hit;
+//     t_rgb   blend;
+//    //t_rgb   attenuation;
+//     double  blender;
+    
+//     blender = 0;
+//     blend = (t_rgb){0,0,0};
+    
+//     //derniere recursion aucune lumiere ajoutée
+//     if (depth <= 0)
+//         return ((t_rgb){0,0,0});
+//     //check si hit
+//     hit = hit_box(origine, direction, data);
+//     //si hit alors je renvoie la couleur de l'objet
+// 	if (hit.hitted == true)
+//     {
+//         // if (hit.mat == 1)
+//         //     return (ray_shot(hit.point, get_new_dir(hit, &blender), depth - 1, data));
+//         // else
+//             //attenuation = hit.obj_color; 
+//             return mult_rgb(ray_shot(hit.point, get_new_dir(hit, &blender), depth - 1, data), hit.obj_color);
+//             //return mult_rgb_dub(ray_shot(hit.point, get_new_dir(hit, &blender), depth - 1, data), 0.5);
+//     }
+        
+//     // blend = ray_shot(hit.point, get_new_dir(hit, &blender), depth - 1, data);
+//     // blend = mult_rgb_dub(blend, blender);
+//     // blend = mult_rgb(blend, hit.obj_color);
+//     // if (depth == MAX_DEPTH)
+//     //     return (add_rgbs(blend, data->amli.color));
+//     double t = 0.5*(direction.y + 1.0);
+//     return (add_rgbs(mult_rgb_dub((t_rgb){1,1,1}, (1.0 - t)), mult_rgb_dub((t_rgb){0.5,0.7,1}, (t))));
+//     //return (blend);
+//     //return (data->amli.color);
+// }
+
 t_rgb ray_shot(t_vec origine, t_vec direction, int depth, t_data *data) 
 {
     t_hit   hit;
     t_rgb   blend;
-   //t_rgb   attenuation;
+    t_rgb   attenuation;
     double  blender;
     
     blender = 0;
     blend = (t_rgb){0,0,0};
-    
-    //derniere recursion aucune lumiere ajoutée
+
     if (depth <= 0)
         return ((t_rgb){0,0,0});
-    //check si hit
     hit = hit_box(origine, direction, data);
-    //si hit alors je renvoie la couleur de l'objet
-	if (hit.hitted == true)
+    if (hit.hitted == false)
     {
-        // if (hit.mat == 1)
-        //     return (ray_shot(hit.point, get_new_dir(hit, &blender), depth - 1, data));
-        // else
-            //attenuation = hit.obj_color; 
-            return mult_rgb(ray_shot(hit.point, get_new_dir(hit, &blender), depth - 1, data), hit.obj_color);
-            //return mult_rgb_dub(ray_shot(hit.point, get_new_dir(hit, &blender), depth - 1, data), 0.5);
+        return (data->amli.color);
+        // double t = 0.5*(direction.y + 1.0);
+        // return (add_rgbs(mult_rgb_dub((t_rgb){1,1,1}, (1.0 - t)), mult_rgb_dub((t_rgb){0.5,0.7,1}, (t))));
     }
-        
-    // blend = ray_shot(hit.point, get_new_dir(hit, &blender), depth - 1, data);
-    // blend = mult_rgb_dub(blend, blender);
-    // blend = mult_rgb(blend, hit.obj_color);
-    // if (depth == MAX_DEPTH)
-    //     return (add_rgbs(blend, data->amli.color));
-    double t = 0.5*(direction.y + 1.0);
-    return (add_rgbs(mult_rgb_dub((t_rgb){1,1,1}, (1.0 - t)), mult_rgb_dub((t_rgb){0.5,0.7,1}, (t))));
-    //return (blend);
-    //return (data->amli.color);
+    if (hit.hitted == true && hit.mat == 3)
+    {
+        return (hit.obj_color);
+        //print_rgb(blend);
+    }
+    attenuation = mult_rgb(ray_shot(hit.point, get_new_dir(hit, &blender), depth - 1, data), hit.obj_color);
+    //print_rgb(add_rgbs(attenuation, blend));
+    return (add_rgbs(attenuation, blend));
 }
+
 
     // //derniere recursion aucune lumiere ajoutée
     // if (depth <= 0)

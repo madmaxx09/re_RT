@@ -29,23 +29,57 @@ void manage_cam(char **tab, t_data *data)
 		ft_error_exit("Wrong file format", data);
 }
 
-void manage_light(char **tab, t_data *data)
+void	map_brightness(t_rgb *store, char *brightness, t_data *data, char **tab)
+{
+	t_rgb color;
+	double bright;
+
+	ft_atob(brightness, 1, 2, &bright);
+	color = (t_rgb){1,1,1};
+	if (tab != NULL)
+		manage_rgb(tab, &color, data, 3);
+	if (bright > 1 || bright < 0)
+		ft_error_exit("Wrong file format", data);
+	store->r = (color.r * 5 * bright);
+	store->g = (color.g * 5 * bright);
+	store->b = (color.b * 5 * bright);
+}
+
+//on va se dire qu'une luminosité nulle (0) = {1,1,1} et mapper ca jusque 5 pour le moment donc luminosite 1 = {5,5,5}
+//puis faire scale chaque composante de cette lumiere is rgb est spécifié dans le pdf 
+//taille de sphere de lum set a 1 de diametre
+//je pourrais me faire chier a faire de chaque objet une source de lumiere mais on verra plus tard 
+void manage_light(char **tab, t_data *data) //will have the option to specify the size or not
 {
 	int i;
+	t_sphere *new;
+	t_sphere *tmp;
 
 	i = 0;
 	if (data->light.init == 1)
 		ft_error_exit("Wrong file format", data);
 	data->light.init = 1;
-	manage_vectors(tab, &data->light.pos, data, 1);
-	if (ft_atob(tab[2], 1, 2, &data->light.ratio) == -1
-	 || data->light.ratio < 0 || data->light.ratio > 1)
-		ft_error_exit("Wrong file format", data);
+	new = gc_malloc(sizeof(t_sphere), data);
+	manage_vectors(tab, &new->pos, data, 1);
+	new->diam = 1; //1 pour le moment on verra comment adapter
 	while (tab[i])
 		i++;
-	if (i <= 4)
-		return ;
-	manage_rgb(tab, &data->light.rgb, data, 3);
+	if (i <= 3)
+		map_brightness(&new->rgb, tab[2], data, NULL);
+	else
+		map_brightness(&new->rgb, tab[2], data, tab);
+	print_rgb(new->rgb);
+	new->mat = 3;
+	new->next = NULL;
+	if (data->sphere == NULL)
+		data->sphere = new;
+	else
+	{
+		tmp = data->sphere;
+		while (tmp->next != NULL)
+			tmp = tmp->next;
+		tmp->next = new;
+	}
 }
 
 void manage_sphere(char **tab, t_data *data)
