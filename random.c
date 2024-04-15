@@ -22,13 +22,12 @@ inline t_vec    random_vec(double min, double max)
     return ((t_vec){rand_range(min, max), rand_range(min, max), rand_range(min, max)});
 }
 
-inline t_vec    random_vec_in_unit_sphere(void)
+inline t_vec    random_vec_in_unit_sphere(void) //changer la distrib pour envoyer vers la lumiere
 {
     t_vec   p;
     while (1)
     {
         p = random_vec(-1, 1);
-        //print_vec(p);
         if (length_squared(p) < 1)
             return (p);
     }

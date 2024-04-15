@@ -180,48 +180,29 @@ t_rgb ray_shot(t_vec origine, t_vec direction, int depth, t_data *data)
 {
     t_hit   hit;
     t_rgb   blend;
-    t_rgb   attenuation;
-    double  blender;
-    
-    blender = 0;
     blend = (t_rgb){0,0,0};
-
     if (depth <= 0)
         return ((t_rgb){0,0,0});
     hit = hit_box(origine, direction, data);
-    if (hit.hitted == false)
+    if (hit.hitted == false) // choisir si on met un background ou bien seulement amli
     {
-        return (data->amli.color);
-        // double t = 0.5*(direction.y + 1.0);
-        // return (add_rgbs(mult_rgb_dub((t_rgb){1,1,1}, (1.0 - t)), mult_rgb_dub((t_rgb){0.5,0.7,1}, (t))));
+        //return (data->amli.color);
+        double t = 0.5*(direction.y + 1.0);
+        return (add_rgbs(mult_rgb_dub((t_rgb){1,1,1}, (1.0 - t)), mult_rgb_dub((t_rgb){0.5,0.7,1}, (t))));
     }
     if (hit.hitted == true && hit.mat == 3)
     {
         return (hit.obj_color);
         //print_rgb(blend);
     }
-    attenuation = mult_rgb(ray_shot(hit.point, get_new_dir(hit, &blender), depth - 1, data), hit.obj_color);
-    //print_rgb(add_rgbs(attenuation, blend));
-    return (add_rgbs(attenuation, blend));
+    double pdf = scatter_pdf(&hit);
+    (void)pdf;
+    blend = mult_rgb(ray_shot(hit.point, hit.new_dir, depth - 1, data), hit.obj_color);
+    if (depth == MAX_DEPTH)
+        return (add_rgbs(blend, data->amli.color));
+
+    return (blend);
 }
-
-
-    // //derniere recursion aucune lumiere ajoutée
-    // if (depth <= 0)
-    //     return ((t_rgb){0,0,0});
-    // //check si hit
-    // hit = hit_box(origine, direction, data);
-    // //si hit alors je renvoie la couleur de l'objet
-	// if (hit.hitted == false)
-	// {
-    // 	double t = 0.5*(direction.y + 1.0);
-    // 	return (add_rgbs(mult_rgb_dub((t_rgb){1,1,1}, (1.0 - t)), mult_rgb_dub((t_rgb){0.5,0.7,1}, (t))));
-	// }
-	// if (hit.hitted == true)
-    // {
-    // 	return mult_rgb(ray_shot(hit.point, get_new_dir(hit, &blender), depth - 1, data), hit.obj_color);
-    // }
-	// return 
 
 double color_scaling(t_hit hit, t_vec dir)
 {
@@ -231,21 +212,19 @@ double color_scaling(t_hit hit, t_vec dir)
     return (cos);
 }
 
-t_vec	get_new_dir(t_hit hit, double *blender)
+t_vec	get_new_dir(t_hit *hit)
 {
 	t_vec dir;
     
 	//je peux rajouter des composants différents pour complexifier 
 	//lambertian is 2 
 	//anything between 0 and 1 is metal with the amount between 0 and 1 being the fuzziness of this metal (0 not fuzzy at all)
-    if (hit.mat != 2)//if material is not 2 then it is metal and the mat number is the fuzzines of the reflection on this metal
+    if (hit->mat != 2)//if material is not 2 then it is metal and the mat number is the fuzzines of the reflection on this metal
     {
-        *blender = 1;
-        return (add_vec(reflect(hit.ray_in, hit.normal), mult_vec(random_unit_vec(), (hit.mat))));
+        return (add_vec(reflect(hit->ray_in, hit->normal), mult_vec(random_unit_vec(), (hit->mat))));
     }
-    dir = add_vec(hit.normal, random_unit_vec());
+    dir = add_vec(hit->normal, random_unit_vec());
     if (near_zero(dir))
-        dir = hit.normal;
-    //*blender = color_scaling(hit, dir);
+        dir = hit->normal;
 	return (dir);
 }

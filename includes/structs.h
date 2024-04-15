@@ -109,6 +109,7 @@ typedef struct s_viewport
 typedef struct	s_hit
 {
 	t_vec	ray_in;
+	t_vec	new_dir;
 	double		mat;
 	t_vec	normal;
 	t_vec	point;

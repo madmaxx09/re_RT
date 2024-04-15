@@ -21,6 +21,7 @@
 # define HEIGHT (WIDTH / ASPECT_RATIO)
 # define MAX_DEPTH 4
 # define SAMPLES 30
+# define PI 3.14159265
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 666
 # endif
@@ -37,7 +38,8 @@ double  hit_cyl(t_vec ori, t_vec dir, t_cyl *cyl, double t_max);
 double hit_disc(t_vec ori, t_vec dir, t_disc *disc, double t_max);
 t_vec  normal_cyl(t_cyl *cyl, t_vec point);
 
-t_vec	get_new_dir(t_hit hit, double *blender);
+t_vec	get_new_dir(t_hit *hit);
+double  scatter_pdf(t_hit *hit);
 //Parsing functions
 
 int	ft_atob(const char *str, int b_p, int a_p, double *res);
