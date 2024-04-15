@@ -19,8 +19,9 @@
 # define ASPECT_RATIO (12.0/9.0)
 # define WIDTH 1000
 # define HEIGHT (WIDTH / ASPECT_RATIO)
+# define TOTAL (WIDTH * HEIGHT)
 # define MAX_DEPTH 4
-# define SAMPLES 30
+# define SAMPLES 80
 # define PI 3.14159265
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 666
@@ -40,6 +41,7 @@ t_vec  normal_cyl(t_cyl *cyl, t_vec point);
 
 t_vec	get_new_dir(t_hit *hit);
 double  scatter_pdf(t_hit *hit);
+void    denoise_and_render(t_data *data, t_rgb *image);
 //Parsing functions
 
 int	ft_atob(const char *str, int b_p, int a_p, double *res);

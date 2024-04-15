@@ -132,5 +132,6 @@ typedef struct s_data
 	void		*mlx;
 	void		*wind;
 	t_malloc	*head;
+	t_rgb		*image;
 	int			error_trigger;
 }	t_data;

@@ -19,6 +19,8 @@ void	init_data(t_data *data)
 	data->cyl = NULL;
 	data->disc = NULL;
 	data->error_trigger = 0;
+	data->image = (t_rgb *)malloc(sizeof(t_rgb) * WIDTH * HEIGHT);
+	ft_bzero(data->image, sizeof(t_rgb) * WIDTH * HEIGHT);
 }
 
 int	closing(t_data *data)
