@@ -37,9 +37,9 @@ void    raytrace(t_data *data)
     t_rgb blend;
 
     view = data->view;
-    for (int j = 0; j < HEIGHT; ++j)
+    for (int j = 0; j < HEIGHT; j++)
     {
-        for (int i = 0; i < WIDTH; ++i)
+        for (int i = 0; i < WIDTH; i++)
         {
             blend = (t_rgb){0,0,0};
 			for (int sample = 0; sample < SAMPLES; sample++)
@@ -49,19 +49,14 @@ void    raytrace(t_data *data)
 				color = ray_shot(view.pos, dif_vec(px_cent, view.pos), MAX_DEPTH, data);
                 blend = add_rgbs(blend, div_rgb(color, SAMPLES));
 			}
-            //print_rgb(blend);
             store_rgb(&data->image[j * WIDTH + i].r, blend.r);
             store_rgb(&data->image[j * WIDTH + i].g, blend.g);
             store_rgb(&data->image[j * WIDTH + i].b, blend.b);
-            //mlx_pixel_put(data->mlx, data->wind, i, j, rgb_to_color(blend));
-            //store_rgb(&data->image[j * WIDTH + i], blend);
-            // if (data->image[j * WIDTH + i].r > 0 || data->image[j * WIDTH + i].g > 0 || data->image[j * WIDTH + i].b > 0)
-            //     print_rgb(data->image[j * WIDTH + i]);
-            //mlx_pixel_put(data->mlx, data->wind, i, j, rgb_to_color(data->image[j * WIDTH + i]));
         }
     }
-    //from here should be in the denoise_and_render function
-    denoise_and_render(data, NULL);
+    for (int m = 0; m < DENOISE_PASS; m++)
+        denoise_and_render(data, NULL);
+    print_image(data->image, data);
 }
 
 t_hit  hit_box(t_vec ori, t_vec dir, t_data *data)
@@ -201,8 +196,8 @@ t_rgb ray_shot(t_vec origine, t_vec direction, int depth, t_data *data)
     hit = hit_box(origine, direction, data);
     if (hit.hitted == false) // choisir si on met un background ou bien seulement amli (je mettrai l'option dans le parser)
     {
-        return ((t_rgb){0,0,0});
-        //return (data->amli.color);
+        //return ((t_rgb){0,0,0});
+        return (data->amli.color);
         // double t = 0.5*(direction.y + 1.0);
         // return (add_rgbs(mult_rgb_dub((t_rgb){1,1,1}, (1.0 - t)), mult_rgb_dub((t_rgb){0.5,0.7,1}, (t))));
     }
@@ -215,8 +210,11 @@ t_rgb ray_shot(t_vec origine, t_vec direction, int depth, t_data *data)
     (void)pdf;
     blend = mult_rgb(ray_shot(hit.point, hit.new_dir, depth - 1, data), hit.obj_color);
     if (depth == MAX_DEPTH)
-        return (add_rgbs(blend, data->amli.color));
-
+        {
+            if (is_black(blend))
+                return ((t_rgb){0,0,0});
+            return (add_rgbs(blend, data->amli.color));
+        }
     return (blend);
 }
 

@@ -5,6 +5,7 @@ double  random_double(void);
 double length_squared(t_vec vec);
 t_vec    random_vec(double min, double max);
 bool near_zero(t_vec test);
+double gaussian_weight(int x, int y, double sigma);
 
 //vector math 
 

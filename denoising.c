@@ -18,19 +18,16 @@ void    print_image(t_rgb *img, t_data *data)
     (void)img;
 
     printf("printing\n");
-    i = 1;
-    j = 1;
+    i = 0;
+    j = 0;
     while (j < HEIGHT)
     {
         while (i < WIDTH)
         {
-            // if (data->image[j * WIDTH + i].r > 0 || data->image[j * WIDTH + i].g > 0 || data->image[j * WIDTH + i].b > 0)
-            //     print_rgb(data->image[j * WIDTH + i]);
-            //mlx_pixel_put(data->mlx, data->wind, i, j, rgb_to_color(data->image[j * WIDTH + i]));
             mlx_pixel_put(data->mlx, data->wind, i, j, rgb_to_color(img[j * WIDTH + i]));
             i++; 
         }
-        i = 1;
+        i = 0;
         j++;
     }
 }
@@ -45,62 +42,61 @@ bool is_black(t_rgb pixel)
     return (false);
 }
 
-int are_they_black(int j, int i, t_rgb *image, t_rgb *blend)//ici faire une moyenne (mediane) et compter les pixels noir return l'un ou l'autre en fonction
+
+                // if (blend.r > 1 || blend.g > 1 || blend.b > 1)
+                // {
+                //     printf("new sample is : %f\n", sample);
+                //     print_rgb(image[(j + k) * WIDTH + (i + l)]);
+                //     printf("between pix up blend down\n");
+                //     print_rgb(blend);
+                // }
+
+inline double gaussian_weight(int x, int y, double sigma)
+{
+    return exp(-((x * x + y * y) / (2 * sigma * sigma)));
+}
+
+t_rgb are_they_black(int j, int i, t_rgb *image)//ici faire une moyenne (mediane) et compter les pixels noir return l'un ou l'autre en fonction
 {
     int t = 0;
-    int k = -1;
+    int k = -1 * DENOISE_SAMPLE;
     int l;
-    (void)blend;
+    double total_w = 0.0;
+
+    //double sample = (double)(1 / ((1 + (DENOISE_SAMPLE * 2)) * (1 + (DENOISE_SAMPLE * 2))));
+    //printf("sample : %f\n", sample);
+    t_rgb blend = (t_rgb){0,0,0};
 
     while (k <= 1)
     {
-        l = -1;
+        l = -1 * DENOISE_SAMPLE;
         while (l <= 1)
         {
-            // Check if the pixel is within image boundaries
             if (j + k >= 0 && j + k < HEIGHT && i + l >= 0 && i + l < WIDTH)
             {
-                if ((k != 0 && l != 0) && is_black(image[(j + k) * WIDTH + (i + l)]))
+                double weight = gaussian_weight(abs(k), abs(l), DENOISE_SIGMA);
+                blend = (add_rgbs(blend, mult_rgb_dub(image[(j + k) * WIDTH + (i + l)], weight)));
+                total_w += weight;
+                if (is_black(image[(j + k) * WIDTH + (i + l)]))
                     t++;
             }
             l++;
         }
         k++;
     }
-    return (t > 7) ? 1 : 0;
+    if (total_w > 0)
+    {
+        blend.r /= total_w;
+        blend.g /= total_w;
+        blend.b /= total_w;
+    }
+    if (t > (7 * DENOISE_SAMPLE))
+        return ((t_rgb){0,0,0});
+    else
+        return (blend);
 }
 
-// int are_they_black(int j, int i, t_rgb *image)
-// {
-//     int t = 0;
-
-//     // Check top pixel
-//     if (j - 1 >= 0 && is_black(image[(j - 1) * WIDTH + i])) {
-//         t++;
-//     }
-//     // Check bottom pixel
-//     if (j + 1 < HEIGHT && is_black(image[(j + 1) * WIDTH + i])) {
-//         t++;
-//     }
-//     // Check left pixel
-//     if (i - 1 >= 0 && is_black(image[j * WIDTH + (i - 1)])) {
-//         t++;
-//     }
-//     // Check right pixel
-//     if (i + 1 < WIDTH && is_black(image[j * WIDTH + (i + 1)])) {
-//         t++;
-//     }
-
-//     // If all four surrounding pixels are black, return true
-//     return (t == 4) ? 1 : 0;
-// }
-
-t_rgb   denoise_pixel(int j, int i, t_rgb *image)//ici que le magie doit opérer
-{
-    //printf("t\n");
-    t_rgb center = image[j * WIDTH + i];
-    t_rgb blend;
-    blend = (t_rgb){1,1,1};
+    //blend = (t_rgb){1,1,1};
     //printf("tet\n");
     // t_rgb up = *image[(j - 1) * WIDTH + i];
     // t_rgb down = *image[(j + 1) * WIDTH + i];
@@ -112,58 +108,69 @@ t_rgb   denoise_pixel(int j, int i, t_rgb *image)//ici que le magie doit opérer
     // t_rgb down_left = *image[(j + 1) * WIDTH + (i - 1)];
     // t_rgb down_right = *image[(j + 1) * WIDTH + (i + 1)];
 
+t_rgb   denoise_pixel(int j, int i, t_rgb *image)//ici que le magie doit opérer
+{
+    //printf("t\n");
+    //t_rgb center = image[j * WIDTH + i];
+    //t_rgb blend;
+    //blend = (t_rgb){0,0,0};
+
     //on va traiter r g et b independemment;
     //ok test si 8 pixels adjacents sont noir alors pixel central est noir 
-    if (are_they_black(j, i, image, &blend))//7 arbitrairement mais on va changer en fonction de SAMPLE plus tard
-    {
-        //print_rgb(center);
-        return ((t_rgb){0,0,0});
-    }
-    
-    return (center);
+    // if (are_they_black(j, i, image, &blend, 1))//7 arbitrairement mais on va changer en fonction de SAMPLE plus tard
+    // {
+    //     //print_rgb(center);
+    //     return ((t_rgb){0,0,0});
+    // }
+    return (are_they_black(j, i, image));
+    //return (blend);
 }
 
-void print_prog(int process)
+void    assign_img(t_data *data, t_rgb *denoised)
 {
-    int progress = (int)(((float)process / TOTAL) * 100);
-    int bar_length = progress / 2;
+    int i;
+    int j;
 
-    printf("\rDenoising : [");
-    for (int k = 0; k < bar_length; k++) {
-        printf("#");
+    i = 0;
+    j = 0;
+    while (j < HEIGHT)
+    {
+        while (i < WIDTH)
+        {
+            data->image[j * WIDTH + i] = denoised[j * WIDTH + i];
+            i++;
+        }
+        i = 0;
+        j++;
     }
-    for (int k = bar_length; k < 50; k++) {
-        printf(" ");
-    }
-    printf("] %d%%", progress);
 }
 
 void    denoise_and_render(t_data *data, t_rgb *image)
 {
-    t_rgb *denoised;
     (void)image;
+    t_rgb *denoised;
     int i;
     int j;
-    //int process = 0;
 
-    i = 1;
-    j = 1;
+    i = 0;
+    j = 0;
 
-    printf("test\n");
+    printf("denoise\n");
     denoised = malloc(sizeof(t_rgb) * WIDTH * HEIGHT);
     ft_bzero(denoised, sizeof(t_rgb) * WIDTH * HEIGHT);
     while (j < HEIGHT)
     {
         while (i < WIDTH)
         {
-            //process++;
-            mlx_pixel_put(data->mlx, data->wind, i, j, rgb_to_color(denoise_pixel(j, i, data->image)));
-            //denoised[j * WIDTH + i] = denoise_pixel(j, i, data->image);
-            //print_prog(process);
+            //mlx_pixel_put(data->mlx, data->wind, i, j, rgb_to_color(denoise_pixel(j, i, data->image)));
+            denoised[j * WIDTH + i] = denoise_pixel(j, i, data->image);
             i++; 
         }
         i = 0;
         j++;
     }
-    //print_image(denoised, data);
+    assign_img(data, denoised);
+    //data->image = denoised;
+    free(denoised);
+    //print_image(data->image, data);
 }

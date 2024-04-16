@@ -7,7 +7,6 @@
 # include "../libft/libft.h"
 # include "mlx.h"
 # include <sys/types.h>
-//# include "../minilibx_linux/mlx.h"
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <string.h>
@@ -20,8 +19,11 @@
 # define WIDTH 1000
 # define HEIGHT (WIDTH / ASPECT_RATIO)
 # define TOTAL (WIDTH * HEIGHT)
-# define MAX_DEPTH 4
-# define SAMPLES 80
+# define MAX_DEPTH 10
+# define SAMPLES 100
+# define DENOISE_PASS 2
+# define DENOISE_SIGMA 0.3
+# define DENOISE_SAMPLE 1.0 
 # define PI 3.14159265
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 666
@@ -31,6 +33,8 @@ void	ft_error_exit(char *str, t_data *data);
 void		*gc_malloc(size_t required_memory, t_data *data);
 t_rgb    ray_shot(t_vec origine, t_vec direction, int depth, t_data *data);
 void    get_viewport(t_data *data);
+void    print_image(t_rgb *img, t_data *data);
+bool is_black(t_rgb pixel);
 
 //hit functions
 double hit_sp(t_vec ori, t_vec direction, t_sphere *sphere);

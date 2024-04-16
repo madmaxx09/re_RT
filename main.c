@@ -51,6 +51,7 @@ int main (int argc, char **argv)
 		ft_error_exit("This program needs 1 file as argument", &data);
 	init_data(&data);
 	parse_rt(argv[1], &data);
+	printf("DEPTH = %d\nSAMPLES = %d\nDENOISE_PASS = %d\nDENOISE_SIGMA = %f\nDENOISE_SAMPLE = %f\n", MAX_DEPTH, SAMPLES, DENOISE_PASS, DENOISE_SIGMA, DENOISE_SAMPLE);
 	//create_obj_lst(&data);
 	//print_args(&data);
 	mlx_launch(&data);
