@@ -60,12 +60,7 @@ int are_they_black(int j, int i, t_rgb *image, t_rgb *blend)//ici faire une moye
             // Check if the pixel is within image boundaries
             if (j + k >= 0 && j + k < HEIGHT && i + l >= 0 && i + l < WIDTH)
             {
-                if (k == 0 && l == 0)
-                {
-                    l++;
-                    continue; 
-                }
-                if (is_black(image[(j + k) * WIDTH + (i + l)]))
+                if ((k != 0 && l != 0) && is_black(image[(j + k) * WIDTH + (i + l)]))
                     t++;
             }
             l++;
