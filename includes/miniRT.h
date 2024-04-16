@@ -22,8 +22,8 @@
 # define MAX_DEPTH 10
 # define SAMPLES 100
 # define DENOISE_PASS 2
-# define DENOISE_SIGMA 0.3
-# define DENOISE_SAMPLE 1.0 
+# define DENOISE_SIGMA 0.4
+# define DENOISE_SAMPLE 3.0 
 # define PI 3.14159265
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 666

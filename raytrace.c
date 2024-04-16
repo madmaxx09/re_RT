@@ -202,10 +202,7 @@ t_rgb ray_shot(t_vec origine, t_vec direction, int depth, t_data *data)
         // return (add_rgbs(mult_rgb_dub((t_rgb){1,1,1}, (1.0 - t)), mult_rgb_dub((t_rgb){0.5,0.7,1}, (t))));
     }
     if (hit.hitted == true && hit.mat == 3)
-    {
         return (hit.obj_color);
-        //print_rgb(blend);
-    }
     double pdf = scatter_pdf(&hit);
     (void)pdf;
     blend = mult_rgb(ray_shot(hit.point, hit.new_dir, depth - 1, data), hit.obj_color);
@@ -237,7 +234,7 @@ t_vec	get_new_dir(t_hit *hit)
     {
         return (add_vec(reflect(hit->ray_in, hit->normal), mult_vec(random_unit_vec(), (hit->mat))));
     }
-    dir = add_vec(hit->normal, random_unit_vec());
+    dir = add_vec(hit->normal, random_unit_vec()); //si je veux renvoyer + de rayon vers la lum c'est ici 
     if (near_zero(dir))
         dir = hit->normal;
 	return (dir);
