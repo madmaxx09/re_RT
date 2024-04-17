@@ -54,21 +54,13 @@ bool is_black(t_rgb pixel)
     return (false);
 }
 
-
-                // if (blend.r > 1 || blend.g > 1 || blend.b > 1)
-                // {
-                //     printf("new sample is : %f\n", sample);
-                //     print_rgb(image[(j + k) * WIDTH + (i + l)]);
-                //     printf("between pix up blend down\n");
-                //     print_rgb(blend);
-                // }
-
 inline double gaussian_weight(int x, int y, double sigma)
 {
     return exp(-((x * x + y * y) / (2 * sigma * sigma)));
 }
 
-int total_black(int j, int i, t_rgb *image)//ici faire une moyenne (mediane) et compter les pixels noir return l'un ou l'autre en fonction
+//ici faire une moyenne (mediane) et compter les pixels noir return l'un ou l'autre en fonction
+int total_black(int j, int i, t_rgb *image)
 {
     double t = 0;
     int k = -1 * DENOISE_SAMPLE;
@@ -125,12 +117,12 @@ t_rgb denoise_pixel(int j, int i, t_rgb *image)//ici faire une moyenne (mediane)
         }
         k++;
     }
-    if (total_w > 0)
-    {
+    // if (total_w > 0)
+    // {
         blend.r /= total_w;
         blend.g /= total_w;
         blend.b /= total_w;
-    }
+    // }
         return (blend);
 }
 

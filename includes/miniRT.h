@@ -24,7 +24,7 @@
 # define DENOISE_PASS 1
 # define DENOISE_SIGMA 0.4
 # define DENOISE_SAMPLE 1.0
-# define BLACK_TRESHHOLD 0.25
+# define BLACK_TRESHHOLD 0.8
 # define EPSILON 1e-8
 # define PI 3.14159265
 # ifndef BUFFER_SIZE
