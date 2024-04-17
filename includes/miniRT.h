@@ -20,10 +20,11 @@
 # define HEIGHT (WIDTH / ASPECT_RATIO)
 # define TOTAL (WIDTH * HEIGHT)
 # define MAX_DEPTH 4
-# define SAMPLES 20
-# define DENOISE_PASS 3
+# define SAMPLES 100
+# define DENOISE_PASS 1
 # define DENOISE_SIGMA 0.4
-# define DENOISE_SAMPLE 2.0
+# define DENOISE_SAMPLE 1.0
+# define BLACK_TRESHHOLD 0.25
 # define EPSILON 1e-8
 # define PI 3.14159265
 # ifndef BUFFER_SIZE
@@ -46,7 +47,7 @@ t_vec  normal_cyl(t_cyl *cyl, t_vec point);
 
 t_vec	get_new_dir(t_hit *hit);
 double  scatter_pdf(t_hit *hit);
-void    denoise_and_render(t_data *data, t_rgb *image);
+void    denoise_and_render(t_data *data);
 //Parsing functions
 
 int	ft_atob(const char *str, int b_p, int a_p, double *res);
@@ -55,14 +56,14 @@ void print_args(t_data *data);
 void    manage_rgb(char **tab, t_rgb *store, t_data *data, int pos);
 void manage_vectors(char **tab, t_vec *store ,t_data *data, int pos);
 void free_tabl(char **tab);
-void manage_ambiant(char **tab, t_data *data);
-void manage_cam(char **tab, t_data *data);
-void manage_light(char **tab, t_data *data);
-void manage_sphere(char **tab, t_data *data);
-void manage_plan(char **tab, t_data *data);
-void    manage_cyl(char **tab, t_data *data);
+void manage_ambiant(char **tab, t_data *data, int split_count);
+void manage_cam(char **tab, t_data *data, int split_count);
+void manage_light(char **tab, t_data *data, int split_count);
+void manage_sphere(char **tab, t_data *data, int split_count);
+void manage_plan(char **tab, t_data *data, int split_count);
+void    manage_cyl(char **tab, t_data *data, int split_count);
 int	int_from_str(const char *str, int min, int max, int *res);
-void    manage_background(char **tab, t_data *data);
+void    manage_background(char **tab, t_data *data, int split_count);
 
 //mlx hooks
 int presskey(int key, t_data *data);

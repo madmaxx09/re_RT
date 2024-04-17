@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raytrace.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mdor <marvin@42.fr>                        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/17 19:47:10 by mdor              #+#    #+#             */
+/*   Updated: 2024/04/17 19:47:13 by mdor             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./includes/miniRT.h"
 
 //la fonction qui envera les rayons sera recursive 
@@ -14,7 +26,7 @@
 //sur un seul thread zzz
 
 
-t_vec	px_sample_square(t_vec x_pix, t_vec y_pix)
+inline t_vec	px_sample_square(t_vec x_pix, t_vec y_pix)
 {
 	double x;
 	double y;
@@ -22,11 +34,6 @@ t_vec	px_sample_square(t_vec x_pix, t_vec y_pix)
 	x = -0.5 + random_double();
 	y = -0.5 + random_double();
 	return (add_vec(mult_vec(x_pix, x), mult_vec(y_pix, y)));
-}
-
-void    store_rgb(double *store, double val)
-{
-    *store = val;
 }
 
 void    raytrace(t_data *data)
@@ -49,9 +56,7 @@ void    raytrace(t_data *data)
 				color = ray_shot(view.pos, dif_vec(px_cent, view.pos), MAX_DEPTH, data);
                 blend = add_rgbs(blend, div_rgb(color, SAMPLES));
 			}
-            store_rgb(&data->image[j * WIDTH + i].r, blend.r);
-            store_rgb(&data->image[j * WIDTH + i].g, blend.g);
-            store_rgb(&data->image[j * WIDTH + i].b, blend.b);
+            data->image[j * WIDTH + i] = blend;
         }
     }
 }
@@ -140,48 +145,12 @@ t_hit  hit_box(t_vec ori, t_vec dir, t_data *data)
         }
     }
     hit.root = ret_val;
+    // {
+    //     hit.point = (t_vec){ori.x + dir.x * t, ori.y + dir.y * t, ori.z + dir.z * t};
+
+    // }
     return (hit);
 }
-
-
-// //chaque rebond s'add au precedent mais de moins en moins fort
-// //pour l'instant on dirait que je n'ai pas besoin de data ici je pourrais potentiellement le remplacer par t_hit prev hit et si besoin je calle les deux vecs dans hit 
-// t_rgb ray_shot(t_vec origine, t_vec direction, int depth, t_data *data) 
-// {
-//     t_hit   hit;
-//     t_rgb   blend;
-//    //t_rgb   attenuation;
-//     double  blender;
-    
-//     blender = 0;
-//     blend = (t_rgb){0,0,0};
-    
-//     //derniere recursion aucune lumiere ajoutée
-//     if (depth <= 0)
-//         return ((t_rgb){0,0,0});
-//     //check si hit
-//     hit = hit_box(origine, direction, data);
-//     //si hit alors je renvoie la couleur de l'objet
-// 	if (hit.hitted == true)
-//     {
-//         // if (hit.mat == 1)
-//         //     return (ray_shot(hit.point, get_new_dir(hit, &blender), depth - 1, data));
-//         // else
-//             //attenuation = hit.obj_color; 
-//             return mult_rgb(ray_shot(hit.point, get_new_dir(hit, &blender), depth - 1, data), hit.obj_color);
-//             //return mult_rgb_dub(ray_shot(hit.point, get_new_dir(hit, &blender), depth - 1, data), 0.5);
-//     }
-        
-//     // blend = ray_shot(hit.point, get_new_dir(hit, &blender), depth - 1, data);
-//     // blend = mult_rgb_dub(blend, blender);
-//     // blend = mult_rgb(blend, hit.obj_color);
-//     // if (depth == MAX_DEPTH)
-//     //     return (add_rgbs(blend, data->amli.color));
-//     double t = 0.5*(direction.y + 1.0);
-//     return (add_rgbs(mult_rgb_dub((t_rgb){1,1,1}, (1.0 - t)), mult_rgb_dub((t_rgb){0.5,0.7,1}, (t))));
-//     //return (blend);
-//     //return (data->amli.color);
-// }
 
 t_rgb ray_shot(t_vec origine, t_vec direction, int depth, t_data *data) 
 {
@@ -194,13 +163,11 @@ t_rgb ray_shot(t_vec origine, t_vec direction, int depth, t_data *data)
     if (hit.hitted == false) // choisir si on met un background ou bien seulement amli (je mettrai l'option dans le parser)
     {
         if (data->back_set == 1)
-            return (color_blend(0.5*(direction.y + 1.0), data->back_1, data->back_2));
+            return (color_blend(0.5*(direction.y + 1.0), data->back_2, data->back_1));
         else
             return ((t_rgb){0,0,0});
-        
-        //return (data->amli.color);
     }
-    if (hit.hitted == true && hit.mat == 3)// ????????????/
+    if (hit.hitted == true && hit.mat == 3)// hit light 
         return (hit.obj_color);
     double pdf = scatter_pdf(&hit);
     (void)pdf;

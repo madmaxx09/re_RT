@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   random.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mdor <marvin@42.fr>                        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/17 19:46:54 by mdor              #+#    #+#             */
+/*   Updated: 2024/04/17 19:47:02 by mdor             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./includes/miniRT.h"
 
 inline double length_squared(t_vec vec)
@@ -6,13 +18,13 @@ inline double length_squared(t_vec vec)
 }
 
 //random double between [0, 1]
-double  random_double(void)
+inline double  random_double(void)
 {
     return (rand() / (RAND_MAX + 1.0));
 }
 
 //random double between [min, max]
-double rand_range(double min, double max)
+inline double rand_range(double min, double max)
 {
 	return (min + (max - min) * random_double());
 }

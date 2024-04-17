@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mdor <marvin@42.fr>                        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/17 19:46:38 by mdor              #+#    #+#             */
+/*   Updated: 2024/04/17 19:46:40 by mdor             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./includes/miniRT.h"
 
 void	check_format(char *rt_file, t_data *data)
@@ -19,21 +31,20 @@ void	process_line(char *line, t_data *data)
 {
 	char	**tab;
 	tab = ft_split(line, ' ');
-	// printf("test : %s\n", tab[0]);
 	if (ft_strcmp(tab[0], "A") == 0)
-		manage_ambiant(tab, data);
+		manage_ambiant(tab, data, ft_split_counter(tab));
 	else if (ft_strcmp(tab[0], "C") == 0)
-		manage_cam(tab, data);
+		manage_cam(tab, data, ft_split_counter(tab));
 	else if (ft_strcmp(tab[0], "L") == 0)
-		manage_light(tab, data);
+		manage_light(tab, data, ft_split_counter(tab));
 	else if (ft_strcmp(tab[0], "sp") == 0)
-		manage_sphere(tab, data);
+		manage_sphere(tab, data, ft_split_counter(tab));
 	else if (ft_strcmp(tab[0], "pl") == 0)
-		manage_plan(tab, data);
+		manage_plan(tab, data, ft_split_counter(tab));
 	else if (ft_strcmp(tab[0], "cy") == 0)
-		manage_cyl(tab, data);
+		manage_cyl(tab, data, ft_split_counter(tab));
 	else if (ft_strcmp(tab[0], "B") == 0)
-		manage_background(tab, data);
+		manage_background(tab, data, ft_split_counter(tab));
 	else
 		ft_error_exit("Wrong file format : wrong first char", data);
 	free_tabl(tab);
@@ -72,8 +83,8 @@ void	get_cyl_top_bot(t_data *data)
 	tmp = *data;
 	while (tmp.cyl != NULL)
 	{
-		add_discs(tmp.cyl, data, 0);//adding top disc
-		add_discs(tmp.cyl, data, 1);//adding bot disc 
+		add_discs(tmp.cyl, data, 0);
+		add_discs(tmp.cyl, data, 1);
 		tmp.cyl = tmp.cyl->next;
 	}	
 }
@@ -82,9 +93,7 @@ void	parse_rt(char *rt_file, t_data *data)
 {
 	int		fd;
 	char	*line;
-	int		error;
 	
-	error = 0;
 	check_format(rt_file, data);
 	fd = open(rt_file, O_RDONLY);
 	if (fd == -1)
@@ -93,10 +102,7 @@ void	parse_rt(char *rt_file, t_data *data)
 	while (line)
 	{
 		process_line(line, data);
-		// printf("test : %s\n", line);
 		free(line);
-		if (error == 1)
-			ft_error_exit("Wrong file format", data);
 		line = get_next_line(fd);
 	}
 	if (data->cyl != NULL)

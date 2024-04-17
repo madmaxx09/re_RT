@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rgb_math.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mdor <marvin@42.fr>                        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/17 19:47:18 by mdor              #+#    #+#             */
+/*   Updated: 2024/04/17 19:47:20 by mdor             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./includes/miniRT.h"
 
 //inline for faster render and do the color combination and fading calculus here
@@ -40,14 +52,14 @@ inline  t_rgb   color_blend(double t, t_rgb a, t_rgb b)
     });
 }
 
-double gamma_cor(double color)
+inline double gamma_cor(double color)
 {
     if (color > 0)
         return (sqrt(color));
     return (0);
 }
 
-double clamp(double color, double min, double max)
+inline double clamp(double color, double min, double max)
 {
     if (color < min)
         return (min);
@@ -56,7 +68,7 @@ double clamp(double color, double min, double max)
     return (color);
 }
 
-int rgb_to_color(t_rgb rgb)
+inline int rgb_to_color(t_rgb rgb)
 {
     int     color;
 

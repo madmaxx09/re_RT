@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   more_math.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mdor <marvin@42.fr>                        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/17 19:46:24 by mdor              #+#    #+#             */
+/*   Updated: 2024/04/17 19:46:26 by mdor             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./includes/miniRT.h"
 
 inline t_vec    vec_cross(t_vec a, t_vec b)
@@ -25,7 +37,7 @@ inline t_vec    reflect(t_vec v, t_vec n)
     return (dif_vec(v, temp));
 }
 
-bool near_zero(t_vec test)
+inline bool near_zero(t_vec test)
 {
     double s;
 

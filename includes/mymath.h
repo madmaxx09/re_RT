@@ -6,6 +6,9 @@ double length_squared(t_vec vec);
 t_vec    random_vec(double min, double max);
 bool near_zero(t_vec test);
 double gaussian_weight(int x, int y, double sigma);
+double rand_range(double min, double max);
+double clamp(double color, double min, double max);
+t_vec	px_sample_square(t_vec x_pix, t_vec y_pix);
 
 //vector math 
 
@@ -35,6 +38,7 @@ t_rgb   mult_rgb(t_rgb a, t_rgb b);
 t_rgb    div_rgb(t_rgb rgb, double a);
 void    print_rgb(t_rgb rgb);
 t_rgb   color_blend(double t, t_rgb a, t_rgb b);
+double gamma_cor(double color);
 
 
 #endif

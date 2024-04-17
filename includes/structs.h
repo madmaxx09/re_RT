@@ -6,7 +6,8 @@ typedef enum
 {
 	CYL, 
 	PLN,
-	SPH
+	SPH,
+	DSC
 }	obj_type;
 
 typedef struct s_malloc
@@ -113,6 +114,8 @@ typedef struct	s_hit
 	t_vec	ray_in;
 	t_vec	new_dir;
 	double		mat;
+	obj_type	type;
+	double		diam;
 	t_vec	normal;
 	t_vec	point;
 	bool	hitted;

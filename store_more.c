@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   store_more.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mdor <marvin@42.fr>                        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/17 19:47:35 by mdor              #+#    #+#             */
+/*   Updated: 2024/04/17 19:47:36 by mdor             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./includes/miniRT.h"
 
-void    manage_background(char **tab, t_data *data)
+void    manage_background(char **tab, t_data *data, int split_count)
 {
-    if (ft_split_counter(tab) != 3)
+    if (split_count != 3)
         ft_error_exit("Wrong file format : background", data);
     manage_rgb(tab, &data->back_1, data, 1);
     manage_rgb(tab, &data->back_2, data, 2);
@@ -28,11 +40,13 @@ int	int_from_str(const char *str, int min, int max, int *res)
 	return (0);
 }
 
-void    manage_cyl(char **tab, t_data *data)
+void    manage_cyl(char **tab, t_data *data, int split_count)
 {
     t_cyl   *new;
     t_cyl   *temp;
 
+    if (split_count != 6 && split_count != 7)
+		ft_error_exit("Wrong file format : cyl", data);
     new = gc_malloc(sizeof(t_cyl), data);
     manage_vectors(tab, &new->pos, data, 1);
     manage_vectors(tab, &new->dir, data, 2);

@@ -1,8 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   obj_inter.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mdor <marvin@42.fr>                        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/17 19:46:31 by mdor              #+#    #+#             */
+/*   Updated: 2024/04/17 19:46:33 by mdor             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./includes/miniRT.h"
 
+static void intersect_tube_quadratic(t_cyl *cyl, t_vec ori, t_vec dir, double abc[3]);
 //-b +- racine de b2 - 4ac sur 2a
 //rayon touche surface si il est solution de lequation de la sphere
-t_vec  normal_cyl(t_cyl *cyl, t_vec point)
+inline t_vec  normal_cyl(t_cyl *cyl, t_vec point)
 {
     t_vec normal;
     double h;
@@ -12,7 +25,7 @@ t_vec  normal_cyl(t_cyl *cyl, t_vec point)
     return (normal);
 }
 
-double hit_sp(t_vec ori, t_vec direction, t_sphere *sphere)
+inline double hit_sp(t_vec ori, t_vec direction, t_sphere *sphere)
 {
     t_vec ro_c =  dif_vec(ori, sphere->pos); //origine rayon vs centre sphere
     double a;
@@ -30,7 +43,7 @@ double hit_sp(t_vec ori, t_vec direction, t_sphere *sphere)
         return(-half_b - sqrt(discri)) / a; //jai inverse potentiellement une valeur ici
 }
 
-double hit_pl(t_vec ori, t_vec dir, t_plan *plan)
+inline double hit_pl(t_vec ori, t_vec dir, t_plan *plan)
 {
     double t;
     double deno;
@@ -45,7 +58,7 @@ double hit_pl(t_vec ori, t_vec dir, t_plan *plan)
     return (-1.0);
 }
 
-static void intersect_tube_quadratic(t_cyl *cyl, t_vec ori, t_vec dir, double abc[3])
+inline static void intersect_tube_quadratic(t_cyl *cyl, t_vec ori, t_vec dir, double abc[3])
 {
     t_vec   ray_inter_tube;
     t_vec   dif_dir;
@@ -57,7 +70,7 @@ static void intersect_tube_quadratic(t_cyl *cyl, t_vec ori, t_vec dir, double ab
     abc[2] = dot_prod(dif_dir, dif_dir) - ((cyl->diam / 2) * (cyl->diam / 2));
 }
 
-double  hit_cyl(t_vec ori, t_vec dir, t_cyl *cyl, double t_max)
+inline double  hit_cyl(t_vec ori, t_vec dir, t_cyl *cyl, double t_max)
 {
     double abc[3];
     double d;
@@ -81,7 +94,7 @@ double  hit_cyl(t_vec ori, t_vec dir, t_cyl *cyl, double t_max)
     return (t);
 }
 
-double hit_disc(t_vec ori, t_vec dir, t_disc *disc, double t_max)
+inline double hit_disc(t_vec ori, t_vec dir, t_disc *disc, double t_max)
 {
     double deno;
     double t;

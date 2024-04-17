@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   vec_math.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mdor <marvin@42.fr>                        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/17 19:47:54 by mdor              #+#    #+#             */
+/*   Updated: 2024/04/17 19:47:56 by mdor             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./includes/miniRT.h"
 
 //vecteur normal = perpendiculaire a ma surface a un point donné
 //on fait un vec normal dirigé vers l'ext donc pt - pos
-t_vec   normal_sp(t_sphere *sph, t_vec point)
+inline t_vec   normal_sp(t_sphere *sph, t_vec point)
 {
     return (div_vec(dif_vec(point, sph->pos), sph->diam / 2));
 }
@@ -39,12 +51,12 @@ inline t_vec    add_vec(t_vec a, t_vec b)
 
 //distance = difference entre 2 vec puis longueur de celui ci etant la racine de produit le signe
 //na pas de valeur 
-double   dist(t_vec  src, t_vec dest)
+inline double   dist(t_vec  src, t_vec dest)
 {
     return (len_vec(dif_vec(src, dest)));
 }
 
-t_vec   norm_vec(t_vec vec)
+inline t_vec   norm_vec(t_vec vec)
 {
     double len;
 
@@ -68,7 +80,7 @@ void    print_vec(t_vec a)
     printf("z : %f\n", a.z);
 }
 
-t_vec lin_comb(double a, t_vec i, double b, t_vec j)
+inline t_vec lin_comb(double a, t_vec i, double b, t_vec j)
 {
     return (add_vec(mult_vec(i, a), mult_vec(j, b)));
 }

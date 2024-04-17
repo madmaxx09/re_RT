@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mdor <marvin@42.fr>                        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/17 19:45:49 by mdor              #+#    #+#             */
+/*   Updated: 2024/04/17 19:45:50 by mdor             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./includes/miniRT.h"
 
 void	ft_error_exit(char *str, t_data *data)
@@ -43,7 +55,7 @@ void	mlx_launch(t_data *data)
 		ft_error_exit("Mlx init fail", data);
 	raytrace(data);
 	while (++i < DENOISE_PASS)
-        denoise_and_render(data, NULL);
+        denoise_and_render(data);
     print_image(data->image, data);
 	mlx_hook(data->wind, 17, 0, closing, data);
 	mlx_key_hook(data->wind, presskey, data);

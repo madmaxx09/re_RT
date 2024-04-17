@@ -6,28 +6,12 @@
 /*   By: mdor <marvin@42.fr>						+#+  +:+	   +#+		  */
 /*												+#+#+#+#+#+   +#+		      */
 /*   Created: 2024/01/06 10:24:53 by mdor			  #+#	#+#			      */
-/*   Updated: 2024/01/06 10:24:55 by mdor			 ###   ########.fr	      */
+/*   Updated: 2024/04/17 19:42:55 by mdor             ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "./includes/miniRT.h"
-
-// typedef struct s_malloc		t_malloc;
-
-// typedef struct s_malloc
-// {
-// 	void		*adress;
-// 	t_malloc	*next;
-// }	t_malloc;
-
-//to use replace t_data with your data structure this data struct needs to have a s_malloc pointer *head to point at the beggining of the free list
-
-// typedef struct s_replace
-// {
-// 	t_malloc *head;
-// 	int		 error_trigger;
-// }	t_data;
 
 int	update_free_list(t_malloc **head, void *adress, t_data *data)
 {
@@ -38,7 +22,7 @@ int	update_free_list(t_malloc **head, void *adress, t_data *data)
 	newnode = malloc(sizeof(t_malloc));
 	if (newnode == NULL)
 	{
-		ft_putstr_fd("minishell : malloc failure\n", 2);
+		ft_putstr_fd("malloc failure\n", 2);
 		data->error_trigger = 1;
 		return (1);
 	}
@@ -88,7 +72,7 @@ void	*gc_malloc(size_t required_memory, t_data *data)
 	memory = malloc(required_memory);
 	if (!memory)
 	{
-		ft_putstr_fd("minishell : malloc failure\n", 2);
+		ft_putstr_fd("malloc failure\n", 2);
 		data->error_trigger = 1;
 	}
 	if (update_free_list(&data->head, memory, data))
