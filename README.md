@@ -1,1 +1,1 @@
-Quick explanation of the .rt file formatting
+Quick explanation of the .rt file formating
