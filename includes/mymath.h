@@ -13,7 +13,7 @@ t_vec	px_sample_square(t_vec x_pix, t_vec y_pix);
 //vector math 
 
 double   dist(t_vec src, t_vec dest);
-t_vec   normal_sp(t_sphere *sph, t_vec point);
+t_vec   normal_sp(t_vec pos, double diam, t_vec point);
 double  len_vec(t_vec vec);
 t_vec   dif_vec(t_vec a, t_vec b);
 t_vec   norm_vec(t_vec vec);

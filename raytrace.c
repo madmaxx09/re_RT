@@ -61,96 +61,96 @@ void    raytrace(t_data *data)
     }
 }
 
-t_hit  hit_box(t_vec ori, t_vec dir, t_data *data)
-{
+// t_hit  hit_box(t_vec ori, t_vec dir, t_data *data)
+// {
 
-    t_hit   hit;
-    t_data  tmp;
-    double  t;
-    double  ret_val;
+//     t_hit   hit;
+//     t_data  tmp;
+//     double  t;
+//     double  ret_val;
 
-    hit.hitted = false;
-    ret_val = MAXFLOAT;
-    tmp = *data;
-    while (tmp.sphere != NULL)
-    {
-        if (tmp.sphere != NULL)
-        {
-            t = hit_sp(ori, dir, tmp.sphere);
-            if (t > 0.001 && t < ret_val)//moyen de rendre le code plus efficace ici en calculant uniquement pour le dernier hit juste trouver un moyen de garder le bon objet 
-            {
-                hit.hitted = true;
-                ret_val = t;
-                hit.point = (t_vec){ori.x + dir.x * t, ori.y + dir.y * t, ori.z + dir.z * t};
-                hit.normal = normal_sp(tmp.sphere, hit.point);
-                hit.mat = tmp.sphere->mat;
-                hit.ray_in = dir;
-                hit.obj_color = tmp.sphere->rgb;
-            }
-            tmp.sphere = tmp.sphere->next;
-        }
-    }
-    while (tmp.plan != NULL)
-    {
-        if (tmp.plan != NULL)
-        {
-            t = hit_pl(ori, dir, tmp.plan);
-            if (t > 0.001 && t < ret_val)
-            {
-                hit.hitted = true;
-                ret_val = t;
-                hit.point = (t_vec){ori.x + dir.x * t, ori.y + dir.y * t, ori.z + dir.z * t};
-                hit.normal = norm_vec(tmp.plan->dir);
-                hit.ray_in = dir;
-                hit.obj_color = tmp.plan->rgb;
-                hit.mat = tmp.plan->mat;
-            }
-            tmp.plan = tmp.plan->next;
-        }
-    }
-    while (tmp.cyl != NULL)
-    {
-        if (tmp.cyl != NULL)
-        {
-            t = hit_cyl(ori, dir, tmp.cyl, ret_val);
-            if (t > 0.001 && t < ret_val)
-            {
-                hit.hitted = true;
-                ret_val = t;
-                hit.point = (t_vec){ori.x + dir.x * t, ori.y + dir.y * t, ori.z + dir.z * t};
-                hit.normal = normal_cyl(tmp.cyl, hit.point);
-                hit.ray_in = dir;
-                hit.obj_color = tmp.cyl->rgb;
-                hit.mat = tmp.cyl->mat;
-            }
-            tmp.cyl = tmp.cyl->next;
-        }
-    }
-    while (tmp.disc != NULL)
-    {
-        if (tmp.disc != NULL)
-        {
-            t = hit_disc(ori, dir, tmp.disc, ret_val);
-            if (t > 0.001 && t < ret_val)
-            {
-                hit.hitted = true;
-                ret_val = t;
-                hit.point = (t_vec){ori.x + dir.x * t, ori.y + dir.y * t, ori.z + dir.z * t};
-                hit.normal = tmp.disc->dir;
-                hit.ray_in = dir;
-                hit.obj_color = tmp.disc->rgb;
-                hit.mat = tmp.disc->mat;
-            }
-            tmp.disc = tmp.disc->next;
-        }
-    }
-    hit.root = ret_val;
-    // {
-    //     hit.point = (t_vec){ori.x + dir.x * t, ori.y + dir.y * t, ori.z + dir.z * t};
+//     hit.hitted = false;
+//     ret_val = MAXFLOAT;
+//     tmp = *data;
+//     while (tmp.sphere != NULL)
+//     {
+//         if (tmp.sphere != NULL)
+//         {
+//             t = hit_sp(ori, dir, tmp.sphere);
+//             if (t > 0.001 && t < ret_val)//moyen de rendre le code plus efficace ici en calculant uniquement pour le dernier hit juste trouver un moyen de garder le bon objet 
+//             {
+//                 hit.hitted = true;
+//                 ret_val = t;
+//                 hit.point = (t_vec){ori.x + dir.x * t, ori.y + dir.y * t, ori.z + dir.z * t};
+//                 hit.normal = normal_sp(tmp.sphere, hit.point);
+//                 hit.mat = tmp.sphere->mat;
+//                 hit.ray_in = dir;
+//                 hit.obj_color = tmp.sphere->rgb;
+//             }
+//             tmp.sphere = tmp.sphere->next;
+//         }
+//     }
+//     while (tmp.plan != NULL)
+//     {
+//         if (tmp.plan != NULL)
+//         {
+//             t = hit_pl(ori, dir, tmp.plan);
+//             if (t > 0.001 && t < ret_val)
+//             {
+//                 hit.hitted = true;
+//                 ret_val = t;
+//                 hit.point = (t_vec){ori.x + dir.x * t, ori.y + dir.y * t, ori.z + dir.z * t};
+//                 hit.normal = norm_vec(tmp.plan->dir);
+//                 hit.ray_in = dir;
+//                 hit.obj_color = tmp.plan->rgb;
+//                 hit.mat = tmp.plan->mat;
+//             }
+//             tmp.plan = tmp.plan->next;
+//         }
+//     }
+//     while (tmp.cyl != NULL)
+//     {
+//         if (tmp.cyl != NULL)
+//         {
+//             t = hit_cyl(ori, dir, tmp.cyl, ret_val);
+//             if (t > 0.001 && t < ret_val)
+//             {
+//                 hit.hitted = true;
+//                 ret_val = t;
+//                 hit.point = (t_vec){ori.x + dir.x * t, ori.y + dir.y * t, ori.z + dir.z * t};
+//                 hit.normal = normal_cyl(tmp.cyl, hit.point);
+//                 hit.ray_in = dir;
+//                 hit.obj_color = tmp.cyl->rgb;
+//                 hit.mat = tmp.cyl->mat;
+//             }
+//             tmp.cyl = tmp.cyl->next;
+//         }
+//     }
+//     while (tmp.disc != NULL)
+//     {
+//         if (tmp.disc != NULL)
+//         {
+//             t = hit_disc(ori, dir, tmp.disc, ret_val);
+//             if (t > 0.001 && t < ret_val)
+//             {
+//                 hit.hitted = true;
+//                 ret_val = t;
+//                 hit.point = (t_vec){ori.x + dir.x * t, ori.y + dir.y * t, ori.z + dir.z * t};
+//                 hit.normal = tmp.disc->dir;
+//                 hit.ray_in = dir;
+//                 hit.obj_color = tmp.disc->rgb;
+//                 hit.mat = tmp.disc->mat;
+//             }
+//             tmp.disc = tmp.disc->next;
+//         }
+//     }
+//     hit.root = ret_val;
+//     {
+//         hit.point = (t_vec){ori.x + dir.x * ret_val, ori.y + dir.y * ret_val, ori.z + dir.z * ret_val};
 
-    // }
-    return (hit);
-}
+//     }
+//     return (hit);
+// }
 
 t_rgb ray_shot(t_vec origine, t_vec direction, int depth, t_data *data) 
 {

@@ -117,6 +117,7 @@ typedef struct	s_hit
 	obj_type	type;
 	double		diam;
 	t_vec	normal;
+	t_vec	cyl_dir;
 	t_vec	point;
 	bool	hitted;
 	t_rgb	obj_color;

@@ -15,13 +15,13 @@
 static void intersect_tube_quadratic(t_cyl *cyl, t_vec ori, t_vec dir, double abc[3]);
 //-b +- racine de b2 - 4ac sur 2a
 //rayon touche surface si il est solution de lequation de la sphere
-inline t_vec  normal_cyl(t_cyl *cyl, t_vec point)
+inline t_vec  normal_cyl(t_vec pos, t_vec dir, t_vec point)
 {
     t_vec normal;
     double h;
 
-    h = dot_prod(dif_vec(point, cyl->pos), cyl->dir);
-    normal = norm_vec(dif_vec(point, add_vec(cyl->pos, mult_vec(cyl->dir, h))));
+    h = dot_prod(dif_vec(point, pos), dir);
+    normal = norm_vec(dif_vec(point, add_vec(pos, mult_vec(dir, h))));
     return (normal);
 }
 

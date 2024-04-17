@@ -14,9 +14,9 @@
 
 //vecteur normal = perpendiculaire a ma surface a un point donné
 //on fait un vec normal dirigé vers l'ext donc pt - pos
-inline t_vec   normal_sp(t_sphere *sph, t_vec point)
+inline t_vec   normal_sp(t_vec pos, double diam, t_vec point)
 {
-    return (div_vec(dif_vec(point, sph->pos), sph->diam / 2));
+    return (div_vec(dif_vec(point, pos), diam / 2));
 }
 
 inline double  len_vec(t_vec vec)

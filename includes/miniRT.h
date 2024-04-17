@@ -20,7 +20,7 @@
 # define HEIGHT (WIDTH / ASPECT_RATIO)
 # define TOTAL (WIDTH * HEIGHT)
 # define MAX_DEPTH 4
-# define SAMPLES 100
+# define SAMPLES 50
 # define DENOISE_PASS 1
 # define DENOISE_SIGMA 0.4
 # define DENOISE_SAMPLE 1.0
@@ -39,11 +39,17 @@ void    print_image(t_rgb *img, t_data *data);
 bool is_black(t_rgb pixel);
 
 //hit functions
+void    sphere_check(t_sphere *sp, t_hit *hit, t_vec ori, t_vec dir);
+void    plane_check(t_plan *pl, t_hit *hit, t_vec ori, t_vec dir);
+void    cyl_check(t_cyl *cyl, t_hit *hit, t_vec ori, t_vec dir);
+void    disc_check(t_disc *disc, t_hit *hit, t_vec ori, t_vec dir);
+t_vec   get_obj_normal(t_hit *hit);
+t_hit  hit_box(t_vec ori, t_vec dir, t_data *data);
 double hit_sp(t_vec ori, t_vec direction, t_sphere *sphere);
 double hit_pl(t_vec ori, t_vec dir, t_plan *plan);
 double  hit_cyl(t_vec ori, t_vec dir, t_cyl *cyl, double t_max);
 double hit_disc(t_vec ori, t_vec dir, t_disc *disc, double t_max);
-t_vec  normal_cyl(t_cyl *cyl, t_vec point);
+t_vec  normal_cyl(t_vec pos, t_vec dir, t_vec point);
 
 t_vec	get_new_dir(t_hit *hit);
 double  scatter_pdf(t_hit *hit);
