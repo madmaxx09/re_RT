@@ -19,6 +19,7 @@ void	process_line(char *line, t_data *data)
 {
 	char	**tab;
 	tab = ft_split(line, ' ');
+	// printf("test : %s\n", tab[0]);
 	if (ft_strcmp(tab[0], "A") == 0)
 		manage_ambiant(tab, data);
 	else if (ft_strcmp(tab[0], "C") == 0)
@@ -31,8 +32,10 @@ void	process_line(char *line, t_data *data)
 		manage_plan(tab, data);
 	else if (ft_strcmp(tab[0], "cy") == 0)
 		manage_cyl(tab, data);
+	else if (ft_strcmp(tab[0], "B") == 0)
+		manage_background(tab, data);
 	else
-		ft_error_exit("Wrong file format", data);
+		ft_error_exit("Wrong file format : wrong first char", data);
 	free_tabl(tab);
 }
 
@@ -50,6 +53,7 @@ void	add_discs(t_cyl *cyl, t_data *data, int top_bot)
 		new->pos = new->pos = lin_comb(1.0, cyl->pos, (cyl->height / -2.0), cyl->dir);
 	new->next = NULL;
 	new->rgb = cyl->rgb;
+	new->mat = cyl->mat;
 	if (data->disc == NULL)
 		data->disc = new;
 	else
@@ -89,6 +93,7 @@ void	parse_rt(char *rt_file, t_data *data)
 	while (line)
 	{
 		process_line(line, data);
+		// printf("test : %s\n", line);
 		free(line);
 		if (error == 1)
 			ft_error_exit("Wrong file format", data);

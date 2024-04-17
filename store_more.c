@@ -1,5 +1,14 @@
 #include "./includes/miniRT.h"
 
+void    manage_background(char **tab, t_data *data)
+{
+    if (ft_split_counter(tab) != 3)
+        ft_error_exit("Wrong file format : background", data);
+    manage_rgb(tab, &data->back_1, data, 1);
+    manage_rgb(tab, &data->back_2, data, 2);
+    data->back_set = 1;
+}
+
 int	int_from_str(const char *str, int min, int max, int *res)
 {
 	int	i;
@@ -29,12 +38,14 @@ void    manage_cyl(char **tab, t_data *data)
     manage_vectors(tab, &new->dir, data, 2);
     if (new->dir.x > 1 || new->dir.y > 1 || new->dir.z > 1 
         || new->dir.x < 0 || new->dir.y < 0 || new->dir.z < 0)
-        ft_error_exit("Wrong file format", data);
+        ft_error_exit("Wrong file format : cyl", data);
     if (ft_atob(tab[3], 2, 3, &new->diam) == -1 || new->diam <= 0)
-        ft_error_exit("Wrong file format", data);
+        ft_error_exit("Wrong file format : cyl diam", data);
     if (ft_atob(tab[4], 2, 3, &new->height) == -1 || new->height <= 0)   
-        ft_error_exit("Wrong file format", data);
+        ft_error_exit("Wrong file format : cyl height", data);
     manage_rgb(tab, &new->rgb, data, 5);
+    if (ft_atob(tab[6], 1, 3, &new->mat) == -1)
+		ft_error_exit("Wrong file format : cyl", data);
     new->dir = norm_vec(new->dir);
     new->next = NULL;
     if (data->cyl == NULL)

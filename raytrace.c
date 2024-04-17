@@ -54,9 +54,6 @@ void    raytrace(t_data *data)
             store_rgb(&data->image[j * WIDTH + i].b, blend.b);
         }
     }
-    for (int m = 0; m < DENOISE_PASS; m++)
-        denoise_and_render(data, NULL);
-    print_image(data->image, data);
 }
 
 t_hit  hit_box(t_vec ori, t_vec dir, t_data *data)
@@ -119,7 +116,7 @@ t_hit  hit_box(t_vec ori, t_vec dir, t_data *data)
                 hit.normal = normal_cyl(tmp.cyl, hit.point);
                 hit.ray_in = dir;
                 hit.obj_color = tmp.cyl->rgb;
-                hit.mat = 0;
+                hit.mat = tmp.cyl->mat;
             }
             tmp.cyl = tmp.cyl->next;
         }
@@ -137,7 +134,7 @@ t_hit  hit_box(t_vec ori, t_vec dir, t_data *data)
                 hit.normal = tmp.disc->dir;
                 hit.ray_in = dir;
                 hit.obj_color = tmp.disc->rgb;
-                hit.mat = 0;
+                hit.mat = tmp.disc->mat;
             }
             tmp.disc = tmp.disc->next;
         }
@@ -196,12 +193,14 @@ t_rgb ray_shot(t_vec origine, t_vec direction, int depth, t_data *data)
     hit = hit_box(origine, direction, data);
     if (hit.hitted == false) // choisir si on met un background ou bien seulement amli (je mettrai l'option dans le parser)
     {
-        //return ((t_rgb){0,0,0});
-        return (data->amli.color);
-        // double t = 0.5*(direction.y + 1.0);
-        // return (add_rgbs(mult_rgb_dub((t_rgb){1,1,1}, (1.0 - t)), mult_rgb_dub((t_rgb){0.5,0.7,1}, (t))));
+        if (data->back_set == 1)
+            return (color_blend(0.5*(direction.y + 1.0), data->back_1, data->back_2));
+        else
+            return ((t_rgb){0,0,0});
+        
+        //return (data->amli.color);
     }
-    if (hit.hitted == true && hit.mat == 3)
+    if (hit.hitted == true && hit.mat == 3)// ????????????/
         return (hit.obj_color);
     double pdf = scatter_pdf(&hit);
     (void)pdf;

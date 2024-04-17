@@ -12,6 +12,18 @@
 
 #include "libft.h"
 
+int ft_split_counter(char **tab)
+{
+    int i;
+
+    i = 0;
+    if (tab == NULL)
+        return (-1);
+    while (tab[i])
+        i++;
+    return (i);
+}
+
 int	ft_wrdcount(char const *s, char c)
 {
 	int	i;

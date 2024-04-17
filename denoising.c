@@ -63,8 +63,6 @@ t_rgb are_they_black(int j, int i, t_rgb *image)//ici faire une moyenne (mediane
     int l;
     double total_w = 0.0;
 
-    //double sample = (double)(1 / ((1 + (DENOISE_SAMPLE * 2)) * (1 + (DENOISE_SAMPLE * 2))));
-    //printf("sample : %f\n", sample);
     t_rgb blend = (t_rgb){0,0,0};
 
     while (k <= 1)
@@ -90,9 +88,6 @@ t_rgb are_they_black(int j, int i, t_rgb *image)//ici faire une moyenne (mediane
         blend.g /= total_w;
         blend.b /= total_w;
     }
-    if (t > (7 * DENOISE_SAMPLE))
-        return ((t_rgb){0,0,0});
-    else
         return (blend);
 }
 
@@ -110,20 +105,7 @@ t_rgb are_they_black(int j, int i, t_rgb *image)//ici faire une moyenne (mediane
 
 t_rgb   denoise_pixel(int j, int i, t_rgb *image)//ici que le magie doit opérer
 {
-    //printf("t\n");
-    //t_rgb center = image[j * WIDTH + i];
-    //t_rgb blend;
-    //blend = (t_rgb){0,0,0};
-
-    //on va traiter r g et b independemment;
-    //ok test si 8 pixels adjacents sont noir alors pixel central est noir 
-    // if (are_they_black(j, i, image, &blend, 1))//7 arbitrairement mais on va changer en fonction de SAMPLE plus tard
-    // {
-    //     //print_rgb(center);
-    //     return ((t_rgb){0,0,0});
-    // }
     return (are_they_black(j, i, image));
-    //return (blend);
 }
 
 void    assign_img(t_data *data, t_rgb *denoised)

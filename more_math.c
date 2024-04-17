@@ -7,10 +7,6 @@ inline t_vec    vec_cross(t_vec a, t_vec b)
     c.x = a.y * b.z - a.z * b.y;
 	c.y = a.z * b.x - a.x * b.z;
 	c.z = a.x * b.y - a.y * b.x;
-
-    // printf("%f\n", c.x);
-    // printf("%f\n", c.y);
-    // printf("%f\n", c.z);
     return (c);
 }
 

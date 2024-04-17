@@ -23,13 +23,13 @@ void    manage_rgb(char **tab, t_rgb *store ,t_data *data, int pos)
     while (tmp[i])
         i++;
     if (i != 3)
-        ft_error_exit("Wrong file format", data);
+        ft_error_exit("Wrong file format : rgb", data);
     ft_atob(tmp[0], 1, 2, &store->r);
     ft_atob(tmp[1], 1, 2, &store->g);
     ft_atob(tmp[2], 1, 2, &store->b);
     if (store->r > 255 || store->g > 255 || store->b > 255 
         || store->r < 0 || store->g < 0 || store->b < 0)
-        ft_error_exit("Wrong file format", data);
+        ft_error_exit("Wrong file format : rgb", data);
     store->r = (store->r / 255);
     store->g = (store->g / 255);
     store->b = (store->b / 255);

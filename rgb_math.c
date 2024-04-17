@@ -28,12 +28,15 @@ inline t_rgb    add_rgbs(t_rgb a, t_rgb b)
     return ((t_rgb){a.r + b.r, a.g + b.g, a.b + b.b});
 }
 
+        // double t = 0.5*(direction.y + 1.0);
+        // return (add_rgbs(mult_rgb_dub((t_rgb){1,1,1}, (1.0 - t)), mult_rgb_dub((t_rgb){0.5,0.7,1}, (t))));
+
 inline  t_rgb   color_blend(double t, t_rgb a, t_rgb b)
 {
     return ((t_rgb){
-            (1.0 - t) * a.r + t * b.r,
-            (1.0 - t) * a.g + t * b.g,
-            (1.0 - t) * a.b + t * b.b
+            (1.0 - t) * a.r + (t * b.r),
+            (1.0 - t) * a.g + (t * b.g),
+            (1.0 - t) * a.b + (t * b.b)
     });
 }
 

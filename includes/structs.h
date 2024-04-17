@@ -40,6 +40,7 @@ typedef struct s_disc
 	t_vec dir;
 	t_vec pos;
 	double diam;
+	double mat;
 	struct s_disc *next;
 	t_rgb	rgb;
 }	t_disc;
@@ -50,6 +51,7 @@ typedef struct s_cyl
 	t_vec	dir;
 	double	diam;
 	double	height;
+	double	mat;
 	t_rgb	rgb;
 	struct s_cyl	*next;
 }	t_cyl;
@@ -128,7 +130,9 @@ typedef struct s_data
 	t_disc		*disc;
 	t_light		light;
 	t_viewport	view;
-	//t_obj		*obj;
+	t_rgb		back_1;
+	t_rgb		back_2;
+	int			back_set;
 	void		*mlx;
 	void		*wind;
 	t_malloc	*head;

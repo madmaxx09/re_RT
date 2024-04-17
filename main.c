@@ -21,6 +21,7 @@ void	init_data(t_data *data)
 	data->error_trigger = 0;
 	data->image = (t_rgb *)malloc(sizeof(t_rgb) * WIDTH * HEIGHT);
 	ft_bzero(data->image, sizeof(t_rgb) * WIDTH * HEIGHT);
+	data->back_set = 0;
 }
 
 int	closing(t_data *data)
@@ -31,6 +32,9 @@ int	closing(t_data *data)
 
 void	mlx_launch(t_data *data)
 {
+	int i;
+
+	i = -1;
 	data->mlx = mlx_init();
 	if (data->mlx == NULL)
 		ft_error_exit("Mlx init fail", data);
@@ -38,6 +42,9 @@ void	mlx_launch(t_data *data)
 	if (data->wind == NULL)
 		ft_error_exit("Mlx init fail", data);
 	raytrace(data);
+	while (++i < DENOISE_PASS)
+        denoise_and_render(data, NULL);
+    print_image(data->image, data);
 	mlx_hook(data->wind, 17, 0, closing, data);
 	mlx_key_hook(data->wind, presskey, data);
 	mlx_loop(data->mlx);

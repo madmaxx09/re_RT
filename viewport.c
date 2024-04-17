@@ -7,6 +7,7 @@
 
 void    get_viewport(t_data *data)
 {
+    t_vec u;
     //double focus_dist = 10;
     double theta = deg_to_rad(data->cam.fov);
     double h = tan(theta / 2);
@@ -15,7 +16,10 @@ void    get_viewport(t_data *data)
 
     // u v w unit vectors 
     t_vec w = norm_vec(data->cam.dir);  //is the unit vector of lookfrom - lookat so it should just be our cam.dir
-    t_vec u = norm_vec(vec_cross((t_vec){0, 1, 0}, w));
+    if (fabs(w.x) < EPSILON && fabs(w.z) < EPSILON)
+        u = (t_vec){1, 0, 0}; // Set u to {1, 0, 0} for the special case
+    else
+        u = norm_vec(vec_cross((t_vec){0, 1, 0}, w));
     t_vec v = vec_cross(w, u);
 
     //vectors following the viewport edges
@@ -40,6 +44,4 @@ void    get_viewport(t_data *data)
     tmp = mult_vec(tmp, 0.5);
     data->view.pix00 = add_vec(up_left, tmp);
     data->view.pos = data->cam.pos;
-    //data->view.pix00 = (t_vec){-10.1, 10.1, -1};
-
 }
