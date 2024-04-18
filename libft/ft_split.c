@@ -1,27 +1,27 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mdor <mdor@student.s19.be>                 +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/25 09:19:38 by mdor              #+#    #+#             */
-/*   Updated: 2022/12/15 15:10:14 by mdor             ###   ########.fr       */
-/*                                                                            */
+/*																			  */
+/*														:::	  ::::::::        */
+/*   ft_split.c										 :+:	  :+:	:+:       */
+/*													+:+ +:+		 +:+	      */
+/*   By: mdor <mdor@student.s19.be>				 +#+  +:+	   +#+		      */
+/*												+#+#+#+#+#+   +#+		      */
+/*   Created: 2022/08/25 09:19:38 by mdor			  #+#	#+#			      */
+/*   Updated: 2022/12/15 15:10:14 by mdor			 ###   ########.fr	      */
+/*																			  */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int ft_split_counter(char **tab)
+int	ft_split_counter(char **tab)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    if (tab == NULL)
-        return (-1);
-    while (tab[i])
-        i++;
-    return (i);
+	i = 0;
+	if (tab == NULL)
+		return (-1);
+	while (tab[i])
+		i++;
+	return (i);
 }
 
 int	ft_wrdcount(char const *s, char c)
@@ -61,7 +61,7 @@ char	*ft_dup(const char *s, int start, int end)
 	while (start < end)
 	{
 		if (s[start] == '\n')
-			break;
+			break ;
 		word[i++] = s[start++];
 	}
 	word[i] = '\0';

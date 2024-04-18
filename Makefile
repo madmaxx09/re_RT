@@ -1,7 +1,8 @@
 PROG	= mini_rt
 
 SRCS 	= main.c store_data.c store_more.c store_utils.c array_to_double.c parse.c custom_malloc.c mlx_press.c raytrace.c \
-			vec_math.c rgb_math.c more_math.c viewport.c random.c obj_inter.c pdf.c denoising.c hit_box.c
+			vec_math.c rgb_math.c more_math.c viewport.c random.c obj_inter.c pdf.c denoising.c hit_box.c assign_print.c \
+			intersection_utils.c math.c math2.c rgb_math2.c
 OBJS 	= ${SRCS:.c=.o}
 
 CC 		= gcc

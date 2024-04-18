@@ -44,7 +44,7 @@ int	closing(t_data *data)
 
 void	mlx_launch(t_data *data)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	data->mlx = mlx_init();
@@ -55,14 +55,14 @@ void	mlx_launch(t_data *data)
 		ft_error_exit("Mlx init fail", data);
 	raytrace(data);
 	while (++i < DENOISE_PASS)
-        denoise_and_render(data);
-    print_image(data->image, data);
+		denoise_and_render(data);
+	print_image(data->image, data);
 	mlx_hook(data->wind, 17, 0, closing, data);
 	mlx_key_hook(data->wind, presskey, data);
 	mlx_loop(data->mlx);
 }
 
-int main (int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_data	data;
 
@@ -70,8 +70,12 @@ int main (int argc, char **argv)
 		ft_error_exit("This program needs 1 file as argument", &data);
 	init_data(&data);
 	parse_rt(argv[1], &data);
-	printf("DEPTH = %d\nSAMPLES = %d\nDENOISE_PASS = %d\nDENOISE_SIGMA = %f\nDENOISE_SAMPLE = %f\n", MAX_DEPTH, SAMPLES, DENOISE_PASS, DENOISE_SIGMA, DENOISE_SAMPLE);
-	//create_obj_lst(&data);
-	//print_args(&data);
+	printf("HEIGHT = %f\n", HEIGHT);
+	printf("WIDTH = %d\n", WIDTH);
+	printf("DEPTH = %d\n", MAX_DEPTH);
+	printf("SAMPLES = %d\n", SAMPLES);
+	printf("DENOISE_PASS = %d\n", DENOISE_PASS);
+	printf("DENOISE_SIGMA = %f\n", DENOISE_SIGMA);
+	printf("DENOISE_SAMPLE = %f\n", DENOISE_SAMPLE);
 	mlx_launch(&data);
 }

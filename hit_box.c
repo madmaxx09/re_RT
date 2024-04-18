@@ -12,22 +12,11 @@
 
 #include "./includes/miniRT.h"
 
-inline t_vec   get_obj_normal(t_hit *hit)
-{
-	if (hit->type == SPH)
-		return (normal_sp(hit->normal, hit->diam, hit->point));
-	else if (hit->type == PLN)
-		return (norm_vec(hit->normal));
-	else if (hit->type == CYL)
-		return (normal_cyl(hit->normal, hit->cyl_dir, hit->point));
-	return hit->normal;
-}
-
 inline void	sphere_check(t_sphere *sp, t_hit *hit, t_vec ori, t_vec dir)
 {
-	double t;
+	double	t;
 
-	while(sp != NULL)
+	while (sp != NULL)
 	{
 		t = hit_sp(ori, dir, sp);
 		if (t > 0.001 && t < hit->root)
@@ -46,9 +35,9 @@ inline void	sphere_check(t_sphere *sp, t_hit *hit, t_vec ori, t_vec dir)
 
 inline void	plane_check(t_plan *pl, t_hit *hit, t_vec ori, t_vec dir)
 {
-	double t;
+	double	t;
 
-	while(pl != NULL)
+	while (pl != NULL)
 	{
 		t = hit_pl(ori, dir, pl);
 		if (t > 0.001 && t < hit->root)
@@ -66,9 +55,9 @@ inline void	plane_check(t_plan *pl, t_hit *hit, t_vec ori, t_vec dir)
 
 inline void	cyl_check(t_cyl *cyl, t_hit *hit, t_vec ori, t_vec dir)
 {
-	double t;
+	double	t;
 
-	while(cyl != NULL)
+	while (cyl != NULL)
 	{
 		t = hit_cyl(ori, dir, cyl, hit->root);
 		if (t > 0.001 && t < hit->root)
@@ -88,9 +77,9 @@ inline void	cyl_check(t_cyl *cyl, t_hit *hit, t_vec ori, t_vec dir)
 
 inline void	disc_check(t_disc *disc, t_hit *hit, t_vec ori, t_vec dir)
 {
-	double t;
+	double	t;
 
-	while(disc != NULL)
+	while (disc != NULL)
 	{
 		t = hit_disc(ori, dir, disc, hit->root);
 		if (t > 0.001 && t < hit->root)
@@ -106,22 +95,21 @@ inline void	disc_check(t_disc *disc, t_hit *hit, t_vec ori, t_vec dir)
 	}
 }
 
-inline t_hit  hit_box(t_vec ori, t_vec dir, t_data *data)
+inline t_hit	hit_box(t_vec ori, t_vec dir, t_data *data)
 {
-
-	t_hit   hit;
-	t_data  tmp;
+	t_hit	hit;
+	t_data	tmp;
 
 	hit.type = -1;
 	hit.hitted = false;
 	hit.root = MAXFLOAT;
 	tmp = *data;
-
 	sphere_check(data->sphere, &hit, ori, dir);
 	plane_check(data->plan, &hit, ori, dir);
 	cyl_check(data->cyl, &hit, ori, dir);
 	disc_check(data->disc, &hit, ori, dir);
-	hit.point = (t_vec){ori.x + dir.x * hit.root, ori.y + dir.y * hit.root, ori.z + dir.z * hit.root};
+	hit.point = (t_vec){ori.x + dir.x * hit.root,
+		ori.y + dir.y * hit.root, ori.z + dir.z * hit.root};
 	hit.ray_in = dir;
 	hit.normal = get_obj_normal(&hit);
 	return (hit);
