@@ -33,7 +33,7 @@ void	init_data(t_data *data)
 	data->error_trigger = 0;
 	data->image = (t_rgb *)malloc(sizeof(t_rgb) * WIDTH * HEIGHT);
 	ft_bzero(data->image, sizeof(t_rgb) * WIDTH * HEIGHT);
-	data->back_set = 1;
+	data->back_set = 0;
 	data->back_2 = (t_rgb){0, 0, 0};
 	data->back_1 = (t_rgb){0, 0, 0};
 }

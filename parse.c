@@ -106,4 +106,9 @@ void	parse_rt(char *rt_file, t_data *data)
 	}
 	if (data->cyl != NULL)
 		get_cyl_top_bot(data);
+	if (data->back_set == 0)
+	{
+		data->back_1 = data->amli.color;
+		data->back_2 = data->amli.color;
+	}
 }

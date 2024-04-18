@@ -87,22 +87,6 @@ void	manage_light(char **tab, t_data *data, int split_count)
 	}
 }
 
-void	add_sph(t_data *data, t_sphere *sph)
-{
-	t_sphere	*temp;
-
-	sph->next = NULL;
-	if (data->sphere == NULL)
-		data->sphere = sph;
-	else
-	{
-		temp = data->sphere;
-		while (temp->next != NULL)
-			temp = temp->next;
-		temp->next = sph;
-	}
-}
-
 void	manage_sphere(char **tab, t_data *data, int split_count)
 {
 	t_sphere	*new;
@@ -116,25 +100,12 @@ void	manage_sphere(char **tab, t_data *data, int split_count)
 	if (new->diam <= 0)
 		ft_error_exit("Wrong file format : sp", data);
 	manage_rgb(tab, &new->rgb, data, 3);
-	if (ft_atob(tab[4], 1, 3, &new->mat) == -1)
-		ft_error_exit("Wrong file format : sp", data);
+	new->mat = 2.0;
+	if (split_count == 5)
+		if (ft_atob(tab[4], 1, 3, &new->mat) == -1
+			|| new->mat < 0 || (new->mat > 1 && new->mat != 2 && new->mat != 3))
+			ft_error_exit("Wrong file format : sp", data);
 	add_sph(data, new);
-}
-
-void	add_pl(t_data *data, t_plan *pln)
-{
-	t_plan	*temp;
-
-	pln->next = NULL;
-	if (data->plan == NULL)
-		data->plan = pln;
-	else
-	{
-		temp = data->plan;
-		while (temp->next != NULL)
-			temp = temp->next;
-		temp->next = pln;
-	}
 }
 
 void	manage_plan(char **tab, t_data *data, int split_count)

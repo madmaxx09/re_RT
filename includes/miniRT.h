@@ -82,5 +82,8 @@ void	manage_cyl(char **tab, t_data *data, int split_count);
 void	manage_background(char **tab, t_data *data, int split_count);
 int		presskey(int key, t_data *data);
 void	raytrace(t_data *data);
+void	add_cyl(t_data *data, t_cyl *cyl);
+void	add_sph(t_data *data, t_sphere *sph);
+void	add_pl(t_data *data, t_plan *pln);
 
 #endif
