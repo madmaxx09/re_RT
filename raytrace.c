@@ -12,26 +12,34 @@
 
 #include "./includes/miniRT.h"
 
-inline t_vec	px_sample_square(t_vec x_pix, t_vec y_pix)
+inline t_vec	pxss(t_vec xp, t_vec yp)
 {
 	double	x;
 	double	y;
 
 	x = -0.5 + random_double();
 	y = -0.5 + random_double();
-	return (add_vec(mult_vec(x_pix, x), mult_vec(y_pix, y)));
+	return (add_vec(mult_vec(xp, x), mult_vec(yp, y)));
+}
+
+inline t_rgb	color_ray(t_data *data, int i, int j, t_rgb *blend)
+{
+	return (add_rgbs(*blend, div_rgb(ray(data->view.pos, dif_vec(
+						add_vec(add_vec(add_vec(mult_vec(
+										data->view.xp, i), mult_vec
+									(data->view.yp, j)),
+								data->view.pix00), pxss
+							(data->view.xp, data->view.yp)),
+						data->view.pos), MAX_DEPTH, data), SAMPLE)));
 }
 
 void	raytrace(t_data *data)
 {
-	t_viewport	view;
 	t_rgb		blend;
 	int			i;
 	int			j;
 	int			sample;
 
-	get_viewport(data);
-	view = data->view;
 	j = -1;
 	while (++j < HEIGHT)
 	{
@@ -40,16 +48,16 @@ void	raytrace(t_data *data)
 		{
 			blend = (t_rgb){0, 0, 0};
 			sample = -1;
-			while (++sample < SAMPLES)
+			while (++sample < SAMPLE)
 			{
-				blend = add_rgbs(blend, div_rgb(ray_shot(view.pos, dif_vec(add_vec(add_vec(add_vec(mult_vec(view.x_pix, (double)i), mult_vec(view.y_pix, (double)j)), view.pix00), px_sample_square(view.x_pix, view.y_pix)), view.pos), MAX_DEPTH, data), SAMPLES));
+				blend = color_ray(data, i, j, &blend);
 			}
 			data->image[j * WIDTH + i] = blend;
 		}
 	}
 }
 
-t_rgb	ray_shot(t_vec origine, t_vec direction, int depth, t_data *data)
+t_rgb	ray(t_vec origine, t_vec direction, int depth, t_data *data)
 {
 	t_hit	hit;
 	t_rgb	blend;
@@ -60,41 +68,27 @@ t_rgb	ray_shot(t_vec origine, t_vec direction, int depth, t_data *data)
 		return ((t_rgb){0, 0, 0});
 	hit = hit_box(origine, direction, data);
 	if (hit.hitted == false)
-	{
-		if (data->back_set == 1)
-			return (color_blend(0.5 * (direction.y + 1.0), data->back_2, data->back_1));
-		else
-			return ((t_rgb){0, 0, 0});
-	}
+		return (color_blend(0.5 * (direction.y + 1.0),
+				data->back_2, data->back_1));
 	if (hit.hitted == true && hit.mat == 3)
 		return (hit.obj_color);
 	pdf = scatter_pdf(&hit);
-	blend = mult_rgb(ray_shot(hit.point, hit.new_dir, depth - 1, data), hit.obj_color);
+	blend = mult_rgb(ray(hit.point,
+				hit.new_dir, depth - 1, data), hit.obj_color);
 	if (depth == MAX_DEPTH)
-	{
-		if (is_black(blend))
-			return ((t_rgb){0, 0, 0});
 		return (add_rgbs(blend, data->amli.color));
-	}
 	return (blend);
 }
 
-double	color_scaling(t_hit hit, t_vec dir)
-{
-	double	cos;
-
-	cos = dot_prod(hit.normal, dir);
-	return (cos);
-}
-
 //lambertian is 2 
-//anything between 0 and 1 is metal with the amount between 0 and 1 being the fuzziness of this metal (0 not fuzzy at all)
+//anything between 0 and 1 is metal with the 
+//amount between 0 and 1 being the fuzziness of this metal (0 not fuzzy at all)
 //si je veux renvoyer + de rayon vers la lum c'est ici
 t_vec	get_new_dir(t_hit *hit)
 {
 	t_vec	dir;
 
-	if (hit->mat != 2)
+	if (hit->mat != 2.0)
 	{
 		return (add_vec(reflect(hit->ray_in, hit->normal),
 				mult_vec(random_unit_vec(), (hit->mat))));

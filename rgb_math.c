@@ -14,6 +14,8 @@
 
 inline t_rgb	color_blend(double t, t_rgb a, t_rgb b)
 {
+	if (is_black(a) && is_black(b))
+		return ((t_rgb){0, 0, 0});
 	return ((t_rgb){
 		(1.0 - t) * a.r + (t * b.r),
 		(1.0 - t) * a.g + (t * b.g),
@@ -55,4 +57,12 @@ inline int	rgb_to_color(t_rgb rgb)
 	color |= ((int)rgb.g & 0xFF) << 8;
 	color |= ((int)rgb.b & 0xFF);
 	return (color);
+}
+
+inline double	color_scaling(t_hit hit, t_vec dir)
+{
+	double	cos;
+
+	cos = dot_prod(hit.normal, dir);
+	return (cos);
 }

@@ -20,7 +20,7 @@ bool	near_zero(t_vec test);
 double	gaus_w(int x, int y, double sigma);
 double	rand_range(double min, double max);
 double	clamp(double color, double min, double max);
-t_vec	px_sample_square(t_vec x_pix, t_vec y_pix);
+t_vec	pxss(t_vec xp, t_vec yp);
 
 //vector math 
 

@@ -99,7 +99,8 @@ void	parse_rt(char *rt_file, t_data *data)
 	line = get_next_line(fd);
 	while (line)
 	{
-		process_line(line, data);
+		if (line[0] != '\n' && line[0] != '\0')
+			process_line(line, data);
 		free(line);
 		line = get_next_line(fd);
 	}

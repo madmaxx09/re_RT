@@ -21,7 +21,7 @@ void	manage_ambiant(char **tab, t_data *data, int split_count)
 		|| data->amli.ratio < 0 || data->amli.ratio > 1)
 		ft_error_exit("Wrong file format : amb", data);
 	manage_rgb(tab, &data->amli.color, data, 2);
-	data->amli.color = mult_rgb_dub(data->amli.color, data->amli.ratio);
+	data->amli.color = mult_rgb_dub(data->amli.color, (data->amli.ratio));
 }
 
 void	manage_cam(char **tab, t_data *data, int split_count)
@@ -48,29 +48,26 @@ void	manage_background(char **tab, t_data *data, int split_count)
 	data->back_set = 1;
 }
 
-int	int_from_str(const char *str, int min, int max, int *res)
+void	add_cyl(t_data *data, t_cyl *cyl)
 {
-	int	i;
+	t_cyl	*temp;
 
-	i = 0;
-	if ((str[0] == '+' || str[0] == '-') && str[1] != '\0')
-		i++;
-	while (str[i])
+	cyl->dir = norm_vec(cyl->dir);
+	cyl->next = NULL;
+	if (data->cyl == NULL)
+		data->cyl = cyl;
+	else
 	{
-		if (!ft_isdigit(str[i]))
-			return (-1);
-		i++;
+		temp = data->cyl;
+		while (temp->next != NULL)
+			temp = temp->next;
+		temp->next = cyl;
 	}
-	*res = ft_atoi(str);
-	if (*res < min || *res > max)
-		return (-1);
-	return (0);
 }
 
 void	manage_cyl(char **tab, t_data *data, int split_count)
 {
 	t_cyl	*new;
-	t_cyl	*temp;
 
 	if (split_count != 6 && split_count != 7)
 		ft_error_exit("Wrong file format : cyl", data);
@@ -87,15 +84,5 @@ void	manage_cyl(char **tab, t_data *data, int split_count)
 	manage_rgb(tab, &new->rgb, data, 5);
 	if (ft_atob(tab[6], 1, 3, &new->mat) == -1)
 		ft_error_exit("Wrong file format : cyl", data);
-	new->dir = norm_vec(new->dir);
-	new->next = NULL;
-	if (data->cyl == NULL)
-		data->cyl = new;
-	else
-	{
-		temp = data->cyl;
-		while (temp->next != NULL)
-			temp = temp->next;
-		temp->next = new;
-	}
+	add_cyl(data, new);
 }

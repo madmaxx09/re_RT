@@ -115,8 +115,8 @@ typedef struct s_viewport
 	t_vec	pos;
 	t_vec	hori;
 	t_vec	verti;
-	t_vec	x_pix;
-	t_vec	y_pix;
+	t_vec	xp;
+	t_vec	yp;
 	t_vec	pix00;
 
 }	t_viewport;

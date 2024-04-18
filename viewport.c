@@ -24,16 +24,16 @@ void	get_viewport(t_data *data)
 	else
 		u = norm_vec(vec_cross((t_vec){0, 1, 0}, w));
 	v = vec_cross(w, u);
-	data->view.x_pix = div_vec(mult_vec(u, 2 * (tan
+	data->view.xp = div_vec(mult_vec(u, 2 * (tan
 					(deg_to_rad(data->cam.fov) / 2))
 				* (WIDTH / HEIGHT)), (double)WIDTH);
-	data->view.y_pix = div_vec(mult_vec(mult_vec(v, -1.0),
+	data->view.yp = div_vec(mult_vec(mult_vec(v, -1.0),
 				2 * (tan(deg_to_rad(data->cam.fov) / 2))), (double)HEIGHT);
 	data->view.pix00 = add_vec(dif_vec(dif_vec(dif_vec(data->cam.pos, w),
 					div_vec(mult_vec(u, 2 * (tan(deg_to_rad(data->cam.fov) / 2))
 							* (WIDTH / HEIGHT)), 2)), div_vec(mult_vec
 					(mult_vec(v, -1.0), 2 * (tan(deg_to_rad
 								(data->cam.fov) / 2))), 2)),
-			mult_vec(add_vec(data->view.x_pix, data->view.y_pix), 0.5));
+			mult_vec(add_vec(data->view.xp, data->view.yp), 0.5));
 	data->view.pos = data->cam.pos;
 }

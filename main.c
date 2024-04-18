@@ -33,7 +33,9 @@ void	init_data(t_data *data)
 	data->error_trigger = 0;
 	data->image = (t_rgb *)malloc(sizeof(t_rgb) * WIDTH * HEIGHT);
 	ft_bzero(data->image, sizeof(t_rgb) * WIDTH * HEIGHT);
-	data->back_set = 0;
+	data->back_set = 1;
+	data->back_2 = (t_rgb){0, 0, 0};
+	data->back_1 = (t_rgb){0, 0, 0};
 }
 
 int	closing(t_data *data)
@@ -53,6 +55,7 @@ void	mlx_launch(t_data *data)
 	data->wind = mlx_new_window(data->mlx, WIDTH, HEIGHT, "MiniRT");
 	if (data->wind == NULL)
 		ft_error_exit("Mlx init fail", data);
+	get_viewport(data);
 	raytrace(data);
 	while (++i < DENOISE_PASS)
 		denoise_and_render(data);
@@ -73,7 +76,7 @@ int	main(int argc, char **argv)
 	printf("HEIGHT = %f\n", HEIGHT);
 	printf("WIDTH = %d\n", WIDTH);
 	printf("DEPTH = %d\n", MAX_DEPTH);
-	printf("SAMPLES = %d\n", SAMPLES);
+	printf("SAMPLE = %d\n", SAMPLE);
 	printf("DENOISE_PASS = %d\n", DENOISE_PASS);
 	printf("DENOISE_SIGMA = %f\n", DENOISE_SIGMA);
 	printf("DENOISE_SAMPLE = %f\n", DENOISE_SAMPLE);

@@ -2,7 +2,7 @@ Quick explanation of the .rt file formating
 
 
 some comments
-// int    ray_shot(t_vec origine, t_vec direction, int depth, t_data *data)//int for test but void
+// int    ray(t_vec origine, t_vec direction, int depth, t_data *data)//int for test but void
 // {
 //     //var qui renveront le prochain ray ou qui seront necessaire a l'affichage
 //     // t_vec   new_ori;
@@ -56,7 +56,7 @@ some comments
 //     // if (depth == 3) //definir la pronfondeur
 //     //     custom_pixel_put(new_ori, ) //trouver comment compute le x et y de mon pixel
 //     // else
-//     //     ray_shot(new_ori, new_dir, depth + 1, data);
+//     //     ray(new_ori, new_dir, depth + 1, data);
 // }
 
 
@@ -93,8 +93,8 @@ void	get_viewport(t_data *data)
 
 	//size between each horizontal and vertical pixel in the frame
 
-	data->view.x_pix = div_vec(viewport_u, (double)WIDTH);
-	data->view.y_pix = div_vec(viewport_v, (double)HEIGHT);
+	data->view.xp = div_vec(viewport_u, (double)WIDTH);
+	data->view.yp = div_vec(viewport_v, (double)HEIGHT);
 
 	//getting the upper left pixel of the frame
 	t_vec   tmp = div_vec(viewport_v, 2);
@@ -104,7 +104,7 @@ void	get_viewport(t_data *data)
 	tmp3 = dif_vec(tmp3, tmp);
 	t_vec   up_left = tmp3; //origin - w - viewport_u/2 - viewport_v/2;
 
-	tmp = add_vec(data->view.x_pix, data->view.y_pix);
+	tmp = add_vec(data->view.xp, data->view.yp);
 	tmp = mult_vec(tmp, 0.5);
 	data->view.pix00 = add_vec(up_left, tmp);
 	data->view.pos = data->cam.pos;
@@ -140,8 +140,8 @@ void print_args(t_data *data)
 	printf("Viewport:\n");
 	// printf("\tHorizontal Vector: X: %f, Y: %f, Z: %f\n", data->view.hori.x, data->view.hori.y, data->view.hori.z);
 	// printf("\tVertical Vector: X: %f, Y: %f, Z: %f\n", data->view.verti.x, data->view.verti.y, data->view.verti.z);
-	printf("\tX Pixel Vector: X: %f, Y: %f, Z: %f\n", data->view.x_pix.x, data->view.x_pix.y, data->view.x_pix.z);
-	printf("\tY Pixel Vector: X: %f, Y: %f, Z: %f\n", data->view.y_pix.x, data->view.y_pix.y, data->view.y_pix.z);
+	printf("\tX Pixel Vector: X: %f, Y: %f, Z: %f\n", data->view.xp.x, data->view.xp.y, data->view.xp.z);
+	printf("\tY Pixel Vector: X: %f, Y: %f, Z: %f\n", data->view.yp.x, data->view.yp.y, data->view.yp.z);
 	printf("\tPixel 00: X: %f, Y: %f, Z: %f\n", data->view.pix00.x, data->view.pix00.y, data->view.pix00.z);
 
 	printf("Plans:\n");

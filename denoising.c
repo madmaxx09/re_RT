@@ -25,7 +25,7 @@
 //methode je vais devoir map mes pixels dans un tableau au lieu de les afficher
 //immediatement
 
-bool	is_black(t_rgb pixel)
+inline bool	is_black(t_rgb pixel)
 {
 	if (pixel.r == 0 && pixel.g == 0 && pixel.b == 0)
 		return (true);

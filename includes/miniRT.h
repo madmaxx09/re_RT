@@ -29,7 +29,7 @@
 # define WIDTH 1000
 # define HEIGHT 750.0
 # define MAX_DEPTH 4
-# define SAMPLES 50
+# define SAMPLE 30
 # define DENOISE_PASS 1
 # define DENOISE_SIGMA 1.0
 # define DENOISE_SAMPLE 2.0
@@ -44,11 +44,12 @@
 
 void	ft_error_exit(char *str, t_data *data);
 void	*gc_malloc(size_t required_memory, t_data *data);
-t_rgb	ray_shot(t_vec origine, t_vec direction, int depth, t_data *data);
+t_rgb	ray(t_vec origine, t_vec direction, int depth, t_data *data);
 void	get_viewport(t_data *data);
 void	print_image(t_rgb *img, t_data *data);
 bool	is_black(t_rgb pixel);
 void	assign_img(t_data *data, t_rgb *denoised);
+t_rgb	color_ray(t_data *data, int i, int j, t_rgb *blend);
 
 //hit functions
 void	sphere_check(t_sphere *sp, t_hit *hit, t_vec ori, t_vec dir);
@@ -78,7 +79,6 @@ void	manage_light(char **tab, t_data *data, int split_count);
 void	manage_sphere(char **tab, t_data *data, int split_count);
 void	manage_plan(char **tab, t_data *data, int split_count);
 void	manage_cyl(char **tab, t_data *data, int split_count);
-int		int_from_str(const char *str, int min, int max, int *res);
 void	manage_background(char **tab, t_data *data, int split_count);
 int		presskey(int key, t_data *data);
 void	raytrace(t_data *data);
