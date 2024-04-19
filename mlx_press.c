@@ -16,8 +16,8 @@ int	presskey(int key, t_data *data)
 {
 	if (key == 53)
 	{
-		ft_error_exit("Program closed", data);
-		exit(1);
+		ft_error_exit("Program closed", data, NULL);
+		exit(0);
 	}
 	return (0);
 }

@@ -12,10 +12,13 @@
 
 #include "./includes/miniRT.h"
 
-void	ft_error_exit(char *str, t_data *data)
+void	ft_error_exit(char *str, t_data *data, char **tab)
 {
-	printf("%s\n", str);
-	(void)data;
+	if (tab != NULL)
+		free_tabl(tab);
+	ft_printf("%s\n", str);
+	free(data->image);
+	free_custom_alloc(data);
 	exit(1);
 }
 
@@ -40,7 +43,7 @@ void	init_data(t_data *data)
 
 int	closing(t_data *data)
 {
-	ft_error_exit("Program closed", data);
+	ft_error_exit("Program closed", data, NULL);
 	exit(EXIT_SUCCESS);
 }
 
@@ -51,10 +54,10 @@ void	mlx_launch(t_data *data)
 	i = -1;
 	data->mlx = mlx_init();
 	if (data->mlx == NULL)
-		ft_error_exit("Mlx init fail", data);
+		ft_error_exit("Error\nMlx init fail", data, NULL);
 	data->wind = mlx_new_window(data->mlx, WIDTH, HEIGHT, "MiniRT");
 	if (data->wind == NULL)
-		ft_error_exit("Mlx init fail", data);
+		ft_error_exit("Error\nMlx init fail", data, NULL);
 	get_viewport(data);
 	raytrace(data);
 	while (++i < DENOISE_PASS)
@@ -70,7 +73,10 @@ int	main(int argc, char **argv)
 	t_data	data;
 
 	if (argc != 2)
-		ft_error_exit("This program needs 1 file as argument", &data);
+	{
+		ft_error_exit("Error\nThis program needs 1 file as argument",
+			&data, NULL);
+	}
 	init_data(&data);
 	parse_rt(argv[1], &data);
 	printf("HEIGHT = %f\n", HEIGHT);

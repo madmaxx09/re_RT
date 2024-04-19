@@ -18,10 +18,10 @@ void	check_format(char *rt_file, t_data *data)
 
 	i = ft_strlen(rt_file);
 	if (i <= 3)
-		ft_error_exit("Wrong file format", data);
+		ft_error_exit("Error\nWrong file format", data, NULL);
 	if (rt_file[i - 1] != 't'
 		|| rt_file[i - 2] != 'r' || rt_file[i - 3] != '.')
-		ft_error_exit("Wrong file format", data);
+		ft_error_exit("Error\nWrong file format", data, NULL);
 }
 
 void	process_line(char *line, t_data *data)
@@ -29,6 +29,7 @@ void	process_line(char *line, t_data *data)
 	char	**tab;
 
 	tab = ft_split(line, ' ');
+	free(line);
 	if (ft_strcmp(tab[0], "A") == 0)
 		manage_ambiant(tab, data, ft_split_counter(tab));
 	else if (ft_strcmp(tab[0], "C") == 0)
@@ -44,7 +45,7 @@ void	process_line(char *line, t_data *data)
 	else if (ft_strcmp(tab[0], "B") == 0)
 		manage_background(tab, data, ft_split_counter(tab));
 	else
-		ft_error_exit("Wrong file format : wrong first char", data);
+		ft_error_exit("Error\nWrong file format : wrong first char", data, tab);
 	free_tabl(tab);
 }
 
@@ -95,13 +96,12 @@ void	parse_rt(char *rt_file, t_data *data)
 	check_format(rt_file, data);
 	fd = open(rt_file, O_RDONLY);
 	if (fd == -1)
-		ft_error_exit(strerror(errno), data);
+		ft_error_exit(strerror(errno), data, NULL);
 	line = get_next_line(fd);
 	while (line)
 	{
 		if (line[0] != '\n' && line[0] != '\0')
 			process_line(line, data);
-		free(line);
 		line = get_next_line(fd);
 	}
 	if (data->cyl != NULL)

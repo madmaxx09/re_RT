@@ -28,10 +28,10 @@
 # include "mymath.h"
 # define WIDTH 1000
 # define HEIGHT 750.0
-# define MAX_DEPTH 4
-# define SAMPLE 30
+# define MAX_DEPTH 5
+# define SAMPLE 100
 # define DENOISE_PASS 1
-# define DENOISE_SIGMA 1.0
+# define DENOISE_SIGMA 0.5
 # define DENOISE_SAMPLE 2.0
 # define BLACK_TRESHHOLD 0.8
 # define SQUARE_SIDE 5.0
@@ -42,7 +42,7 @@
 #  define BUFFER_SIZE 666
 # endif
 
-void	ft_error_exit(char *str, t_data *data);
+void	ft_error_exit(char *str, t_data *data, char **tab);
 void	*gc_malloc(size_t required_memory, t_data *data);
 t_rgb	ray(t_vec origine, t_vec direction, int depth, t_data *data);
 void	get_viewport(t_data *data);
@@ -69,7 +69,6 @@ void	denoise_and_render(t_data *data);
 //Parsing functions
 int		ft_atob(const char *str, int b_p, int a_p, double *res);
 void	parse_rt(char *rt_file, t_data *data);
-void	print_args(t_data *data);
 void	manage_rgb(char **tab, t_rgb *store, t_data *data, int pos);
 void	manage_vectors(char **tab, t_vec *store, t_data *data, int pos);
 void	free_tabl(char **tab);
@@ -85,5 +84,6 @@ void	raytrace(t_data *data);
 void	add_cyl(t_data *data, t_cyl *cyl);
 void	add_sph(t_data *data, t_sphere *sph);
 void	add_pl(t_data *data, t_plan *pln);
+void	free_custom_alloc(t_data *data);
 
 #endif

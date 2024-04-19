@@ -12,7 +12,7 @@
 
 #include "./includes/miniRT.h"
 
-int	is_rgb(char *rgb, t_data *data)
+int	is_rgb(char *rgb, t_data *data, char **tab)
 {
 	char	**tmp;
 	t_rgb	test;
@@ -23,9 +23,10 @@ int	is_rgb(char *rgb, t_data *data)
 	ft_atob(tmp[0], 1, 2, &test.r);
 	ft_atob(tmp[1], 1, 2, &test.g);
 	ft_atob(tmp[2], 1, 2, &test.b);
+	free_tabl(tmp);
 	if (test.r > 255 || test.g > 255 || test.b > 255
 		|| test.r < 0 || test.g < 0 || test.b < 0)
-		ft_error_exit("Wrong file format : rgb", data);
+		ft_error_exit("Error\nWrong file format : rgb", data, tab);
 	return (1);
 }
 
@@ -38,18 +39,18 @@ void	map_brightness(t_sphere *sphere,
 	ft_atob(tab[2], 1, 2, &bright);
 	color = (t_rgb){1, 1, 1};
 	if (bright > 1 || bright < 0)
-		ft_error_exit("Wrong file format : bright", data);
-	if (split_count > 3 && is_rgb(tab[3], data))
+		ft_error_exit("Error\nWrong file format : bright", data, tab);
+	if (split_count > 3 && is_rgb(tab[3], data, tab))
 		manage_rgb(tab, &color, data, 3);
-	if (split_count > 3 && !is_rgb(tab[3], data))
+	if (split_count > 3 && !is_rgb(tab[3], data, tab))
 	{
 		if (ft_atob(tab[3], 10, 3, &sphere->diam) == -1 || sphere->diam <= 0)
-			ft_error_exit("Wrong file format : light", data);
+			ft_error_exit("Error\nWrong file format : light", data, tab);
 	}
 	else if (split_count == 5)
 	{
 		if (ft_atob(tab[4], 10, 3, &sphere->diam) == -1 || sphere->diam <= 0)
-			ft_error_exit("Wrong file format : light", data);
+			ft_error_exit("Error\nWrong file format : light", data, tab);
 	}
 	sphere->rgb.r = (color.r * 5 * bright);
 	sphere->rgb.g = (color.g * 5 * bright);
@@ -70,7 +71,7 @@ void	manage_light(char **tab, t_data *data, int split_count)
 
 	new = gc_malloc(sizeof(t_sphere), data);
 	if (split_count < 3 || split_count > 5)
-		ft_error_exit("Wrong file format : light", data);
+		ft_error_exit("Error\nWrong file format : light", data, tab);
 	manage_vectors(tab, &new->pos, data, 1);
 	new->diam = 1;
 	map_brightness(new, data, tab, split_count);
@@ -92,19 +93,19 @@ void	manage_sphere(char **tab, t_data *data, int split_count)
 	t_sphere	*new;
 
 	if (split_count != 4 && split_count != 5)
-		ft_error_exit("Wrong file format : sp", data);
+		ft_error_exit("Error\nWrong file format : sp", data, tab);
 	new = gc_malloc(sizeof(t_sphere), data);
 	manage_vectors(tab, &new->pos, data, 1);
 	if (ft_atob(tab[2], 10, 3, &new->diam) == -1)
-		ft_error_exit("Wrong file format : sp", data);
+		ft_error_exit("Error\nWrong file format : sp", data, tab);
 	if (new->diam <= 0)
-		ft_error_exit("Wrong file format : sp", data);
+		ft_error_exit("Error\nWrong file format : sp", data, tab);
 	manage_rgb(tab, &new->rgb, data, 3);
 	new->mat = 2.0;
 	if (split_count == 5)
 		if (ft_atob(tab[4], 1, 3, &new->mat) == -1
 			|| new->mat < 0 || (new->mat > 1 && new->mat != 2 && new->mat != 3))
-			ft_error_exit("Wrong file format : sp", data);
+			ft_error_exit("Error\nWrong file format : sp", data, tab);
 	add_sph(data, new);
 }
 
@@ -113,18 +114,18 @@ void	manage_plan(char **tab, t_data *data, int split_count)
 	t_plan	*new;
 
 	if (split_count != 4 && split_count != 5)
-		ft_error_exit("Wrong file format : pl", data);
+		ft_error_exit("Error\nWrong file format : pl", data, tab);
 	new = gc_malloc(sizeof(t_plan), data);
 	manage_vectors(tab, &new->pos, data, 1);
 	manage_vectors(tab, &new->dir, data, 2);
 	if (new->dir.x > 1 || new->dir.y > 1 || new->dir.z > 1
 		|| new->dir.x < -1 || new->dir.y < -1 || new->dir.z < -1)
-		ft_error_exit("Wrong file format : pl", data);
+		ft_error_exit("Error\nWrong file format : pl", data, tab);
 	manage_rgb(tab, &new->rgb, data, 3);
 	new->mat = 2.0;
 	if (split_count == 5)
 		if (ft_atob(tab[4], 1, 3, &new->mat) == -1
 			|| new->mat < 0 || (new->mat > 1 && new->mat != 2 && new->mat != 3))
-			ft_error_exit("Wrong file format : pl", data);
+			ft_error_exit("Error\nWrong file format : pl", data, tab);
 	add_pl(data, new);
 }
